@@ -18,7 +18,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
   List<itemsendOrder> orderList = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("itemsendOrder").onValue.listen((event) {
+    reference.child("Order/itemsendOrder").onValue.listen((event) {
       orderList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
@@ -163,7 +163,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Khu vực',
+                          'Chi tiết chiết khấu',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',

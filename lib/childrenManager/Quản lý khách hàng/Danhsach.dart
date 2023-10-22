@@ -79,196 +79,171 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
               ),
             ),
 
-            Positioned(
-              top: 70,
-              left: 10,
-              child: Container(
-                width: widget.width - 20,
-                height: 100,
-                decoration: BoxDecoration(
-                    color:  Color.fromARGB(255, 240, 242, 245)
-                ),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      top: 40,
-                      left: 10,
-                      child: Container(
-                        width: widget.width/7,
-                        height: 20,
+          Positioned(
+            top: 70,
+            left: 10,
+            child: Container(
+              width: widget.width - 20,
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 247, 250, 255),
+                  border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 225, 225, 226)
+                  )
+              ),
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Tên trong App',
+                          'Thông tin tài khoản',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30,
-                      left: 10 + widget.width/7,
-                      child: Container(
-                        width: 1,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
+                  ),
 
-                    Positioned(
-                      top: 40,
-                      left: 10 + widget.width/7 + 12,
-                      child: Container(
-                        width: widget.width/6,
-                        height: 20,
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Số điện thoại',
+                          'Vị trí hiện tại trong app',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30,
-                      left: 10 + widget.width/7 + 12 + widget.width/6 + 10,
-                      child: Container(
-                        width: 1,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
+                  ),
 
-                    Positioned(
-                      top: 40,
-                      left: 10 + widget.width/7 + 12 + widget.width/6 + 20,
-                      child: Container(
-                        width: widget.width/5,
-                        height: 20,
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Trạng thái tài khoản',
+                          'Khu vực quản lý',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30,
-                      left: 10 + widget.width/7 + 12 + widget.width/6 + 30 + widget.width/5,
-                      child: Container(
-                        width: 1,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
+                  ),
 
-                    Positioned(
-                      top: 40,
-                      left: 10 + widget.width/7 + 12 + widget.width/6 + 40 + widget.width/5,
-                      child: Container(
-                        width: widget.width/6,
-                        height: 20,
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Khu vực',
+                          'Thuộc khu vực',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30,
-                      left: 10 + widget.width/7 + 12 + widget.width/3 + 50 + widget.width/5,
-                      child: Container(
-                        width: 1,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
+                  ),
 
-                    Positioned(
-                      top: 40,
-                      left: 10 + widget.width/7 + 12 + widget.width/3 + 50 + widget.width/5 + 10,
-                      child: Container(
-                        width: widget.width/8.5,
-                        height: 20,
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Ngày tạo',
+                          'Ngày khởi tạo',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
+                  ),
 
-                    Positioned(
-                      top: 30,
-                      left: 20 + widget.width/7 + widget.width/8.5 + 12 + widget.width/3 + 50 + widget.width/5 + 10,
-                      child: Container(
-                        width: 1,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
+                  ),
 
-                    Positioned(
-                      top: 40,
-                      left:  20 + 2 * widget.width/7 + 12 + widget.width/3 + 50 + widget.width/5 + 20,
-                      child: Container(
-                        width: widget.width/6,
-                        height: 20,
+                  Container(
+                    width: (widget.width - 20)/6 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Hành động',
+                          'Thao tác',
                           style: TextStyle(
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
-                        ),
-                      ),
+                        )
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
 
             Positioned(
-              top: 175,
+              top: 125,
               left: 10,
               child: Container(
                 width: widget.width - 20,
-                height: widget.height - 190,
+                height: widget.height - 130,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 255, 255, 255)
                 ),
                 child: ListView.builder(
                     itemCount: accountList.length,
                     itemBuilder: (context, index) {
-                      return ITEMdanhsachkhachhang(width: widget.width - 20, height: 120, account: accountList[index],
+                      return ITEMdanhsachkhachhang(width: widget.width, height: 150, account: accountList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),
                         onTapUpdate: () {
 
                         },);

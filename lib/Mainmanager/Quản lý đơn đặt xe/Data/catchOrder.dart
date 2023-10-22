@@ -1,9 +1,9 @@
-
-
-
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 import '../../../dataClass/Time.dart';
+import '../../Quản lý cấu hình/Cost.dart';
 import '../../Quản lý khách hàng/accountLocation.dart';
 import '../../Quản lý khách hàng/accountNormal.dart';
+import '../../Quản lý voucher/Voucher.dart';
 
 class catchOrder {
   String id;
@@ -11,12 +11,14 @@ class catchOrder {
   accountLocation locationGet;
   int type;
   double cost;
+  Voucher voucher;
   Time startTime;
   Time receiveTime;
   Time endTime;
   Time cancelTime;
   accountNormal owner;
   accountNormal shipper;
+  Cost costFee;
   String status;
 
   catchOrder({
@@ -31,7 +33,9 @@ class catchOrder {
     required this.startTime,
     required this.cancelTime,
     required this.receiveTime,
-    required this.type
+    required this.type,
+    required this.voucher,
+    required this.costFee
   });
 
   Map<dynamic, dynamic> toJson() => {
@@ -46,7 +50,9 @@ class catchOrder {
     'owner' : owner.toJson(),
     'status' : status,
     'shipper' : shipper.toJson(),
-    'type' : type
+    'type' : type,
+    'voucher' : voucher.toJson(),
+    'costFee' : costFee.toJson()
   };
 
   factory catchOrder.fromJson(Map<dynamic, dynamic> json) {
@@ -59,18 +65,20 @@ class catchOrder {
     }
 
     return catchOrder(
-        id: json['id'].toString(),
-        locationSet: accountLocation.fromJson(json['locationSet']),
-        locationGet: accountLocation.fromJson(json['locationGet']),
-        cost: double.parse(json['cost'].toString()),
-        owner: accountNormal.fromJson(json['owner']),
-        status: json['status'].toString(),
-        endTime: Time.fromJson(json['endTime']),
-        startTime: Time.fromJson(json['startTime']),
-        cancelTime: Time.fromJson(json['cancelTime']),
-        receiveTime: Time.fromJson(json['receiveTime']),
-        shipper: shipper,
-        type: int.parse(json['type'].toString()),
+      id: json['id'].toString(),
+      locationSet: accountLocation.fromJson(json['locationSet']),
+      locationGet: accountLocation.fromJson(json['locationGet']),
+      cost: double.parse(json['cost'].toString()),
+      owner: accountNormal.fromJson(json['owner']),
+      status: json['status'].toString(),
+      endTime: Time.fromJson(json['endTime']),
+      startTime: Time.fromJson(json['startTime']),
+      cancelTime: Time.fromJson(json['cancelTime']),
+      receiveTime: Time.fromJson(json['receiveTime']),
+      shipper: shipper,
+      type: int.parse(json['type'].toString()),
+      voucher: Voucher.fromJson(json['voucher']),
+      costFee: Cost.fromJson(json['costFee']),
     );
   }
 }

@@ -18,7 +18,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
   List<foodOrder> orderList = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("foodOrder").onValue.listen((event) {
+    reference.child("Order/foodOrder").onValue.listen((event) {
       orderList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
@@ -94,7 +94,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Mã đơn đồ ăn',
+                          'Mã đơn đi chợ hộ',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -117,7 +117,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Điểm nhận, giao đồ ăn',
+                          'Điểm nhận, giao sản phẩm',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -163,7 +163,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Khu vực',
+                          'Chi tiết giá trị đơn',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',

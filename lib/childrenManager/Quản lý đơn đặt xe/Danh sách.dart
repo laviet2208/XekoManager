@@ -1,9 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
-import 'Data/catchOrder.dart';
-import 'Item trong danh sách.dart';
+import '../../Mainmanager/Quản lý đơn đặt xe/Data/catchOrder.dart';
+import '../../Mainmanager/Quản lý đơn đặt xe/Item trong danh sách.dart';
 
 class Danhsachdatxe extends StatefulWidget {
   final double width;
@@ -23,7 +24,9 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         catchOrder order = catchOrder.fromJson(value);
-        orderList.add(order);
+        if (currentAccount.provinceCode == order.owner.Area) {
+          orderList.add(order);
+        }
       });
       setState(() {
 

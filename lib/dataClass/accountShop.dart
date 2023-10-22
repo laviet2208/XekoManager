@@ -62,5 +62,31 @@ class accountShop {
         Area: json['Area'].toString(),
 
     );
+
+  }
+
+  void changeData(Map<dynamic, dynamic> json) {
+    List<String> idList = [];
+
+    if (json["ListDirectory"] != null) {
+      for (final result in json["ListDirectory"]) {
+        idList.add(result.toString());
+      }
+    }
+
+    phoneNum = json['phoneNum'].toString();
+    location = json['location'].toString();
+    name = json['name'].toString();
+    id = json['id'].toString();
+    status = int.parse(json['status'].toString());
+    avatarID = json['avatarID'].toString();
+    createTime = Time.fromJson(json['createTime']);
+    password = json['password'].toString();
+    closeTime = Time.fromJson(json['closeTime']);
+    openTime = Time.fromJson(json['openTime']);
+    isTop = int.parse(json['isTop'].toString());
+    Type = int.parse(json['Type'].toString());
+    Area = json['Area'].toString();
+    ListDirectory = idList;
   }
 }

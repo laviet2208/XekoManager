@@ -332,7 +332,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
 
                   Container(
                     child: Text(
-                      'Danh sách đơn món ăn',
+                      'Danh sách đơn đi chợ',
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'arial',
@@ -349,7 +349,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                     child: Container(
                       height: 1,
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple
+                          color: Colors.deepPurple
                       ),
                     ),
                   ),
@@ -485,7 +485,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                               fontSize: 16,
                               fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
-                            ),  
+                            ),
                           ),
                           TextSpan(
                             text: (widget.order.voucher.id != '') ? (widget.order.voucher.tenchuongtrinh) : ('Không áp voucher'),
@@ -663,8 +663,8 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
             width: widget.width/6-1,
             alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: ListView(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
                 children: [
                   Container(height: 15,),
 

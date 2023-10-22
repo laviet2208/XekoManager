@@ -115,16 +115,98 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           Container(
             width: (widget.width - 20)/6 - 1,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
-                child: AutoSizeText(
-                  widget.account.name,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'arial',
-                      color: Colors.black,
-                      fontSize: 100
+                padding: EdgeInsets.only(left: 10, right: 10,),
+                child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'ID tài khoản : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.id, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Số điện thoại : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: (widget.account.phoneNum == '0') ? widget.account.phoneNum : ('0' + widget.account.phoneNum), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Tên trong app : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.name, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 20,),
+                ],
+              ),
             ),
           ),
 
@@ -138,17 +220,101 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           Container(
             width: (widget.width - 20)/6 - 1,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
-                child: AutoSizeText(
-                  widget.account.phoneNum,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'arial',
-                      color: Colors.black,
-                      fontSize: 100
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Vị trí hiện tại : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.locationHis.firstText + " " + widget.account.locationHis.secondaryText, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Vĩ độ : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.locationHis.Latitude.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Kinh độ : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.locationHis.Longitude.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 20,),
+                ],
+              ),
             ),
+
           ),
 
           Container(
@@ -161,16 +327,70 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           Container(
             width: (widget.width - 20)/6 - 1,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
-                child: AutoSizeText(
-                  status,
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'arial',
-                      color: statuscolor,
-                      fontSize: 100
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Trạng thái tài khoản : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: status, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: statuscolor,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Vai trò : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: (widget.account.type == 1) ? 'Người dùng bình thường' : ('Tài xế XEKO'), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 20,),
+                ],
+              ),
             ),
           ),
 
@@ -188,7 +408,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                 child: AutoSizeText(
                   area.name,
                   style: TextStyle(
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'arial',
                       color: Colors.black,
                       fontSize: 100
@@ -207,16 +427,70 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           Container(
             width: (widget.width - 20)/6 - 1,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
-                child: AutoSizeText(
-                  widget.account.createTime.day.toString() + " / " + widget.account.createTime.month.toString() + " / " + widget.account.createTime.year.toString(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'arial',
-                      color: Colors.black,
-                      fontSize: 100
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giờ khởi tạo : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.account.createTime.hour.toString() + " : " + widget.account.createTime.minute.toString() + " : " + widget.account.createTime.second.toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Ngày khởi tạo : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Ngày " + widget.account.createTime.day.toString() + " / " + widget.account.createTime.month.toString() + " / " + widget.account.createTime.year.toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 20,),
+                ],
+              ),
             ),
           ),
 
@@ -229,296 +503,296 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
 
           Container(
               width: (widget.width - 20)/6 - 1,
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: GestureDetector(
-                      child: Container(
-                        width: ((widget.width - 20)/6 - 30)/2,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: statuscolor ,
-                                width: 1
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Khóa/Mở tài khoản',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                              color: statuscolor
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 8,),
+
+                  GestureDetector(
+                    child: Container(
+                      width: ((widget.width - 20)/6 - 30)/2,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: Colors.black ,
+                              width: 2
                           ),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Khóa/Mở tài khoản',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Colors.black
                         ),
                       ),
-                      onTap: () async {
-                        if (widget.account.status == 1) {
-                          await pushData(2);
-                        } else {
-                          await pushData(1);
-                        }
-                      },
                     ),
+                    onTap: () async {
+                      if (widget.account.status == 1) {
+                        await pushData(2);
+                      } else {
+                        await pushData(1);
+                      }
+                    },
                   ),
 
-                  Positioned(
-                    top: 60,
-                    right: 10,
-                    child: GestureDetector(
-                      child: Container(
-                        width: ((widget.width - 20)/6 - 30)/2,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Colors.blueAccent,
-                                width: 1
-                            ),
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Nạp tiền',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                              color: Colors.blueAccent
+                  Container(height: 8,),
+
+                  GestureDetector(
+                    child: Container(
+                      width: ((widget.width - 20)/6 - 30)/2,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: Colors.black,
+                              width: 2
                           ),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Nạp tiền',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Colors.black
                         ),
                       ),
-                      onTap: () async {
-                        showDialog (
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Nạp tiền khu vực'),
-                              content: Container(
-                                width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
-                                height: 170, // Đặt kích thước chiều cao theo ý muốn
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2), // màu của shadow
-                                      spreadRadius: 5, // bán kính của shadow
-                                      blurRadius: 7, // độ mờ của shadow
-                                      offset: Offset(0, 3), // vị trí của shadow
-                                    ),
-                                  ],
-                                ),
-
-                                child: ListView(
-                                  children: [
-                                    Container(
-                                      height: 10,
-                                    ),
-
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        'Số tiền cần nạp *',
-                                        style: TextStyle(
-                                            fontFamily: 'arial',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.redAccent
-                                        ),
-                                      ),
-                                    ),
-
-                                    Container(
-                                      height: 10,
-                                    ),
-
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 10, right: 10),
-                                        child: Container(
-                                          height: 50,
-                                          alignment: Alignment.centerLeft,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.3),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                              border: Border.all(
-                                                width: 1,
-                                                color: Colors.black,
-                                              )
-                                          ),
-
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Form(
-                                              child: TextFormField(
-                                                controller: moneyControl,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontFamily: 'arial',
-                                                ),
-                                                decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  hintText: 'Số tiền cần nạp',
-                                                  hintStyle: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 16,
-                                                    fontFamily: 'arial',
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                    ),
-
-                                    Container(
-                                      height: 10,
-                                    ),
-
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        'Nội dung nạp tiền *',
-                                        style: TextStyle(
-                                            fontFamily: 'arial',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.redAccent
-                                        ),
-                                      ),
-                                    ),
-
-                                    Container(
-                                      height: 10,
-                                    ),
-
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 10, right: 10),
-                                        child: Container(
-                                          height: 50,
-                                          alignment: Alignment.centerLeft,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.withOpacity(0.3),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                              border: Border.all(
-                                                width: 1,
-                                                color: Colors.black,
-                                              )
-                                          ),
-
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Form(
-                                              child: TextFormField(
-                                                controller: noidungcontrol,
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontFamily: 'arial',
-                                                ),
-                                                decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  hintText: 'Nội dung nạp tiền',
-                                                  hintStyle: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 16,
-                                                    fontFamily: 'arial',
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                    ),
-
-                                    Container(
-                                      height: 20,
-                                    ),
-                                  ],
-                                ),
+                    ),
+                    onTap: () async {
+                      showDialog (
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Nạp tiền khu vực'),
+                            content: Container(
+                              width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
+                              height: 170, // Đặt kích thước chiều cao theo ý muốn
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2), // màu của shadow
+                                    spreadRadius: 5, // bán kính của shadow
+                                    blurRadius: 7, // độ mờ của shadow
+                                    offset: Offset(0, 3), // vị trí của shadow
+                                  ),
+                                ],
                               ),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('Hủy'),
-                                  onPressed: () {
-                                    moneyControl.clear();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: loading ? CircularProgressIndicator() : Text('Lưu'),
-                                  onPressed: loading ? null : () async {
-                                    setState(() {
-                                      loading = true;
-                                    });
 
-                                    if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
-                                      if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
-                                        if (int.parse(moneyControl.text.toString()) > 0) {
-                                          double newmoney = widget.account.totalMoney + double.parse(moneyControl.text.toString());
-                                          historyTransaction history = historyTransaction(
-                                              id: dataCheckManager.generateRandomString(25),
-                                              senderId: currentAccount.username,
-                                              receiverId: widget.account.id,
-                                              transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                              type: 1,
-                                              content: noidungcontrol.text.toString(),
-                                              money: double.parse(moneyControl.text.toString())
-                                          );
-                                          await pushData2(widget.account, newmoney);
-                                          await pushhistoryData(history);
-                                          moneyControl.clear();
-                                          Navigator.of(context).pop();
-                                        } else {
-                                          toastMessage('Phải nhập số lớn hơn 0');
-                                          setState(() {
-                                            loading = false;
-                                          });
-                                        }
+                              child: ListView(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Số tiền cần nạp *',
+                                      style: TextStyle(
+                                          fontFamily: 'arial',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.redAccent
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        height: 50,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.black,
+                                            )
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Form(
+                                            child: TextFormField(
+                                              controller: moneyControl,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'arial',
+                                              ),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Số tiền cần nạp',
+                                                hintStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16,
+                                                  fontFamily: 'arial',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Nội dung nạp tiền *',
+                                      style: TextStyle(
+                                          fontFamily: 'arial',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.redAccent
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        height: 50,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.black,
+                                            )
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Form(
+                                            child: TextFormField(
+                                              controller: noidungcontrol,
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'arial',
+                                              ),
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: 'Nội dung nạp tiền',
+                                                hintStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 16,
+                                                  fontFamily: 'arial',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ),
+
+                                  Container(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Hủy'),
+                                onPressed: () {
+                                  moneyControl.clear();
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: loading ? CircularProgressIndicator() : Text('Lưu'),
+                                onPressed: loading ? null : () async {
+                                  setState(() {
+                                    loading = true;
+                                  });
+
+                                  if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
+                                    if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
+                                      if (int.parse(moneyControl.text.toString()) > 0) {
+                                        double newmoney = widget.account.totalMoney + double.parse(moneyControl.text.toString());
+                                        historyTransaction history = historyTransaction(
+                                            id: dataCheckManager.generateRandomString(25),
+                                            senderId: currentAccount.username,
+                                            receiverId: widget.account.id,
+                                            transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                            type: 1,
+                                            content: noidungcontrol.text.toString(),
+                                            money: double.parse(moneyControl.text.toString())
+                                        );
+                                        await pushData2(widget.account, newmoney);
+                                        await pushhistoryData(history);
+                                        moneyControl.clear();
+                                        Navigator.of(context).pop();
                                       } else {
-                                        toastMessage('Phải nhập đúng định dạng');
+                                        toastMessage('Phải nhập số lớn hơn 0');
                                         setState(() {
                                           loading = false;
                                         });
                                       }
-
                                     } else {
-                                      toastMessage('Phải nhập đủ thông tin');
+                                      toastMessage('Phải nhập đúng định dạng');
                                       setState(() {
                                         loading = false;
                                       });
                                     }
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
+
+                                  } else {
+                                    toastMessage('Phải nhập đủ thông tin');
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  )
+
                 ],
-              )
+              ),
+            ),
           ),
         ],
       ),

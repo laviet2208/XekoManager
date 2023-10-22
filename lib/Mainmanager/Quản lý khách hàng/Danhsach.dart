@@ -24,7 +24,10 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         accountNormal food= accountNormal.fromJson(value);
-        accountList.add(food);
+        if (food.type == 1) {
+          accountList.add(food);
+        }
+
       });
       setState(() {
 
@@ -97,7 +100,7 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                           child: AutoSizeText(
-                            'Tên trong app',
+                            'Thông tin tài khoản',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'arial',
@@ -120,7 +123,7 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                           child: AutoSizeText(
-                            'Số điện thoại',
+                            'Vị trí hiện tại trong app',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'arial',
@@ -143,7 +146,7 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                           child: AutoSizeText(
-                            'Trạng thái tài khoản',
+                            'Khu vực quản lý',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'arial',
@@ -239,7 +242,7 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                 child: ListView.builder(
                     itemCount: accountList.length,
                     itemBuilder: (context, index) {
-                      return ITEMdanhsachkhachhang(width: widget.width, height: 120, account: accountList[index],
+                      return ITEMdanhsachkhachhang(width: widget.width, height: 150, account: accountList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255) ,
                         onTapUpdate: () {
 
                         },);

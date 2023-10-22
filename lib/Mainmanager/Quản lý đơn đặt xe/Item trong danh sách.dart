@@ -153,6 +153,35 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
+                            text: 'Khu vực : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: area.name,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 10,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
                             text: 'Tài khoản: ',
                             style: TextStyle(
                               fontSize: 16, 
@@ -161,7 +190,36 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.order.owner.name + ' - ' + widget.order.owner.phoneNum, // Phần còn lại viết bình thường
+                            text: widget.order.owner.name, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.red,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 10,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Số điện thoại: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.order.owner.phoneNum, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',
@@ -202,6 +260,8 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                       ),
                     ),
                   ),
+
+                  Container(height: 20,),
 
                 ],
               ),
@@ -330,7 +390,35 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Giá trị đơn : ',
+                            text: 'Giá trị đơn gốc : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.order.cost + widget.order.voucher.totalmoney).toString() + ' VNĐ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giá trị đơn thực tế : ',
                             style: TextStyle(
                               fontSize: 16, 
                               fontFamily: 'arial',
@@ -342,6 +430,36 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Sự kiện voucher : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: (widget.order.voucher.id != '') ? (widget.order.voucher.tenchuongtrinh) : ('Không áp voucher'),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.redAccent,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -363,17 +481,127 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
 
           Container(
             width: widget.width/6-1,
-            alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  area.name,
-                  style: TextStyle(
-                    fontSize: 18, 
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold, // Để in đậm
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Phí đề pa : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.order.costFee.departCost).toString() + ' VNĐ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Số km đề pa : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.order.costFee.departKM.toString() + ' Km',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Chiết khấu : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.order.costFee.discount.toString() + '% ~ ' + dataCheckManager.getStringNumber(widget.order.costFee.discount/100 * widget.order.cost).toString() + ' VNĐ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Phí mỗi km : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.order.costFee.perKMcost).toString() + ' VNĐ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
@@ -386,17 +614,67 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
 
           Container(
             width: widget.width/6-1,
-            alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Text(
-                  widget.order.startTime.hour.toString() + " : " + widget.order.startTime.minute.toString() + " : " + widget.order.startTime.second.toString() + " ngày " + widget.order.startTime.day.toString() + "/" + widget.order.startTime.month.toString() + "/" + widget.order.startTime.year.toString(),
-                  style: TextStyle(
-                    fontSize: 18, 
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.normal, // Để in đậm
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giờ khởi tạo : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.order.startTime.hour.toString() + " giờ " + widget.order.startTime.minute.toString() + " phút " + widget.order.startTime.second.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Ngày khởi tạo : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Ngày " + widget.order.startTime.day.toString() + "/" + widget.order.startTime.month.toString() + "/" + widget.order.startTime.year.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 

@@ -75,152 +75,95 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
           ),
 
           Positioned(
-            top: 70,
+            top: 80,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: 60,
+              height: 50,
               decoration: BoxDecoration(
-                  color:  Color.fromARGB(255, 240, 242, 245)
+                  color: Color.fromARGB(255, 247, 250, 255),
+                  border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 225, 225, 226)
+                  )
               ),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 20,
-                    left: 10,
-                    child: Container(
-                      width: widget.width/6,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Tên tài xế đăng ký',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Container(
+                    width: (widget.width - 20)/3 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thông tin tài khoản yêu cầu',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 10,
-                    left: 10 + widget.width/6,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 20,
-                    left: 10 + widget.width/6 + 12,
-                    child: Container(
-                      width: widget.width/5,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Số điện thoại liên hệ',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/3 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Chi tiết yêu cầu',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 10,
-                    left: 10 + widget.width/6 + widget.width/5 + 12,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 20,
-                    left: 10 + widget.width/6 + widget.width/5 + 22,
-                    child: Container(
-                      width: widget.width/5,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Số căn cước công dân',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/3 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thao tác',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'arial',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 10,
-                    left: 10 + widget.width/6 + widget.width/5 + 32 + widget.width/5,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 20,
-                    left: 52 + widget.width/6 + widget.width/5 + widget.width/5,
-                    child: Container(
-                      width: widget.width/5,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Địa chỉ đăng ký',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 10,
-                    left: 52 + widget.width/6 + 3 * widget.width/5 + 10,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 20,
-                    left: 52 + widget.width/6 + 3 * widget.width/5 + 20,
-                    child: Container(
-                      width: widget.width/6,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Thao tác',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
                 ],
               ),
             ),
           ),
+
 
           Positioned(
             top: 135,
@@ -237,7 +180,7 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
                   return ITEMdontaixe(width: widget.width - 20, height: 120, request: requestList[index],
                     accept: () {
 
-                    },
+                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),
                   );
                 },
               ),

@@ -2,28 +2,30 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'Data/catchOrder.dart';
+import '../../Mainmanager/Quản lý thông báo/Notification.dart';
 import 'Item trong danh sách.dart';
 
-class Danhsachdatxe extends StatefulWidget {
+class danhsachthongbao extends StatefulWidget {
   final double width;
   final double height;
-  const Danhsachdatxe({Key? key, required this.width, required this.height}) : super(key: key);
+  const danhsachthongbao({Key? key, required this.width, required this.height}) : super(key: key);
 
   @override
-  State<Danhsachdatxe> createState() => _DanhsachdatxeState();
+  State<danhsachthongbao> createState() => _danhsachthongbaoState();
 }
 
-class _DanhsachdatxeState extends State<Danhsachdatxe> {
-  List<catchOrder> orderList = [];
+class _danhsachthongbaoState extends State<danhsachthongbao> {
+  List<notification> list = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("Order/catchOrder").onValue.listen((event) {
-      orderList.clear();
+    reference.child("Notification").onValue.listen((event) {
+      list.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
-        catchOrder order = catchOrder.fromJson(value);
-        orderList.add(order);
+        notification noti = notification.fromJson(value);
+        if (noti.object == 2) {
+          list.add(noti);
+        }
       });
       setState(() {
 
@@ -33,6 +35,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -44,34 +47,6 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
       height: widget.height,
       child: Stack(
         children: <Widget>[
-          Positioned(
-            top: 10,
-            left: 10,
-            child: GestureDetector(
-              child: Container(
-                width: 240,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Text(
-                  '+ Xuất file data excel',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontFamily: 'arial',
-                      fontSize: 14
-                  ),
-                ),
-              ),
-              onTap: () {
-
-              },
-            ),
-          ),
-
           Positioned(
             top: 80,
             left: 10,
@@ -90,11 +65,11 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                 scrollDirection: Axis.horizontal,
                 children: [
                   Container(
-                    width: (widget.width - 20)/6 - 1,
+                    width: (widget.width - 20)/4 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Mã đơn đặt xe',
+                          'Tiêu đề và nội dung',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -113,11 +88,11 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   ),
 
                   Container(
-                    width: (widget.width - 20)/6 - 1,
+                    width: (widget.width - 20)/4 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Điểm đón, trả khách',
+                          'Đối tượng nhận',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -136,11 +111,11 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   ),
 
                   Container(
-                    width: (widget.width - 20)/6 - 1,
+                    width: (widget.width - 20)/4 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Chi tiết đơn',
+                          'Thời gian',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -159,53 +134,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   ),
 
                   Container(
-                    width: (widget.width - 20)/6 - 1,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Chi tiết chiết khấu',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
-                    ),
-                  ),
-
-                  Container(
-                    width: 1,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 225, 225, 226)
-                    ),
-                  ),
-
-                  Container(
-                    width: (widget.width - 20)/6 - 1,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Ngày tạo',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
-                    ),
-                  ),
-
-                  Container(
-                    width: 1,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 225, 225, 226)
-                    ),
-                  ),
-
-                  Container(
-                    width: (widget.width - 20)/6 - 1,
+                    width: (widget.width - 20)/4 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
@@ -223,7 +152,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   Container(
                     width: 1,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 240, 240, 240)
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
                 ],
@@ -234,16 +163,32 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
           Positioned(
             top: 130,
             left: 10,
-            child: Container(
+            child: (list.length == 0) ? (Container(
+              width: widget.width - 20,
+              height: widget.height - 140,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 255, 255, 255)
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'Chưa có thông báo nào',
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontFamily: 'arial',
+                    color: Colors.grey,
+                    fontSize: 17
+                ),
+              ),
+            )) : Container(
               width: widget.width - 20,
               height: widget.height - 140,
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
-                itemCount: orderList.length,
+                itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: orderList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsachtb(width: widget.width - 20, notice: list[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
               ),
             ),

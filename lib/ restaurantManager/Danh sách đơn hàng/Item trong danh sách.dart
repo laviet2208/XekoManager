@@ -4,7 +4,9 @@ import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A1n%20giao%20h%C3%A0ng/Data/T%C3%ADnh%20kho%E1%BA%A3ng%20c%C3%A1ch.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
-import '../Quản lý khu vực và tài khoản admin/Area.dart';
+import '../../Mainmanager/Quản lý khu vực và tài khoản admin/Area.dart';
+import '../../OTHER/Button/Buttontype1.dart';
+import '../../utils/utils.dart';
 
 
 class Itemdanhsach extends StatefulWidget {
@@ -29,6 +31,16 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
 
       });
     });
+  }
+
+  Future<void> changeStatus(String id, String status) async {
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('Order/foodOrder/' + id + '/status').set(status);
+    } catch (error) {
+      toastMessage('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
   }
 
   @override
@@ -72,6 +84,31 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
 
     if (widget.order.status == 'H') {
       status = 'Shipper ' + widget.order.shipper.name + ' đang đến lấy thì nhà hàng hủy';
+    }
+
+    String status1 = '';
+    Color cancelcolor = Colors.redAccent;
+    if (widget.order.status == 'A') {
+      status1 = 'Xác nhận';
+    }
+
+    if (widget.order.status == 'B') {
+      status1 = 'Đợi shipper đến lấy';
+    }
+
+    if (widget.order.status == 'C') {
+      status1 = 'Đã xong';
+      cancelcolor = Colors.white;
+    }
+
+    if (widget.order.status == 'G') {
+      status1 = 'Đã hủy bởi quán';
+      cancelcolor = Colors.white;
+    }
+
+    if (widget.order.status == 'H') {
+      status1 = 'Đã hủy bởi quán';
+      cancelcolor = Colors.white;
     }
 
     return Container(
@@ -721,6 +758,8 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                       ),
                     ),
                   ),
+
+
                 ],
               ),
             ),
@@ -730,6 +769,44 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
             width: 1,
             decoration: BoxDecoration(
                 color: Color.fromARGB(255, 240, 240, 240)
+            ),
+          ),
+
+          Container(
+            width: widget.width/6-1,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  ButtonType1(Height: (widget.order.status == 'E') ? 0 : 50 , Width: 240, color: Color.fromARGB(255, 0, 177, 79), radiusBorder: 30, title: status1, fontText: 'arial', colorText: Colors.white,
+                    onTap: () async {
+                      if (widget.order.status == 'A') {
+                        await changeStatus(widget.order.id, 'B');
+                        toastMessage('đã xác minh đơn hàng');
+                      }
+                    },),
+
+                  Container(height: 15,),
+
+                  ButtonType1(Height: 50, Width: 120, color: cancelcolor, radiusBorder: 30, title: 'Hủy đơn', fontText: 'arial', colorText: Colors.white,
+                      onTap: () async {
+                        if (widget.order.status == 'A') {
+                          await changeStatus(widget.order.id, 'G');
+                          toastMessage('đã bỏ đơn hàng');
+                        }
+
+                        if (widget.order.status == 'B') {
+                          await changeStatus(widget.order.id, 'H');
+                          toastMessage('đã bỏ đơn hàng');
+                        }
+                      })
+
+
+                ],
+              ),
             ),
           ),
         ],

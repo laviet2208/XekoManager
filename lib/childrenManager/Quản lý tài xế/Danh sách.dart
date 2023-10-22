@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
-import '../Quản lý khách hàng/accountNormal.dart';
-import 'Item danh sách.dart';
+import '../../Mainmanager/Quản lý khách hàng/accountNormal.dart';
+import '../../Mainmanager/Quản lý tài xế/Item danh sách.dart';
+
 
 class danhsachtaixe extends StatefulWidget {
   final double width;
@@ -24,7 +26,7 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         accountNormal food= accountNormal.fromJson(value);
-        if (food.type == 2) {
+        if (food.type == 2 && food.Area == currentAccount.provinceCode) {
           accountList.add(food);
         }
       });

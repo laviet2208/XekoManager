@@ -3,11 +3,14 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:xekomanagermain/Mainmanager/SCREENmain.dart';
 import 'package:xekomanagermain/OTHER/Button/Buttontype1.dart';
 import 'package:xekomanagermain/dataClass/FinalClass.dart';
+import 'package:xekomanagermain/utils/utils.dart';
 
+import ' restaurantManager/Screenmain.dart';
+import 'Mainmanager/SCREENmain.dart';
 import 'childrenManager/Screenmain.dart';
+import 'dataClass/accountShop.dart';
 
 class SCREENLogin extends StatefulWidget {
   const SCREENLogin({Key? key}) : super(key: key);
@@ -23,6 +26,7 @@ class _SCREENLoginState extends State<SCREENLogin> {
   String? name = ' ';
   String? pass = '';
   bool loading = false;
+  bool loading1 = false;
 
   Future<void> saveString(String data, String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -94,6 +98,36 @@ class _SCREENLoginState extends State<SCREENLogin> {
     return ch;
   }
 
+  Future<bool> getDatarestaurant(String username, String pass) async {
+    bool ch = false;
+    final reference = FirebaseDatabase.instance.reference();
+    await reference.child('Restaurant').onValue.listen((event) async {
+      final dynamic account = event.snapshot.value;
+      if (account != null) {
+        account.forEach((key, value) async {
+          accountShop shop = accountShop.fromJson(value);
+          if (shop.phoneNum == username && shop.password == pass) {
+            currentShop.changeData(value);
+            if (currentShop.status == 1) {
+              await saveString(currentShop.phoneNum, 'username');
+              await saveString(currentShop.password, 'password');
+              Navigator.push(context, MaterialPageRoute(builder:(context) => SCREENmainRestaurant()));
+              setState(() {
+                loading1 = false;
+              });
+            } else {
+              setState(() {
+                loading1 = false;
+              });
+              toastMessage('Tài khoản của bạn đang bị khóa');
+            }
+          }
+        });
+      }
+    });
+    return ch;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -112,7 +146,8 @@ class _SCREENLoginState extends State<SCREENLogin> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  loading = false; // Thiết lập loading = false khi người dùng bấm nút OK.
+                  loading = false;
+                  loading1 = false;
                 });
                 Navigator.of(context).pop(); // Đóng dialog.
               },
@@ -321,7 +356,20 @@ class _SCREENLoginState extends State<SCREENLogin> {
                                  await getData1(currentAccount.provinceCode);
                                }
                             }, loading: loading,),
-                        )
+                        ),
+
+                        Container(height: 20,),
+
+                        Padding(
+                          padding: EdgeInsets.only(left: 10,right: 10),
+                          child: ButtonType1(Height: 50, Width: 600, color: Colors.blueAccent, radiusBorder: 10, title: 'Đăng nhập nhà hàng', fontText: 'arial', colorText: Colors.white,
+                            onTap: () async {
+                              setState(() {
+                                loading1 = true;
+                              });
+                              await getDatarestaurant(usernamecontroller.text.toString(), passcontroller.text.toString());
+                            }, loading: loading1,),
+                        ),
                       ],
                     ),
                   ),

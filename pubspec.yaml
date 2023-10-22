@@ -99,6 +99,15 @@ flutter:
     - assets/image/bgfood3.png
     - assets/image/garbageicon.png
     - assets/image/righticon.png
+    - assets/image/icontrangchinh/iconads.png
+    - assets/image/icontrangchinh/iconarea.png
+    - assets/image/icontrangchinh/iconcustommer.png
+    - assets/image/icontrangchinh/iconmarket.png
+    - assets/image/icontrangchinh/iconorder.png
+    - assets/image/icontrangchinh/iconrestaurant.png
+    - assets/image/icontrangchinh/iconshipper.png
+    - assets/image/icontrangchinh/iconvoucher.png
+    - assets/image/icontrangchinh/iconnotice.png
 
   fonts:
     - family: logo_font_1

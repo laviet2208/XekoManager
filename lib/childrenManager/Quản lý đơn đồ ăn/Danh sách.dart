@@ -1,29 +1,32 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A1n%20%C4%91%E1%BB%93%20%C4%83n/foodOrder.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
-import 'Data/catchOrder.dart';
-import 'Item trong danh sách.dart';
+import '../../Mainmanager/Quản lý đơn đồ ăn/Item trong danh sách.dart';
 
-class Danhsachdatxe extends StatefulWidget {
+class Danhsachdoan extends StatefulWidget {
   final double width;
   final double height;
-  const Danhsachdatxe({Key? key, required this.width, required this.height}) : super(key: key);
+  const Danhsachdoan({Key? key, required this.width, required this.height}) : super(key: key);
 
   @override
-  State<Danhsachdatxe> createState() => _DanhsachdatxeState();
+  State<Danhsachdoan> createState() => _DanhsachdatxeState();
 }
 
-class _DanhsachdatxeState extends State<Danhsachdatxe> {
-  List<catchOrder> orderList = [];
+class _DanhsachdatxeState extends State<Danhsachdoan> {
+  List<foodOrder> orderList = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("Order/catchOrder").onValue.listen((event) {
+    reference.child("Order/foodOrder").onValue.listen((event) {
       orderList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
-        catchOrder order = catchOrder.fromJson(value);
-        orderList.add(order);
+        foodOrder order = foodOrder.fromJson(value);
+        if (currentAccount.provinceCode == order.owner.Area) {
+          orderList.add(order);
+        }
       });
       setState(() {
 
@@ -94,7 +97,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Mã đơn đặt xe',
+                          'Mã đơn đi chợ hộ',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -117,7 +120,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Điểm đón, trả khách',
+                          'Điểm nhận, giao sản phẩm',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -163,7 +166,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Chi tiết chiết khấu',
+                          'Chi tiết giá trị đơn',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',

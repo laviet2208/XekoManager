@@ -1,29 +1,33 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
-import 'Data/catchOrder.dart';
-import 'Item trong danh sách.dart';
+import '../../Mainmanager/Quản lý đơn giao hàng/Data/itemsendOrder.dart';
+import '../../Mainmanager/Quản lý đơn giao hàng/Item trong danh sách.dart';
 
-class Danhsachdatxe extends StatefulWidget {
+
+class Danhsachgiaohang extends StatefulWidget {
   final double width;
   final double height;
-  const Danhsachdatxe({Key? key, required this.width, required this.height}) : super(key: key);
+  const Danhsachgiaohang({Key? key, required this.width, required this.height}) : super(key: key);
 
   @override
-  State<Danhsachdatxe> createState() => _DanhsachdatxeState();
+  State<Danhsachgiaohang> createState() => _DanhsachgiaohangState();
 }
 
-class _DanhsachdatxeState extends State<Danhsachdatxe> {
-  List<catchOrder> orderList = [];
+class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
+  List<itemsendOrder> orderList = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("Order/catchOrder").onValue.listen((event) {
+    reference.child("Order/itemsendOrder").onValue.listen((event) {
       orderList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
-        catchOrder order = catchOrder.fromJson(value);
-        orderList.add(order);
+        itemsendOrder order = itemsendOrder.fromJson(value);
+        if (currentAccount.provinceCode == order.owner.Area) {
+          orderList.add(order);
+        }
       });
       setState(() {
 
@@ -79,11 +83,11 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
               width: widget.width - 20,
               height: 50,
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 247, 250, 255),
-                  border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 225, 225, 226)
-                  )
+                color: Color.fromARGB(255, 247, 250, 255),
+                border: Border.all(
+                  width: 1,
+                  color: Color.fromARGB(255, 225, 225, 226)
+                )
               ),
               child: ListView(
                 physics: NeverScrollableScrollPhysics(),
@@ -92,23 +96,23 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   Container(
                     width: (widget.width - 20)/6 - 1,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Mã đơn đặt xe',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                      child: AutoSizeText(
+                        'Mã đơn hàng',
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'arial',
+                          color: Colors.black,
+                          fontSize: 100
+                        ),
+                      )
                     ),
                   ),
 
                   Container(
                     width: 1,
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 225, 225, 226)
+                      color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
@@ -117,7 +121,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                         child: AutoSizeText(
-                          'Điểm đón, trả khách',
+                          'Điểm giao,nhận hàng',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontFamily: 'arial',
@@ -226,6 +230,8 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                         color: Color.fromARGB(255, 240, 240, 240)
                     ),
                   ),
+
+
                 ],
               ),
             ),
