@@ -2,8 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20khu%20v%E1%BB%B1c%20v%C3%A0%20t%C3%A0i%20kho%E1%BA%A3n%20admin/Area.dart';
+import 'package:xekomanagermain/dataClass/accountShop.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
+import '../../dataClass/Time.dart';
 import '../../utils/utils.dart';
 import 'Voucher.dart';
 
@@ -21,13 +23,25 @@ class ITEMdanhsach extends StatefulWidget {
 
 class _ITEMdanhsachState extends State<ITEMdanhsach> {
   final Area area = Area(id: '', name: '', money: 0, status: 0);
-
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area/" + widget.voucher.LocationId).onValue.listen((event) {
       final dynamic orders = event.snapshot.value;
       Area a = Area.fromJson(orders);
       area.name = a.name;
+      setState(() {
+
+      });
+    });
+  }
+
+  void getData2() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Restaurant/" + widget.voucher.Otype).onValue.listen((event) {
+      final dynamic orders = event.snapshot.value;
+      accountShop a = accountShop.fromJson(orders);
+      shop.name = a.name;
       setState(() {
 
       });
@@ -50,6 +64,9 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
     // TODO: implement initState
     super.initState();
     getData1();
+    if (widget.voucher.Otype != '1') {
+      getData2();
+    }
   }
 
 
@@ -67,213 +84,406 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
           ),
         ),
       ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 30,
-            left: 10,
-            child: Container(
-              width: widget.width/6,
-              height: 25,
-              child: AutoSizeText(
-                widget.voucher.tenchuongtrinh,
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.red,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
 
-          Positioned(
-            top: 70,
-            left: 10,
-            child: Container(
-              width: widget.width/6,
-              height: 25,
-              child: AutoSizeText(
-                widget.voucher.id,
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
+      child: ListView(
+        physics: NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            width: (widget.width)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
 
-          Positioned(
-            top: 110,
-            left: 10,
-            child: Container(
-              width: widget.width/6,
-              height: 25,
-              child: AutoSizeText(
-                area.name,
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 30,
-            left: 10 + widget.width/6 + 12,
-            child: Container(
-              width: widget.width/6,
-              height: 25,
-              child: AutoSizeText(
-                "Bắt đầu : " + widget.voucher.startTime.day.toString() + "/" + widget.voucher.startTime.month.toString() + "/" + widget.voucher.startTime.year.toString(),
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 70,
-            left: 10 + widget.width/6 + 12,
-            child: Container(
-              width: widget.width/6,
-              height: 25,
-              child: AutoSizeText(
-                "Kết thúc : " + widget.voucher.endTime.day.toString() + "/" + widget.voucher.endTime.month.toString() + "/" + widget.voucher.endTime.year.toString(),
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 30,
-            left: 10 + widget.width/6 + widget.width/5 + 22 + 10,
-            child: Container(
-              width: widget.width/5,
-              height: 25,
-              child: AutoSizeText(
-                'Giảm : ' + dataCheckManager.getStringNumber(widget.voucher.totalmoney) + 'VNĐ',
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 70,
-            left: 10 + widget.width/6 + widget.width/5 + 22 + 10,
-            child: Container(
-              width: widget.width/5,
-              height: 25,
-              child: AutoSizeText(
-                'Đơn từ : ' + dataCheckManager.getStringNumber(widget.voucher.mincost) + 'VNĐ',
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 50,
-            left: 52 + widget.width/6 + widget.width/5 + widget.width/5 + 10,
-            child: Container(
-              width: widget.width/5,
-              height: 25,
-              child: AutoSizeText(
-                widget.voucher.useCount.toString() + "/" + widget.voucher.maxCount.toString(),
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontSize: 100
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 30,
-            left: 52 + widget.width/3 + 2 * widget.width/5 + 30,
-            child: GestureDetector(
-              child: Container(
-                width: widget.width/10,
-                height: 35,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        width: 1,
-                        color: Colors.redAccent
-                    )
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Cập nhật',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.redAccent
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Chương trình : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.tenchuongtrinh, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Mã code : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.id, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Đối tượng : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: (widget.voucher.Otype == '1') ? area.name : shop.name, // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              onTap: widget.onTapUpdate,
             ),
           ),
 
-          Positioned(
-            top: 70,
-            left: 52 + widget.width/3 + 2 * widget.width/5 + 30,
-            child: GestureDetector(
-              child: Container(
-                width: widget.width/10,
-                height: 35,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: Colors.black,
-                        width: 1
-                    )
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Xóa',
-                  style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black
-                  ),
-                ),
-              ),
-              onTap: () async {
-                await deleteProduct(widget.voucher.id);
-              },
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
-          )
+          ),
+
+          Container(
+            width: (widget.width)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Bắt đầu : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.startTime.day.toString() + "/" + widget.voucher.startTime.month.toString() + "/" + widget.voucher.startTime.year.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Kết thúc : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.endTime.day.toString() + "/" + widget.voucher.endTime.month.toString() + "/" + widget.voucher.endTime.year.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
+            ),
+          ),
+
+          Container(
+            width: (widget.width)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giảm giá : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: (widget.voucher.type == 0) ? (dataCheckManager.getStringNumber(widget.voucher.totalmoney) + 'VNĐ') : (dataCheckManager.getStringNumber(widget.voucher.totalmoney) + '%'), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'cho đơn từ : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.voucher.mincost) + 'VNĐ', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
+            ),
+          ),
+
+          Container(
+            width: (widget.width)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Đã sử dụng : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text:  widget.voucher.useCount.toString() + ' Lượt', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giới hạn : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.maxCount.toString() + ' Lượt', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
+            ),
+          ),
+
+          Container(
+            width: (widget.width)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: ListView(
+                children: [
+                  Container(height: 10,),
+
+                  GestureDetector(
+                    child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              width: 1,
+                              color: Colors.redAccent
+                          )
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Cập nhật',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    onTap: widget.onTapUpdate,
+                  ),
+
+                  Container(height: 10,),
+
+                  GestureDetector(
+                    child: Container(
+                      width: widget.width/10,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: Colors.purple,
+                              width: 1
+                          )
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Xóa voucher',
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    onTap: () async {
+                      await deleteProduct(widget.voucher.id);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -108,6 +108,9 @@ flutter:
     - assets/image/icontrangchinh/iconshipper.png
     - assets/image/icontrangchinh/iconvoucher.png
     - assets/image/icontrangchinh/iconnotice.png
+    - assets/image/redcircle.png
+    - assets/image/greycircle.png
+    - assets/image/orangecircle.png
 
   fonts:
     - family: logo_font_1

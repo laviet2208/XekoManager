@@ -24,11 +24,13 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
   bool loading = false;
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   final tieudecontrol = TextEditingController();
+  final tieudephucontrol = TextEditingController();
   final noidungcontrol = TextEditingController();
 
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<notification> list = [];
+  List<notification> chosenList = [];
 
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
@@ -49,14 +51,29 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Notification").onValue.listen((event) {
       list.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         notification noti = notification.fromJson(value);
         list.add(noti);
+        chosenList.add(noti);
       });
       setState(() {
 
       });
+    });
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = list
+          .where((account) =>
+      account.Title.toLowerCase().contains(value.toLowerCase()) ||
+          account.Sub.toLowerCase().contains(value.toLowerCase()) ||
+          account.Content.toLowerCase().contains(value.toLowerCase()))
+          .toList();
     });
   }
 
@@ -107,7 +124,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
-                      fontFamily: 'arial',
+                      fontFamily: 'roboto',
                       fontSize: 14
                   ),
                 ),
@@ -144,7 +161,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                 child: Text(
                                   'Tiêu đề thông báo *',
                                   style: TextStyle(
-                                      fontFamily: 'arial',
+                                      fontFamily: 'roboto',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.redAccent
@@ -186,7 +203,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
-                                            fontFamily: 'arial',
+                                            fontFamily: 'roboto',
                                           ),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
@@ -194,7 +211,75 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                             hintStyle: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16,
-                                              fontFamily: 'arial',
+                                              fontFamily: 'roboto',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
+
+                              Container(
+                                height: 10,
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Tiêu đề phụ thông báo *',
+                                  style: TextStyle(
+                                      fontFamily: 'roboto',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent
+                                  ),
+                                ),
+                              ),
+
+                              Container(
+                                height: 10,
+                              ),
+
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: Container(
+                                    height: 50,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3),
+                                          ),
+                                        ],
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.black,
+                                        )
+                                    ),
+
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Form(
+                                        child: TextFormField(
+                                          controller: tieudephucontrol,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontFamily: 'roboto',
+                                          ),
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'Tiêu đề thông báo',
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                              fontFamily: 'roboto',
                                             ),
                                           ),
                                         ),
@@ -212,7 +297,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                 child: Text(
                                   'Nội dung thông báo *',
                                   style: TextStyle(
-                                      fontFamily: 'arial',
+                                      fontFamily: 'roboto',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.redAccent
@@ -254,15 +339,15 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
-                                            fontFamily: 'arial',
+                                            fontFamily: 'roboto',
                                           ),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: 'Tiêu đề thông báo',
+                                            hintText: 'Nội dung thông báo',
                                             hintStyle: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16,
-                                              fontFamily: 'arial',
+                                              fontFamily: 'roboto',
                                             ),
                                           ),
                                         ),
@@ -280,7 +365,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                 child: Text(
                                   'Chọn loại người nhận *',
                                   style: TextStyle(
-                                      fontFamily: 'arial',
+                                      fontFamily: 'roboto',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.redAccent
@@ -306,7 +391,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                 child: Text(
                                   'Chọn khu vực quản lý *',
                                   style: TextStyle(
-                                      fontFamily: 'arial',
+                                      fontFamily: 'roboto',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.redAccent
@@ -354,11 +439,12 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                       id: dataCheckManager.generateRandomString(20),
                                       Area: area.id,
                                       Title: tieudecontrol.text.toString(),
-                                      Sub: noidungcontrol.text.toString(),
+                                      Sub: tieudephucontrol.text.toString(),
                                       object: shop.Type,
                                       create: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
                                       send: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                      status: 1
+                                      status: 1,
+                                      Content: noidungcontrol.text.toString()
                                   );
                                   await pushData(noti);
                                   setState(() {
@@ -385,6 +471,36 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
             ),
 
           Positioned(
+            top: 10,
+            left: 250,
+            child: Container(
+              width: 500,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm theo tiêu đề và nội dung',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Positioned(
             top: 80,
             left: 10,
             child: Container(
@@ -409,7 +525,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                           'Tiêu đề và nội dung',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -432,7 +548,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                           'Đối tượng nhận',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -455,7 +571,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                           'Thời gian',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -478,7 +594,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                           'Thao tác',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -507,9 +623,9 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
-                itemCount: list.length,
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsachtb(width: widget.width - 20, notice: list[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsachtb(width: widget.width - 20, notice: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
               ),
             ),

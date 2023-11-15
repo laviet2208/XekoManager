@@ -1,48 +1,33 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'Itemyeucaurut.dart';
+import 'yeucauruttien.dart';
 
-import '../../dataClass/bikerRequest.dart';
-import 'ITEMdontaixe.dart';
-
-class Danhsachyeucau extends StatefulWidget {
+class Danhsachyeucaurut extends StatefulWidget {
   final double width;
   final double height;
-  const Danhsachyeucau({Key? key, required this.width, required this.height}) : super(key: key);
+  const Danhsachyeucaurut({Key? key, required this.width, required this.height}) : super(key: key);
 
   @override
-  State<Danhsachyeucau> createState() => _DanhsachyeucauState();
+  State<Danhsachyeucaurut> createState() => _DanhsachyeucauState();
 }
 
-class _DanhsachyeucauState extends State<Danhsachyeucau> {
-  List<bikeRequest> requestList = [];
-  List<bikeRequest> chosenList = [];
+class _DanhsachyeucauState extends State<Danhsachyeucaurut> {
+  List<withdrawRequest> requestList = [];
+
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("bikeRequest").onValue.listen((event) {
+    reference.child("withdrawRequest").onValue.listen((event) {
       requestList.clear();
-      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
-        bikeRequest food= bikeRequest.fromJson(value);
+        withdrawRequest food= withdrawRequest.fromJson(value);
         requestList.add(food);
-        chosenList.add(food);
       });
       setState(() {
 
       });
-    });
-  }
-
-  TextEditingController searchController = TextEditingController();
-
-  void onSearchTextChanged(String value) {
-    setState(() {
-      chosenList = requestList
-          .where((account) =>
-      account.name.toLowerCase().contains(value.toLowerCase()) || account.phoneNumber.toLowerCase().contains(value.toLowerCase()) || account.cmnd.toLowerCase().contains(value.toLowerCase())  || account.address.toLowerCase().contains(value.toLowerCase())
-          || account.owner.name.toLowerCase().contains(value.toLowerCase())  || account.owner.phoneNum.toLowerCase().contains(value.toLowerCase()))
-          .toList();
     });
   }
 
@@ -63,30 +48,28 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
           Positioned(
             top: 10,
             left: 10,
-            child: Container(
-              width: 500,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-              ),
-              child: TextFormField(
-                controller: searchController,
-                onChanged: onSearchTextChanged,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'roboto',
+            child: GestureDetector(
+              child: Container(
+                width: 250,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10)
                 ),
-                decoration: InputDecoration(
-                  hintText: 'Tìm kiếm đơn yêu cầu',
-                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
-                  hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontFamily: 'roboto',
+                child: Text(
+                  'Xuất danh sách Excel',
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                      fontFamily: 'arial',
+                      fontSize: 14
                   ),
                 ),
               ),
+              onTap: () {
+
+              },
             ),
           ),
 
@@ -115,7 +98,7 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
                           'Thông tin tài khoản yêu cầu',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -138,7 +121,7 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
                           'Chi tiết yêu cầu',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -161,7 +144,7 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
                           'Thao tác',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -187,14 +170,13 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
             child: Container(
               width: widget.width - 20,
               height: widget.height - 170,
-              alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
-              child: (chosenList.length == 0) ? Text('Không có yêu cầu nào') : ListView.builder(
-                itemCount: chosenList.length,
+              child: ListView.builder(
+                itemCount: requestList.length,
                 itemBuilder: (context, index) {
-                  return ITEMdontaixe(width: widget.width - 20, height: 120, request: chosenList[index],
+                  return ITEMdonrut(width: widget.width - 20, height: 120, request: requestList[index],
                     accept: () {
 
                     }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),

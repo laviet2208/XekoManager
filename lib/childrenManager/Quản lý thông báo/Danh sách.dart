@@ -26,6 +26,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   final tieudecontrol = TextEditingController();
   final noidungcontrol = TextEditingController();
+  final tieudephucontrol = TextEditingController();
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<notification> list = [];
 
@@ -195,6 +196,74 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                               Padding(
                                 padding: EdgeInsets.only(left: 10),
                                 child: Text(
+                                  'Tiêu đề phụ thông báo *',
+                                  style: TextStyle(
+                                      fontFamily: 'arial',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent
+                                  ),
+                                ),
+                              ),
+
+                              Container(
+                                height: 10,
+                              ),
+
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: Container(
+                                    height: 50,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3),
+                                          ),
+                                        ],
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.black,
+                                        )
+                                    ),
+
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Form(
+                                        child: TextFormField(
+                                          controller: tieudephucontrol,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontFamily: 'arial',
+                                          ),
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'Tiêu đề phụ thông báo',
+                                            hintStyle: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                              fontFamily: 'arial',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
+
+                              Container(
+                                height: 10,
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(
                                   'Nội dung thông báo *',
                                   style: TextStyle(
                                       fontFamily: 'arial',
@@ -243,7 +312,7 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                           ),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: 'Tiêu đề thông báo',
+                                            hintText: 'Nội dung thông báo',
                                             hintStyle: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16,
@@ -309,11 +378,12 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                                       id: dataCheckManager.generateRandomString(20),
                                       Area: currentAccount.provinceCode,
                                       Title: tieudecontrol.text.toString(),
-                                      Sub: noidungcontrol.text.toString(),
+                                      Sub: tieudephucontrol.text.toString(),
                                       object: shop.Type,
                                       create: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
                                       send: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                      status: 1
+                                      status: 1,
+                                      Content: noidungcontrol.text.toString()
                                   );
                                   await pushData(noti);
                                   setState(() {

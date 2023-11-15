@@ -129,7 +129,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: 'ID tài khoản : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -137,7 +137,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: widget.account.id, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
@@ -158,7 +158,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: 'Số điện thoại : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -166,7 +166,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: (widget.account.phoneNum == '0') ? widget.account.phoneNum : ('0' + widget.account.phoneNum), // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -186,7 +186,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: 'Tên trong app : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -194,9 +194,9 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: widget.account.name, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold, // Để viết bình thường
+                              fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
                         ],
@@ -234,7 +234,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: 'Vị trí hiện tại : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -242,66 +242,8 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                             text: widget.account.locationHis.firstText + " " + widget.account.locationHis.secondaryText, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Vĩ độ : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.account.locationHis.Latitude.toString(), // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Kinh độ : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.account.locationHis.Longitude.toString(), // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -326,71 +268,26 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
 
           Container(
             width: (widget.width - 20)/6 - 1,
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: ListView(
-                children: [
-                  Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Trạng thái tài khoản : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: status, // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: statuscolor,
-                              fontWeight: FontWeight.bold, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+              padding: EdgeInsets.only(left: 25, right: 25),
+              child: Container(
+                height: 35,
+                decoration: BoxDecoration(
+                  color: (widget.account.status == 1) ? Colors.green : Colors.redAccent,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  (widget.account.status == 1) ? 'Đang kích hoạt' : 'Đã bị khóa',
+                  style: TextStyle(
+                    fontFamily: 'roboto',
+                    fontSize: 14,
+                    color:  Colors.black,
+                    fontWeight: FontWeight.bold
                   ),
-
-                  Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Vai trò : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: (widget.account.type == 1) ? 'Người dùng bình thường' : ('Tài xế XEKO'), // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(height: 20,),
-                ],
-              ),
+                ),
+              )
             ),
           ),
 
@@ -409,7 +306,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                   area.name,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'arial',
+                      fontFamily: 'roboto',
                       color: Colors.black,
                       fontSize: 100
                   ),
@@ -433,58 +330,82 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                   Container(height: 15,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Giờ khởi tạo : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Giờ khởi tạo : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: widget.account.createTime.hour.toString() + " : " + widget.account.createTime.minute.toString() + " : " + widget.account.createTime.second.toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: widget.account.createTime.hour.toString() + " : " + widget.account.createTime.minute.toString(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
                   Container(height: 15,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Ngày khởi tạo : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Ngày khởi tạo : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: "Ngày " + widget.account.createTime.day.toString() + " / " + widget.account.createTime.month.toString() + " / " + widget.account.createTime.year.toString(),
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
@@ -512,22 +433,18 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                   GestureDetector(
                     child: Container(
                       width: ((widget.width - 20)/6 - 30)/2,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black ,
-                              width: 2
-                          ),
+                          color: Colors.redAccent,
                           borderRadius: BorderRadius.circular(10)
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'Khóa/Mở tài khoản',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 13,
-                            color: Colors.black
+                            color: Colors.white
                         ),
                       ),
                     ),
@@ -545,12 +462,12 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                   GestureDetector(
                     child: Container(
                       width: ((widget.width - 20)/6 - 30)/2,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              color: Colors.black,
-                              width: 2
+                              color: Colors.redAccent,
+                              width: 1
                           ),
                           borderRadius: BorderRadius.circular(10)
                       ),
@@ -558,9 +475,9 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                       child: Text(
                         'Nạp tiền',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 13,
-                            color: Colors.black
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
@@ -597,7 +514,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                     child: Text(
                                       'Số tiền cần nạp *',
                                       style: TextStyle(
-                                          fontFamily: 'arial',
+                                          fontFamily: 'roboto',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -639,7 +556,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16,
-                                                fontFamily: 'arial',
+                                                fontFamily: 'roboto',
                                               ),
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
@@ -647,7 +564,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                                 hintStyle: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 16,
-                                                  fontFamily: 'arial',
+                                                  fontFamily: 'roboto',
                                                 ),
                                               ),
                                             ),
@@ -665,7 +582,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                     child: Text(
                                       'Nội dung nạp tiền *',
                                       style: TextStyle(
-                                          fontFamily: 'arial',
+                                          fontFamily: 'roboto',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -707,7 +624,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16,
-                                                fontFamily: 'arial',
+                                                fontFamily: 'roboto',
                                               ),
                                               decoration: InputDecoration(
                                                 border: InputBorder.none,
@@ -715,7 +632,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                                                 hintStyle: TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 16,
-                                                  fontFamily: 'arial',
+                                                  fontFamily: 'roboto',
                                                 ),
                                               ),
                                             ),
@@ -788,8 +705,32 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                         },
                       );
                     },
-                  )
+                  ),
 
+                  Container(height: 8,),
+
+                  GestureDetector(
+                    child: Container(
+                      width: ((widget.width - 20)/6 - 30)/2,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.deepOrange,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Cập nhật thông tin',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    onTap: widget.onTapUpdate,
+                  ),
+
+                  Container(height: 8,),
                 ],
               ),
             ),

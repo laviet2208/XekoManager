@@ -16,18 +16,42 @@ class Danhsachdatxe extends StatefulWidget {
 
 class _DanhsachdatxeState extends State<Danhsachdatxe> {
   List<catchOrder> orderList = [];
+  List<catchOrder> chosenList = [];
+
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Order/catchOrder").onValue.listen((event) {
       orderList.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         catchOrder order = catchOrder.fromJson(value);
         orderList.add(order);
+        chosenList.add(order);
       });
       setState(() {
 
       });
+    });
+  }
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = orderList
+          .where((account) =>
+      account.id.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationSet.firstText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationSet.secondaryText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationGet.firstText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationGet.secondaryText.toLowerCase().contains(value.toLowerCase()) ||
+          account.owner.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.owner.phoneNum.toLowerCase().contains(value.toLowerCase()) ||
+          account.shipper.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.shipper.phoneNum.toLowerCase().contains(value.toLowerCase()) ||
+          account.costFee.discount.toString().toLowerCase().contains(value.toLowerCase()) ||
+          account.cost.toString().toLowerCase().contains(value.toLowerCase()))
+          .toList();
     });
   }
 
@@ -47,28 +71,30 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
           Positioned(
             top: 10,
             left: 10,
-            child: GestureDetector(
-              child: Container(
-                width: 240,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10)
+            child: Container(
+              width: 500,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
                 ),
-                child: Text(
-                  '+ Xuất file data excel',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontFamily: 'arial',
-                      fontSize: 14
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm đơn hàng đặt xe',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
                   ),
                 ),
               ),
-              onTap: () {
-
-              },
             ),
           ),
 
@@ -241,9 +267,9 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
-                itemCount: orderList.length,
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: orderList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
               ),
             ),

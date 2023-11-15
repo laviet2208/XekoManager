@@ -131,7 +131,7 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                             text: 'Tiêu đề : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -139,7 +139,36 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                             text: widget.notice.Title, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 10,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Tiêu đề phụ : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.notice.Sub,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
                               color: Colors.deepPurple,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
@@ -160,16 +189,16 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                             text: 'Nội dung : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.notice.Sub,
+                            text: widget.notice.Content,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.deepPurple,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -201,58 +230,82 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                   Container(height: 15,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Khu vực : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Khu vực : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: area.name, // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: area.name,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
                   Container(height: 10,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Đối tượng : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Đối tượng : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: type,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: type,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.redAccent,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
@@ -279,59 +332,83 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                   Container(height: 15,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Ngày khởi tạo : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Ngày khởi tạo : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: widget.notice.create.hour.toString() + " giờ " + widget.notice.create.minute.toString() + ", " + "Ngày " + widget.notice.create.day.toString() + "/" + widget.notice.create.month.toString() + "/" + widget.notice.create.year.toString(), // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: widget.notice.create.hour.toString() + " giờ " + widget.notice.create.minute.toString() + ", " + "Ngày " + widget.notice.create.day.toString() + "/" + widget.notice.create.month.toString() + "/" + widget.notice.create.year.toString(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 
                   Container(height: 10,),
 
                   Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Gửi lần cuối lúc : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Gửi lần cuối lúc : ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: widget.notice.send.hour.toString() + " giờ " + widget.notice.send.minute.toString() + ", " + "Ngày " + widget.notice.send.day.toString() + "/" + widget.notice.send.month.toString() + "/" + widget.notice.send.year.toString(), // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'arial',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: widget.notice.send.hour.toString() + " giờ " + widget.notice.send.minute.toString() + ", " + "Ngày " + widget.notice.send.day.toString() + "/" + widget.notice.send.month.toString() + "/" + widget.notice.send.year.toString(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'roboto',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
 

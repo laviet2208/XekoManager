@@ -115,7 +115,7 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Nội dung : ',
+                            text: 'Phụ đề : ',
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',
@@ -128,6 +128,35 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                               fontSize: 16,
                               fontFamily: 'arial',
                               color: Colors.deepPurple,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 10,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Nội dung : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.notice.Content,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'arial',
+                              color: Colors.black,
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),

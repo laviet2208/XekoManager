@@ -29,6 +29,7 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
   final startcontrol = TextEditingController();
   final endcontrol = TextEditingController();
   final List<accountShop> shopList = [];
+  List<accountShop> chosenList = [];
   List<String> items = ['5 sao','Ăn vặt','Bún phở','Cơm','Khuyến mãi','Món nhậu','Nước uống','Thức ăn nhanh','Trà sữa'];
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   int selectIndex = 0;
@@ -70,14 +71,28 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Restaurant").onValue.listen((event) {
       shopList.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         accountShop food= accountShop.fromJson(value);
         shopList.add(food);
+        chosenList.add(food);
       });
       setState(() {
 
       });
+    });
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = shopList
+          .where((account) =>
+          account.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.phoneNum.toLowerCase().contains(value.toLowerCase()) ||
+          account.id.toLowerCase().contains(value.toLowerCase())).toList();
     });
   }
 
@@ -98,7 +113,7 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 10,
+            top: 20,
             left: 10,
             child: GestureDetector(
               child: Container(
@@ -749,146 +764,135 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
           ),
 
           Positioned(
-            top: 70,
+            top: 80,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: 100,
+              height: 50,
               decoration: BoxDecoration(
-                  color:  Color.fromARGB(255, 240, 242, 245)
+                  color: Color.fromARGB(255, 247, 250, 255),
+                  border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 225, 225, 226)
+                  )
               ),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 40,
-                    left: 10,
-                    child: Container(
-                      width: widget.width/6,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Tên nhà hàng',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Container(
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Tên nhà hàng',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 30,
-                    left: 10 + widget.width/6,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 40,
-                    left: 10 + widget.width/6 + 12,
-                    child: Container(
-                      width: widget.width/5,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Thời gian tạo',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thời gian tạo',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 30,
-                    left: 10 + widget.width/6 + widget.width/5 + 12,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 40,
-                    left: 10 + widget.width/6 + widget.width/5 + 22,
-                    child: Container(
-                      width: widget.width/5,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Thời gian hoạt động',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thời gian hoạt động',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 30,
-                    left: 10 + widget.width/6 + widget.width/5 + 32 + widget.width/5,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 40,
-                    left: 52 + widget.width/6 + widget.width/5 + widget.width/5,
-                    child: Container(
-                      width: widget.width/6,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Trạng thái tài khoản',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/5 - 60,
+                    alignment: Alignment.center,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Trạng thái tài khoản',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
-                  Positioned(
-                    top: 30,
-                    left: 52 + widget.width/3 + 2 * widget.width/5 + 10,
-                    child: Container(
-                      width: 1,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Colors.black
-                      ),
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
-                  Positioned(
-                    top: 40,
-                    left: 52 + widget.width/3 + 2 * widget.width/5 + 20,
-                    child: Container(
-                      width: widget.width/6,
-                      height: 20,
-                      child: AutoSizeText(
-                        'Thao tác',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                  Container(
+                    width: (widget.width - 20)/5 - 1 + 60,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thao tác',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
+                    ),
+                  ),
+
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
                 ],
@@ -897,25 +901,56 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
           ),
 
           Positioned(
-            top: 175,
+            top: 130,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: widget.height - 190,
+              height: widget.height - 155,
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
-              child: ListView.builder(
-                itemCount: shopList.length,
+              alignment: Alignment.center,
+              child: (chosenList.length == 0) ? Text('không có nhà hàng nào') : ListView.builder(
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return ITEMshop(width: widget.width - 20, height: 140, shop: shopList[index],
-                      updateEvent: () {
+                  return ITEMshop(width: widget.width - 20, height: 120, shop: chosenList[index],
+                    updateEvent: () {
 
-                      }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
                 },
               ),
             ),
-          )
+          ),
+
+          Positioned(
+            top: 20,
+            left: 150,
+            child: Container(
+              width: 500,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm nhà hàng',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

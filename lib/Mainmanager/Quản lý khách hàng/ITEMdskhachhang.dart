@@ -32,16 +32,28 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachkhachhang> {
       });
     });
   }
-Future<void> pushData(int data) async{
-  try {
-    DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-    await databaseRef.child('normalUser/' + widget.account.id + '/status').set(data);
-    toastMessage('Thay đổi trạng thái thành công');
-  } catch (error) {
-    print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
-    throw error;
+
+  Future<void> pushData(int data) async{
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('normalUser/' + widget.account.id + '/status').set(data);
+      toastMessage('Thay đổi trạng thái thành công');
+    } catch (error) {
+      print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
   }
-}
+
+  Future<void> pushData1(int data) async{
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('normalUser/' + widget.account.id + '/status').set(data);
+      toastMessage('Thay đổi trạng thái thành công');
+    } catch (error) {
+      print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
+  }
 
 @override
   void initState() {
@@ -91,39 +103,10 @@ Widget build(BuildContext context) {
                       style: DefaultTextStyle.of(context).style,
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'ID tài khoản : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: widget.account.id, // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
                           text: 'Số điện thoại : ',
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
+                            fontFamily: 'roboto',
                             fontWeight: FontWeight.bold, // Để in đậm
                           ),
                         ),
@@ -131,7 +114,7 @@ Widget build(BuildContext context) {
                           text: (widget.account.phoneNum == '0') ? widget.account.phoneNum : ('0' + widget.account.phoneNum), // Phần còn lại viết bình thường
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
+                            fontFamily: 'roboto',
                             fontWeight: FontWeight.normal, // Để viết bình thường
                           ),
                         ),
@@ -151,7 +134,7 @@ Widget build(BuildContext context) {
                           text: 'Tên trong app : ',
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
+                            fontFamily: 'roboto',
                             fontWeight: FontWeight.bold, // Để in đậm
                           ),
                         ),
@@ -159,9 +142,9 @@ Widget build(BuildContext context) {
                           text: widget.account.name, // Phần còn lại viết bình thường
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold, // Để viết bình thường
+                            fontFamily: 'roboto',
+                            color: Colors.purple,
+                            fontWeight: FontWeight.normal, // Để viết bình thường
                           ),
                         ),
                       ],
@@ -199,7 +182,7 @@ Widget build(BuildContext context) {
                           text: 'Vị trí hiện tại : ',
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
+                            fontFamily: 'roboto',
                             fontWeight: FontWeight.bold, // Để in đậm
                           ),
                         ),
@@ -207,66 +190,8 @@ Widget build(BuildContext context) {
                           text: widget.account.locationHis.firstText + " " + widget.account.locationHis.secondaryText, // Phần còn lại viết bình thường
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Vĩ độ : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: widget.account.locationHis.Latitude.toString(), // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Kinh độ : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: widget.account.locationHis.Longitude.toString(), // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
+                            fontFamily: 'roboto',
+                            color: Colors.purple,
                             fontWeight: FontWeight.normal, // Để viết bình thường
                           ),
                         ),
@@ -290,72 +215,30 @@ Widget build(BuildContext context) {
 
         Container(
           width: (widget.width - 20)/6 - 1,
-          height: widget.height,
+          alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: ListView(
-              children: [
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Trạng thái tài khoản : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: status, // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: statuscolor,
-                            fontWeight: FontWeight.bold, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
+              padding: EdgeInsets.only(left: 25, right: 25),
+              child: Container(
+                height: 35,
+                decoration: BoxDecoration(
+                    color: (widget.account.status == 1) ? Colors.green.withOpacity(0.1) : Colors.redAccent.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: (widget.account.status == 1) ? Colors.green.withOpacity(1) : Colors.redAccent.withOpacity(1),
+                      width: 1
+                    )
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  (widget.account.status == 1) ? 'Đang kích hoạt' : 'Đã bị khóa',
+                  style: TextStyle(
+                      fontFamily: 'roboto',
+                      fontSize: 14,
+                      color:  (widget.account.status == 1) ? Colors.green.withOpacity(1) : Colors.redAccent.withOpacity(1),
+                      fontWeight: FontWeight.bold
                   ),
                 ),
-
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Vai trò : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: (widget.account.type == 1) ? 'Người dùng bình thường' : ('Tài xế XEKO'), // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Container(height: 20,),
-              ],
-            ),
+              )
           ),
         ),
 
@@ -373,35 +256,6 @@ Widget build(BuildContext context) {
             padding: EdgeInsets.only(left: 10, right: 10),
             child: ListView(
               children: [
-                Container(height: 15,),
-
-                Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'ID khu vực : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
-                        ),
-                        TextSpan(
-                          text: area.id, // Phần còn lại viết bình thường
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal, // Để viết bình thường
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
                 Container(height: 15,),
 
                 Container(
@@ -413,7 +267,7 @@ Widget build(BuildContext context) {
                           text: 'Tên khu vực : ',
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
+                            fontFamily: 'roboto',
                             fontWeight: FontWeight.bold, // Để in đậm
                           ),
                         ),
@@ -421,9 +275,9 @@ Widget build(BuildContext context) {
                           text: area.name, // Phần còn lại viết bình thường
                           style: TextStyle(
                             fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold, // Để viết bình thường
+                            fontFamily: 'roboto',
+                            color: Colors.purple,
+                            fontWeight: FontWeight.normal, // Để viết bình thường
                           ),
                         ),
                       ],
@@ -454,58 +308,82 @@ Widget build(BuildContext context) {
                 Container(height: 15,),
 
                 Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Giờ khởi tạo : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Giờ khởi tạo : ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        TextSpan(
-                          text: widget.account.createTime.hour.toString() + " : " + widget.account.createTime.minute.toString() + " : " + widget.account.createTime.second.toString(),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal, // Để viết bình thường
-                          ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: widget.account.createTime.hour.toString() + ":" + widget.account.createTime.minute.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 
                 Container(height: 15,),
 
                 Container(
-                  child: RichText(
-                    text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Ngày khởi tạo : ',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold, // Để in đậm
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Ngày khởi tạo : ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        TextSpan(
-                          text: "Ngày " + widget.account.createTime.day.toString() + " / " + widget.account.createTime.month.toString() + " / " + widget.account.createTime.year.toString(),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold, // Để viết bình thường
-                          ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -524,72 +402,76 @@ Widget build(BuildContext context) {
 
         Container(
           width: (widget.width - 20)/6 - 1,
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: 10,
-                left: 20,
-                child: GestureDetector(
-                  child: Container(
-                    width: ((widget.width - 20)/6 - 30)/2,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: Colors.black ,
-                            width: 1
+          child: ListView(
+            children: [
+              Container(height: 10,),
+
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                  child: GestureDetector(
+                    child: Container(
+                      width: ((widget.width - 20)/6 - 30)/2,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: Colors.black ,
+                              width: 1
+                          ),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Khóa/Mở tài khoản',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Colors.black
                         ),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Khóa/Mở tài khoản',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.black
                       ),
                     ),
-                  ),
-                  onTap: () async {
-                    if (widget.account.status == 1) {
-                      await pushData(2);
-                    } else {
-                      await pushData(1);
-                    }
-                  },
-                ),
+                    onTap: () async {
+                      if (widget.account.status == 1) {
+                        await pushData(2);
+                      } else {
+                        await pushData(1);
+                      }
+                    },
+                  )
               ),
 
-              Positioned(
-                top: 60,
-                left: 20,
-                child: GestureDetector(
-                  child: Container(
-                    width: ((widget.width - 20)/6 - 30)/2,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            color: Colors.blueAccent,
-                            width: 1
+              Container(height: 10,),
+
+              Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: GestureDetector(
+                    child: Container(
+                      width: ((widget.width - 20)/6 - 30)/2,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          border: Border.all(
+                              color: Colors.redAccent,
+                              width: 1
+                          ),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Cập nhật',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13,
+                            color: Colors.white
                         ),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Cập nhật',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.blueAccent
                       ),
                     ),
-                  ),
-                ),
+                    onTap: widget.onTapUpdate,
+                  )
               ),
+
             ],
-          )
+          ),
         ),
       ],
     ),

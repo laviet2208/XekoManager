@@ -16,14 +16,28 @@ class Danhsachgiaohang extends StatefulWidget {
 
 class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
   List<itemsendOrder> orderList = [];
+  List<itemsendOrder> chosenList = [];
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = orderList
+          .where((account) =>
+      account.id.contains(value) || account.locationset.firstText.contains(value) || account.locationset.secondaryText.contains(value) || account.receiver.location.firstText.contains(value) || account.receiver.location.secondaryText.contains(value) || account.receiver.phoneNum.contains(value) || account.receiver.name.contains(value) || account.owner.name.contains(value) || account.owner.phoneNum.contains(value))
+          .toList();
+    });
+  }
+
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Order/itemsendOrder").onValue.listen((event) {
       orderList.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         itemsendOrder order = itemsendOrder.fromJson(value);
         orderList.add(order);
+        chosenList.add(order);
       });
       setState(() {
 
@@ -47,28 +61,30 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
           Positioned(
             top: 10,
             left: 10,
-            child: GestureDetector(
-              child: Container(
-                width: 240,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10)
+            child: Container(
+              width: 500,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
                 ),
-                child: Text(
-                  '+ Xuất file data excel',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontFamily: 'arial',
-                      fontSize: 14
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm theo điểm lấy , nhận , người nhận ,...',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
                   ),
                 ),
               ),
-              onTap: () {
-
-              },
             ),
           ),
 
@@ -97,7 +113,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                         'Mã đơn hàng',
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontFamily: 'arial',
+                          fontFamily: 'roboto',
                           color: Colors.black,
                           fontSize: 100
                         ),
@@ -120,7 +136,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                           'Điểm giao,nhận hàng',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -143,7 +159,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                           'Chi tiết đơn',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -166,7 +182,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                           'Chi tiết chiết khấu',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -189,7 +205,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                           'Ngày tạo',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -212,7 +228,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                           'Thao tác',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              fontFamily: 'arial',
+                              fontFamily: 'roboto',
                               color: Colors.black,
                               fontSize: 100
                           ),
@@ -243,9 +259,9 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
-                itemCount: orderList.length,
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: orderList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
               ),
             ),

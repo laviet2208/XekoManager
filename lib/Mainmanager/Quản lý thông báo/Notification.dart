@@ -5,12 +5,13 @@ class notification {
   String Area;
   String Title;
   String Sub;
+  String Content;
   int object;
   int status; // 1 : chưa thông báo , 2 : đang thông báo
   Time create;
   Time send;
 
-  notification({required this.id,required this.Area,required this.Title ,required this.Sub,required this.object, required this.create, required this.send, required this.status});
+  notification({required this.id,required this.Area,required this.Title ,required this.Sub,required this.object, required this.create, required this.send, required this.status, required this.Content});
 
   Map<dynamic, dynamic> toJson() => {
     'id' : id,
@@ -20,7 +21,8 @@ class notification {
     'object' : object,
     'create' : create.toJson(),
     'send' : send.toJson(),
-    'status' : status
+    'status' : status,
+    'Content' : Content
   };
 
   factory notification.fromJson(Map<dynamic, dynamic> json) {
@@ -33,6 +35,7 @@ class notification {
         send: Time.fromJson(json['send']),
         id: json['id'].toString(),
         status: int.parse(json['status'].toString()),
+        Content: json['Content'].toString()
     );
   }
 
@@ -45,5 +48,6 @@ class notification {
     send = Time.fromJson(json['send']);
     id = json['id'].toString();
     status = int.parse(json['status'].toString());
+    Content = json['Content'].toString();
   }
 }

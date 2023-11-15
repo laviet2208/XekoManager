@@ -1,27 +1,38 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:xekomanagermain/dataClass/bikerRequest.dart';
-
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20kh%C3%A1ch%20h%C3%A0ng/accountNormal.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
+import 'yeucauruttien.dart';
 
-class ITEMdontaixe extends StatefulWidget {
+class ITEMdonrut extends StatefulWidget {
   final double width;
   final double height;
-  final bikeRequest request;
+  final withdrawRequest request;
   final VoidCallback accept;
   final Color color;
-  const ITEMdontaixe({Key? key, required this.width, required this.height, required this.request, required this.accept, required this.color}) : super(key: key);
+  const ITEMdonrut({Key? key, required this.width, required this.height, required this.request, required this.accept, required this.color}) : super(key: key);
 
   @override
-  State<ITEMdontaixe> createState() => _ITEMdontaixeState();
+  State<ITEMdonrut> createState() => _ITEMdontaixeState();
 }
 
-class _ITEMdontaixeState extends State<ITEMdontaixe> {
+class _ITEMdontaixeState extends State<ITEMdonrut> {
   final Area area = Area(id: '', name: '', money: 0, status: 0);
+  double money = 0;
+
+  void getData2() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child('normalUser/' + widget.request.owner.id).onValue.listen((event) {
+      final dynamic orders = event.snapshot.value;
+      accountNormal a = accountNormal.fromJson(orders);
+      money = a.totalMoney;
+      setState(() {
+
+      });
+    });
+  }
+
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area/" + widget.request.owner.Area).onValue.listen((event) {
@@ -34,38 +45,18 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
     });
   }
 
-  Future<String?> downloadImage(String imagePath) async {
-    final ref = FirebaseStorage.instance.ref().child(imagePath);
-    try {
-      final url = await ref.getDownloadURL();
-      return url;
-    } catch (e) {
-      print('Lỗi khi tải ảnh: $e');
-      return null;
-    }
-  }
-
-  void deleteImage(String imagePath) async {
-    final ref = FirebaseStorage.instance.ref().child(imagePath);
-    try {
-      await ref.delete();
-      print('Xóa ảnh thành công: $imagePath');
-    } catch (e) {
-      print('Lỗi khi xóa ảnh: $e');
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData1();
+    getData2();
   }
 
-  Future<void> deleteRequest(String idshop) async {
+  Future<void> deleteRequest(String idWithdraw) async {
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('bikeRequest/' + idshop).remove();
+      await databaseRef.child('withdrawRequest/' + idWithdraw).remove();
       toastMessage('xóa thành công');
     } catch (error) {
       toastMessage('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -73,10 +64,10 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
     }
   }
 
-  Future<void> pushData(int type) async{
+  Future<void> pushData(double type) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('normalUser/' + widget.request.owner.id + '/type').set(type);
+      await databaseRef.child('normalUser/' + widget.request.owner.id + '/totalMoney').set(type);
       toastMessage('Phê duyệt thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -117,7 +108,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Tên tài khoản : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -125,7 +116,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: widget.request.owner.name,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold, // Để viết bình thường
                             ),
@@ -146,15 +137,15 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Số điện thoại : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.phoneNumber,
+                            text: widget.request.owner.phoneNum,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold, // Để viết bình thường
                             ),
@@ -175,7 +166,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Khu vực hiện tại : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -183,7 +174,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: area.name,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold, // Để viết bình thường
                             ),
@@ -204,7 +195,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Thời gian tạo tài khoản : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
@@ -212,7 +203,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: widget.request.owner.createTime.hour.toString() + ':' + widget.request.owner.createTime.minute.toString() + "  " + widget.request.owner.createTime.day.toString() + "/" + widget.request.owner.createTime.month.toString() + "/" + widget.request.owner.createTime.year.toString(),
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold, // Để viết bình thường
                             ),
@@ -247,18 +238,18 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Tên trong đơn : ',
+                            text: 'Tên tài khoản : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.name, // Phần còn lại viết bình thường
+                            text: widget.request.chutk, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -275,18 +266,18 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Số điện thoại trong đơn : ',
+                            text: 'Tên ngân hàng : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.phoneNumber, // Phần còn lại viết bình thường
+                            text: widget.request.stk, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -306,15 +297,15 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Số CMND : ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.cmnd, // Phần còn lại viết bình thường
+                            text: widget.request.nganhang, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -334,15 +325,15 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             text: 'Địa chỉ điền trong đơn: ',
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.bold, // Để in đậm
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.address, // Phần còn lại viết bình thường
+                            text: widget.request.id, // Phần còn lại viết bình thường
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: 'roboto',
+                              fontFamily: 'arial',
                               fontWeight: FontWeight.normal, // Để viết bình thường
                             ),
                           ),
@@ -352,32 +343,6 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                   ),
 
                   Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Loại phương tiện : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'roboto',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: (widget.request.type == 1) ? 'Xe máy' : 'Ô tô', // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'roboto',
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -404,17 +369,21 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                     child: Container(
                       height: 40,
                       decoration: BoxDecoration(
-                          color: Colors.redAccent,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              width: 2,
+                              color: Colors.blueAccent
+                          )
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Chấp nhận yêu cầu',
+                        'Chấp nhận',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent
                         ),
                       ),
                     ),
@@ -437,11 +406,13 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  deleteImage('CCCD/' + widget.request.owner.id + '_T.png');
-                                  deleteImage('CCCD/' + widget.request.owner.id + '_S.png');
-                                  await pushData(2);
-                                  await deleteRequest(widget.request.id);
-                                  Navigator.of(context).pop();
+                                  if (money >= widget.request.sotien) {
+                                    await pushData(money - widget.request.sotien);
+                                    await deleteRequest(widget.request.id);
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    toastMessage('Số dư hiện tại không đủ để rút');
+                                  }
                                 },
                                 child: Text(
                                   'Đồng ý',
@@ -464,17 +435,21 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                     child: Container(
                       height: 40,
                       decoration: BoxDecoration(
-                          color: Colors.deepOrange,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: Colors.redAccent,
+                              width: 2
+                          )
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Từ chối yêu cầu',
+                        'Từ chối',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
@@ -524,18 +499,18 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              width: 1,
-                              color: Colors.redAccent
+                              width: 2,
+                              color: Colors.black
                           )
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Xem tài khoản',
+                        'Xem TK',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.normal,
-                            color: Colors.redAccent
+                            color: Colors.black
                         ),
                       ),
                     ),
@@ -572,7 +547,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                     child: Text(
                                       'Tên tài khoản *',
                                       style: TextStyle(
-                                          fontFamily: 'roboto',
+                                          fontFamily: 'arial',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -613,7 +588,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
-                                              fontFamily: 'roboto',
+                                              fontFamily: 'arial',
                                             ),
                                           ),
                                         ),
@@ -629,7 +604,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                     child: Text(
                                       'Số điện thoại đăng ký *',
                                       style: TextStyle(
-                                          fontFamily: 'roboto',
+                                          fontFamily: 'arial',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -670,7 +645,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
-                                              fontFamily: 'roboto',
+                                              fontFamily: 'arial',
                                             ),
                                           ),
                                         ),
@@ -686,7 +661,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                     child: Text(
                                       'Thời gian tạo tài khoản *',
                                       style: TextStyle(
-                                          fontFamily: 'roboto',
+                                          fontFamily: 'arial',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -727,7 +702,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
-                                              fontFamily: 'roboto',
+                                              fontFamily: 'arial',
                                             ),
                                           ),
                                         ),
@@ -743,7 +718,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                     child: Text(
                                       'ID tài khoản *',
                                       style: TextStyle(
-                                          fontFamily: 'roboto',
+                                          fontFamily: 'arial',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
@@ -784,7 +759,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
-                                              fontFamily: 'roboto',
+                                              fontFamily: 'arial',
                                             ),
                                           ),
                                         ),
@@ -801,94 +776,10 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                     child: Text(
                                       'Căn cước công dân *',
                                       style: TextStyle(
-                                          fontFamily: 'roboto',
+                                          fontFamily: 'arial',
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.redAccent
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10, right: 10),
-                                    child: Container(
-                                      height: 45,
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Positioned(
-                                            top: 0,
-                                            left: 0,
-                                            child: GestureDetector(
-                                              child: Container(
-                                                width: (widget.width * (1/3) - 40)/2,
-                                                height: 45,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.redAccent,
-                                                    borderRadius: BorderRadius.circular(10)
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Mặt trước CCCD',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.white,
-                                                      fontFamily: 'roboto'
-                                                  ),
-                                                ),
-                                              ),
-                                                onTap: () async {
-                                                  final imageUrl = await downloadImage('CCCD/' + widget.request.owner.id + '_T.png');
-                                                  if (imageUrl != null) {
-                                                    // Mở ảnh trong một tab web khác
-                                                    if (await canLaunch(imageUrl)) {
-                                                      await launch(imageUrl);
-                                                    } else {
-                                                      toastMessage('Không thể mở ảnh: $imageUrl');
-                                                    }
-                                                  }
-                                                },
-                                            ),
-                                          ),
-
-                                          Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: GestureDetector(
-                                              child: Container(
-                                                width: (widget.width * (1/3) - 40)/2,
-                                                height: 45,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.redAccent,
-                                                    borderRadius: BorderRadius.circular(10)
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Mặt sau CCCD',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.white,
-                                                      fontFamily: 'roboto'
-                                                  ),
-                                                ),
-                                              ),
-                                              onTap: () async {
-                                                final imageUrl = await downloadImage('CCCD/' + widget.request.owner.id + '_S.png');
-                                                if (imageUrl != null) {
-                                                  // Mở ảnh trong một tab web khác
-                                                  if (await canLaunch(imageUrl)) {
-                                                    await launch(imageUrl);
-                                                  } else {
-                                                    toastMessage('Không thể mở ảnh: $imageUrl');
-                                                  }
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        ],
                                       ),
                                     ),
                                   ),
