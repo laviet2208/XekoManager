@@ -1,6 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/dataClass/accountShop.dart';
+
+import '../../../dataClass/Product.dart';
+import '../Thêm món ăn.dart';
+import 'Itemfood.dart';
 
 class Xemdanhsachmonan extends StatefulWidget {
   final double width;
@@ -13,6 +18,47 @@ class Xemdanhsachmonan extends StatefulWidget {
 }
 
 class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
+  List<Product> productList = [];
+  List<Product> chosenList = [];
+
+  void getData() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Food").onValue.listen((event) {
+      productList.clear();
+      chosenList.clear();
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Product food= Product.fromJson(value);
+        if(food.owner.id == widget.shop.id) {
+          productList.add(food);
+          chosenList.add(food);
+        }
+      });
+      setState(() {
+
+      });
+    });
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = productList
+          .where((account) =>
+      account.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.content.toLowerCase().contains(value.toLowerCase()) ||
+          account.cost.toString().toLowerCase().contains(value.toLowerCase())).toList();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,6 +85,39 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                       color: Colors.white,
                       fontFamily: 'arial',
                       fontSize: 14
+                  ),
+                ),
+              ),
+              onTap: () {
+                ThemMonAn.showDialogthemmonan(widget.width/2, 500, context,widget.shop,TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController());
+              },
+            ),
+          ),
+
+          Positioned(
+            top: 20,
+            left: 140,
+            child: Container(
+              width: 300,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm món ăn',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
                   ),
                 ),
               ),
@@ -149,6 +228,22 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 150,
+            left: 10,
+            child: Container(
+              width: widget.width-20,
+              height: widget.height - 160,
+              alignment: Alignment.center,
+              child: (chosenList.length == 0) ? Text('không có món ăn nào') : ListView.builder(
+                itemCount: chosenList.length,
+                itemBuilder: (context, index) {
+                  return ItemFood(width: widget.width - 20, product: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                },
               ),
             ),
           )

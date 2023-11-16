@@ -254,81 +254,13 @@ class ThemMonAn {
                   Container(
                     height: 10,
                   ),
-
-                  Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      'Nhập liên kết ảnh đại diện món ăn *',
-                      style: TextStyle(
-                          fontFamily: 'arial',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    height: 10,
-                  ),
-
-                  Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.black,
-                            )
-                        ),
-
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Form(
-                            child: TextFormField(
-                              controller: t4,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'arial',
-                              ),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Nhập ảnh đại diện',
-                                hintStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                  fontFamily: 'arial',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                  ),
-
-                  Container(
-                    height: 10,
-                  ),
                 ],
               ),
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
-                  Product fo = Product(id: dataCheckManager.generateRandomString(18), name: t1.text.toString(), content: t2.text.toString(), owner: shop, cost: double.parse(t3.text.toString()), imageList: t4.text.toString(),);
+                  Product fo = Product(id: dataCheckManager.generateRandomString(18), name: t1.text.toString(), content: t2.text.toString(), owner: shop, cost: double.parse(t3.text.toString()), imageList: 'favicon.png',);
                   await pushData(fo);
                   Navigator.of(context).pop();
                 },
