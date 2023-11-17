@@ -64,7 +64,7 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Colors.black
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
@@ -87,7 +87,7 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Colors.black
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
@@ -110,7 +110,7 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Colors.black
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
@@ -120,24 +120,26 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
             child : Stack(
               children: <Widget>[
                 Positioned(
-                  top: 5,
+                  top: 8,
                   left: 5,
                   child: GestureDetector(
                     child: Container(
                       width: ((widget.width)/4 -15)/2,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          width: 1
-                        ),
-                        color: Colors.white
+                        color: Colors.redAccent
                       ),
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 3, right: 3 , top: 5, bottom: 5),
-                        child: AutoSizeText(
+                        padding: EdgeInsets.only(left: 3, right: 3 ,),
+                        child: Text(
                           'Xóa danh mục',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'roboto',
+                            color: Colors.white
+                          ),
                         ),
                       ),
                     ),
@@ -178,24 +180,30 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
                 ),
 
                 Positioned(
-                  top: 5,
+                  top: 8,
                   right: 0,
                   child: GestureDetector(
                     child: Container(
                       width: ((widget.width)/4 -15)/2,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              width: 1
+                            width: 1,
+                            color: Colors.redAccent
                           ),
                           color: Colors.white
                       ),
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 3, right: 3 , top: 5, bottom: 5),
-                        child: AutoSizeText(
+                        padding: EdgeInsets.only(left: 3, right: 3),
+                        child: Text(
                           'Xem danh sách',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'roboto',
+                              color: Colors.redAccent
+                          ),
                         ),
                       ),
                     ),
@@ -203,24 +211,30 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
                 ),
 
                 Positioned(
-                  bottom: 5,
+                  bottom: 8,
                   left: 5,
                   child: GestureDetector(
                     child: Container(
                       width: ((widget.width)/4 -15)/2,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                              width: 1
+                            width: 1,
+                            color: Colors.deepOrange
                           ),
                           color: Colors.white
                       ),
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 3, right: 3 , top: 5, bottom: 5),
+                        padding: EdgeInsets.only(left: 3, right: 3),
                         child: AutoSizeText(
                           'Thêm món ăn',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'roboto',
+                              color: Colors.deepOrange
+                          ),
                         ),
                       ),
                     ),

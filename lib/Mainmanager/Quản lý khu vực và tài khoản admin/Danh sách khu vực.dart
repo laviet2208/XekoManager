@@ -244,123 +244,135 @@ class _QuanlykhuvucState extends State<Quanlykhuvuc> {
           ),
 
           Positioned(
-            top: 70,
+            top: 80,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: 80,
+              height: 50,
               decoration: BoxDecoration(
-                  color:  Color.fromARGB(255, 240, 242, 245)
+                  color: Color.fromARGB(255, 247, 250, 255),
+                  border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 225, 225, 226)
+                  )
               ),
               child: ListView(
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 children: [
                   Container(
-                    width: widget.width/6 - 1,
-                    child:Padding(
-                      padding: EdgeInsets.only(top: 30,bottom: 30, left: 30),
-                      child: AutoSizeText(
-                        'ID khu vực',
-                        style: TextStyle(
-                          fontFamily: 'arial',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 100
-                        ),
-                      ),
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'ID khu vực kinh doanh',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
                   Container(
                     width: 1,
                     decoration: BoxDecoration(
-                      color: Colors.black
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
                   Container(
-                    width: widget.width/5-1,
-                    child:Padding(
-                      padding: EdgeInsets.only(top: 30,bottom: 30, left: 30),
-                      child: AutoSizeText(
-                        'Tên khu vực',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    width: 1,
-                    decoration: BoxDecoration(
-                        color: Colors.black
-                    ),
-                  ),
-
-                  Container(
-                    width: widget.width/5-1,
-                    child:Padding(
-                      padding: EdgeInsets.only(top: 30,bottom: 30, left: 30),
-                      child: AutoSizeText(
-                        'Số dư VNĐ của khu vực',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Tên khu vực kinh doanh',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
                   Container(
                     width: 1,
                     decoration: BoxDecoration(
-                        color: Colors.black
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
                   Container(
-                    width: widget.width/5-1,
-                    child:Padding(
-                      padding: EdgeInsets.only(top: 30,bottom: 30, left: 30),
-                      child: AutoSizeText(
-                        'Số lượng admin',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Số dư khu vực (đồng)',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
                     ),
                   ),
 
                   Container(
                     width: 1,
                     decoration: BoxDecoration(
-                        color: Colors.black
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
 
                   Container(
-                    width: widget.width/2 - widget.width/5,
-                    child:Padding(
-                      padding: EdgeInsets.only(top: 30,bottom: 30, left: 30),
-                      child: AutoSizeText(
-                        'Thao tác',
-                        style: TextStyle(
-                            fontFamily: 'arial',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: 100
-                        ),
-                      ),
+                    width: (widget.width - 20)/5 - 1,
+                    alignment: Alignment.center,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Số lượng Admin',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
+                    ),
+                  ),
+
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
+                    ),
+                  ),
+
+                  Container(
+                    width: (widget.width - 20)/5 - 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                        child: AutoSizeText(
+                          'Thao tác',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontSize: 100
+                          ),
+                        )
+                    ),
+                  ),
+
+                  Container(
+                    width: 1,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 225, 225, 226)
                     ),
                   ),
                 ],
@@ -369,11 +381,11 @@ class _QuanlykhuvucState extends State<Quanlykhuvuc> {
           ),
 
           Positioned(
-            top: 165,
+            top: 130,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: widget.height - 190,
+              height: widget.height - 140,
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),

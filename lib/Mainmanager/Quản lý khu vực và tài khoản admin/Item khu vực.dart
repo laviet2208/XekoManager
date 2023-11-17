@@ -88,7 +88,7 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
+      width: widget.width-20,
       height: 120,
       decoration: BoxDecoration(
         color: widget.color,
@@ -104,16 +104,17 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
         scrollDirection: Axis.horizontal,
         children: [
           Container(
-            width: widget.width/6 - 1,
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
+              padding: EdgeInsets.only(left: 5,right: 5),
+              child: Text(
                 widget.area.id,
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: 100
+                    fontSize: 16
                 ),
               ),
             ),
@@ -122,21 +123,22 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 240, 240, 240)
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
           Container(
-            width: widget.width/5-1,
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
             child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30, right: 10),
-              child: AutoSizeText(
+              padding: EdgeInsets.only(left: 5,right: 5),
+              child: Text(
                 widget.area.name,
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 100
+                    fontWeight: FontWeight.normal,
+                    color: Colors.purple,
+                    fontSize: 16
                 ),
               ),
             ),
@@ -150,16 +152,17 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
           ),
 
           Container(
-            width: widget.width/5-1,
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
             child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
+              padding: EdgeInsets.only(left: 5,right: 5),
+              child: Text(
                 getStringNumber(widget.area.money) + ' VNĐ',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     color: Colors.black,
-                    fontSize: 100
+                    fontSize: 16
                 ),
               ),
             ),
@@ -173,16 +176,17 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
           ),
 
           Container(
-            width: widget.width/5-1,
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
             child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
+              padding: EdgeInsets.only(right: 5, left: 5),
+              child: Text(
                 adminList.length.toString() + ' Tài khoản',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     color: Colors.black,
-                    fontSize: 100
+                    fontSize: 16
                 ),
               ),
             ),
@@ -196,38 +200,27 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
           ),
 
           Container(
-            width: widget.width - 3 * widget.width/5 - widget.width/5.6,
-            child:Stack(
-              children: <Widget>[
-                Positioned(
-                  top: 5,
-                  left: 10,
-                  child: GestureDetector(
+            width: (widget.width-20)/5 - 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
+              child: ListView(
+                children: [
+                  GestureDetector(
                     child: Container(
-                      width: (widget.width - 3 * widget.width/5 - widget.width/6)/2 - 20,
-                      height: 50,
+                      height: 30,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.blueAccent,
-                          width: 1
-                        ),
+                        color: Colors.redAccent
                       ),
                       alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15,bottom: 15,left: 5,right: 5),
-                        child: AutoSizeText(
-                          'Nạp tiền',
-                          style: TextStyle(
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueAccent,
-                              fontSize: 100
-                          ),
+                      child: Text(
+                        'Nạp tiền khu vực',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                          fontFamily: 'roboto'
                         ),
                       ),
                     ),
-
                     onTap: () {
                       showDialog (
                         context: context,
@@ -453,37 +446,29 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
                       );
                     },
                   ),
-                ),
 
-                Positioned(
-                  bottom: 5,
-                  left: 10,
-                  child: GestureDetector(
+                  Container(height: 8,),
+
+                  GestureDetector(
                     child: Container(
-                      width: (widget.width - 3 * widget.width/5 - widget.width/6)/2 - 20,
-                      height: 50,
+                      height: 30,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
                         border: Border.all(
-                            color: Colors.black,
-                            width: 1
-                        ),
+                          width: 1,
+                          color: Colors.redAccent
+                        )
                       ),
                       alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15,bottom: 15,left: 5,right: 5),
-                        child: AutoSizeText(
-                          'Cấu hình',
-                          style: TextStyle(
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
+                      child: Text(
+                        'Cấu hình khu vực',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.redAccent,
+                            fontFamily: 'roboto'
                         ),
                       ),
                     ),
-
                     onTap: () {
                       showDialog(
                           context: context,
@@ -496,37 +481,25 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
                       );
                     },
                   ),
-                ),
 
-                Positioned(
-                  top: 5,
-                  right: 0,
-                  child: GestureDetector(
+                  Container(height: 8,),
+
+                  GestureDetector(
                     child: Container(
-                      width: (widget.width - 3 * widget.width/5 - widget.width/6)/2 - 20,
-                      height: 50,
+                      height: 30,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: Colors.redAccent,
-                            width: 1
-                        ),
+                          color: Colors.redAccent,
                       ),
                       alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15,bottom: 15,left: 5,right: 5),
-                        child: AutoSizeText(
-                          'Trừ tiền',
-                          style: TextStyle(
-                              fontFamily: 'arial',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.redAccent,
-                              fontSize: 100
-                          ),
+                      child: Text(
+                        'Trừ tiền khu vực',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontFamily: 'roboto'
                         ),
                       ),
                     ),
-
                     onTap: () {
                       showDialog (
                         context: context,
@@ -757,8 +730,10 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
                       );
                     },
                   ),
-                ),
-              ],
+
+                  Container(height: 15,),
+                ],
+              ),
             ),
           ),
         ],

@@ -50,7 +50,7 @@ class _HienthidanhmucdoanState extends State<Hienthidanhmucsanpham> {
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
-          return Itemdanhmucsanpham(width: widget.width, foodDirectory: list[index]);
+          return Itemdanhmucsanpham(width: widget.width, foodDirectory: list[index],  color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
         },
       ),
     );

@@ -2,7 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20khu%20v%E1%BB%B1c%20v%C3%A0%20t%C3%A0i%20kho%E1%BA%A3n%20admin/Area.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20khu%20v%E1%BB%B1c%20v%C3%A0%20t%C3%A0i%20kho%E1%BA%A3n%20admin/T%C3%A0i%20kho%E1%BA%A3n%20admin%20khu%20v%E1%BB%B1c/S%E1%BB%ADa%20t%C3%A0i%20kho%E1%BA%A3n%20Admin.dart';
 import 'package:xekomanagermain/dataClass/adminaccount.dart';
+
+import '../../../utils/utils.dart';
 
 class ITEMadminaccount extends StatefulWidget {
   final double width;
@@ -31,6 +34,17 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
     });
   }
 
+  Future<void> deleteAccount(String id) async {
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('ADMINaccount/' + id).remove();
+      toastMessage('xóa thành công');
+    } catch (error) {
+      toastMessage('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,7 +62,7 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
     }
     return Container(
       width: widget.width,
-      height: 120,
+      height: 90,
       decoration: BoxDecoration(
         color: widget.color,
         border: Border(
@@ -63,16 +77,31 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
         scrollDirection: Axis.horizontal,
         children: [
           Container(
-            width: widget.width/6 - 1,
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
-                statusText,
-                style: TextStyle(
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
-                    color: statusColor,
-                    fontSize: 100
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: Container(
+                height: 32,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                        width: 1,
+                        color: statusColor
+                    )
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: AutoSizeText(
+                    statusText,
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.normal,
+                        color: statusColor,
+                        fontSize: 100
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -81,21 +110,27 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 240, 240, 240)
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
           Container(
-            width: widget.width/5-1,
-            child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30, right: 10),
-              child: AutoSizeText(
-                widget.adminAccount.username,
-                style: TextStyle(
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 100
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    widget.adminAccount.username,
+                    style: TextStyle(
+                        fontFamily: 'roboto',
+                        fontWeight: FontWeight.normal,
+                        color: Colors.purple,
+                        fontSize: 16
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -104,21 +139,27 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 240, 240, 240)
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
           Container(
-            width: widget.width/5-1,
-            child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
-                widget.adminAccount.password,
-                style: TextStyle(
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 100
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    widget.adminAccount.password,
+                    style: TextStyle(
+                        fontFamily: 'roboto',
+                        fontWeight: FontWeight.normal,
+                        color: Colors.purple,
+                        fontSize: 16
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -127,21 +168,27 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 240, 240, 240)
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
 
           Container(
-            width: widget.width/5-1,
-            child:Padding(
-              padding: EdgeInsets.only(top: 50,bottom: 50, left: 30),
-              child: AutoSizeText(
-                (widget.adminAccount.permission == 2) ? area.name : 'Admin toàn hệ thống',
-                style: TextStyle(
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 100
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: Container(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    widget.adminAccount.provinceCode == '0' ? 'Admin cao nhất' : area.name,
+                    style: TextStyle(
+                        fontFamily: 'roboto',
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontSize: 16
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -150,7 +197,117 @@ class _ITEMadminaccountState extends State<ITEMadminaccount> {
           Container(
             width: 1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 240, 240, 240)
+                color: Color.fromARGB(255, 225, 225, 226)
+            ),
+          ),
+
+          Container(
+            width: (widget.width-20)/5 - 1,
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10,),
+              child: Container(
+                child: ListView(
+                  children: [
+                    Container(
+                      height: 15,
+                    ),
+
+                    GestureDetector(
+                      child: Container(
+                        height: 30,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        child: Text(
+                          'Cập nhật',
+                          style: TextStyle(
+                              fontFamily: 'roboto',
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SuaTKadmin(adminAccount: widget.adminAccount);
+                            }
+                        );
+                      },
+                    ),
+
+                    Container(
+                      height: 8,
+                    ),
+
+                    GestureDetector(
+                      child: Container(
+                        height: 30,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(0),
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.redAccent
+                          )
+                        ),
+                        child: Text(
+                          'Xóa tài khoản',
+                          style: TextStyle(
+                              fontFamily: 'roboto',
+                              fontSize: 13,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.normal
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Bạn có chắc chắn xóa'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Hủy'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+
+                                  TextButton(
+                                    child: Text('Đồng ý'),
+                                    onPressed: () async {
+                                      await deleteAccount(widget.adminAccount.username);
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                        );
+                      },
+                    ),
+
+                    Container(
+                      height: 8,
+                    ),
+                  ],
+                )
+              ),
+            ),
+          ),
+
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
             ),
           ),
         ],

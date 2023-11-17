@@ -539,7 +539,7 @@ class ITEMshop extends StatelessWidget {
                                           child: AutoSizeText(
                                             '+ Thêm danh mục món ăn',
                                             style: TextStyle(
-                                                fontFamily: 'arial',
+                                                fontFamily: 'roboto',
                                                 fontSize: 100,
                                                 color: Colors.white
                                             ),
@@ -567,9 +567,13 @@ class ITEMshop extends StatelessWidget {
                                             left: 0,
                                             child: Container(
                                               width: width - 20,
-                                              height: height/3*2,
+                                              height: 50,
                                               decoration: BoxDecoration(
-                                                  color:  Color.fromARGB(255, 240, 242, 245)
+                                                  color: Color.fromARGB(255, 247, 250, 255),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: Color.fromARGB(255, 225, 225, 226)
+                                                  )
                                               ),
                                               child: ListView(
                                                 scrollDirection: Axis.horizontal,
@@ -579,11 +583,11 @@ class ITEMshop extends StatelessWidget {
                                                     width: (width - 20)/4 - 1,
                                                     alignment: Alignment.center,
                                                     child : Padding(
-                                                      padding: EdgeInsets.only(top: (height/3*2)/3,bottom: (height/3*2)/3),
+                                                      padding: EdgeInsets.only(top: 15,bottom: 15),
                                                       child: AutoSizeText(
                                                         'ID danh mục',
                                                         style: TextStyle(
-                                                            fontFamily: 'arial',
+                                                            fontFamily: 'roboto',
                                                             color: Colors.black,
                                                             fontSize: 100
                                                         ),
@@ -594,7 +598,7 @@ class ITEMshop extends StatelessWidget {
                                                   Container(
                                                     width: 1,
                                                     decoration: BoxDecoration(
-                                                        color: Colors.black
+                                                        color: Color.fromARGB(255, 225, 225, 226)
                                                     ),
                                                   ),
 
@@ -602,11 +606,11 @@ class ITEMshop extends StatelessWidget {
                                                     width: (width - 20)/4 - 1,
                                                     alignment: Alignment.center,
                                                     child : Padding(
-                                                      padding: EdgeInsets.only(top: (height/3*2)/3,bottom: (height/3*2)/3),
+                                                      padding: EdgeInsets.only(top: 15,bottom: 15),
                                                       child: AutoSizeText(
                                                         'Tên danh mục',
                                                         style: TextStyle(
-                                                            fontFamily: 'arial',
+                                                            fontFamily: 'roboto',
                                                             color: Colors.black,
                                                             fontSize: 100
                                                         ),
@@ -617,7 +621,7 @@ class ITEMshop extends StatelessWidget {
                                                   Container(
                                                     width: 1,
                                                     decoration: BoxDecoration(
-                                                        color: Colors.black
+                                                        color: Color.fromARGB(255, 225, 225, 226)
                                                     ),
                                                   ),
 
@@ -625,11 +629,11 @@ class ITEMshop extends StatelessWidget {
                                                     width: (width - 20)/4 - 1,
                                                     alignment: Alignment.center,
                                                     child : Padding(
-                                                      padding: EdgeInsets.only(top: (height/3*2)/3,bottom: (height/3*2)/3),
+                                                      padding: EdgeInsets.only(top: 15,bottom: 15),
                                                       child: AutoSizeText(
                                                         'Sô lượng món ăn',
                                                         style: TextStyle(
-                                                            fontFamily: 'arial',
+                                                            fontFamily: 'roboto',
                                                             color: Colors.black,
                                                             fontSize: 100
                                                         ),
@@ -640,7 +644,7 @@ class ITEMshop extends StatelessWidget {
                                                   Container(
                                                     width: 1,
                                                     decoration: BoxDecoration(
-                                                        color: Colors.black
+                                                        color: Color.fromARGB(255, 225, 225, 226)
                                                     ),
                                                   ),
 
@@ -648,11 +652,11 @@ class ITEMshop extends StatelessWidget {
                                                     width: (width - 20)/4 - 1,
                                                     alignment: Alignment.center,
                                                     child : Padding(
-                                                      padding: EdgeInsets.only(top: (height/3*2)/3,bottom: (height/3*2)/3),
+                                                      padding: EdgeInsets.only(top: 15,bottom: 15),
                                                       child: AutoSizeText(
                                                         'Thao tác',
                                                         style: TextStyle(
-                                                            fontFamily: 'arial',
+                                                            fontFamily: 'roboto',
                                                             color: Colors.black,
                                                             fontSize: 100
                                                         ),
@@ -664,12 +668,12 @@ class ITEMshop extends StatelessWidget {
                                             ),
                                           ),
                                           Positioned(
-                                            top: height/3*2 + 2,
+                                            top: 50,
                                             left: 0,
                                             child: Container(
                                               width: width - 20,
-                                              height: height * 5 - height/3*2,
-                                              child: Hienthidanhmucdoan(width: width - 20, height: height * 5 - (height/3*2), idShop: shop.id,),
+                                              height: height * 5 - 60,
+                                              child: Hienthidanhmucdoan(width: width - 20, height: height * 5 - 60, idShop: shop.id,),
                                             ),
                                           )
                                         ],
