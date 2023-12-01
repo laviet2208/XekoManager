@@ -4,6 +4,7 @@ import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20banner/Qu%E1%BA%A3n%20l%C3%BD%20banner%20facebook.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20banner/Quanlybanner.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20t%C3%A0i%20x%E1%BA%BF/Danh%20s%C3%A1ch.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20t%C3%A0i%20x%E1%BA%BF/L%E1%BB%8Bch%20s%E1%BB%AD%20n%E1%BA%A1p%20r%C3%BAt%20t%C3%A0i%20x%E1%BA%BF/Danh%20s%C3%A1ch.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20y%C3%AAu%20c%E1%BA%A7u%20t%C3%A0i%20x%E1%BA%BF/Danh%20s%C3%A1ch%20y%C3%AAu%20c%E1%BA%A7u.dart';
 import 'package:xekomanagermain/dataClass/FinalClass.dart';
 import 'package:xekomanagermain/dataClass/provinceManager.dart';
@@ -74,7 +75,11 @@ class _SCREENmainState extends State<SCREENmain> {
       return Danhsachkhachhang(width: width, height: height);
     }
 
-    if (init == 13  ) {
+    if (init == 12) {
+      return Danhsachnapruttaixe(width: width, height: height);
+    }
+
+    if (init == 13) {
       return Danhsachyeucaurut(width: width, height: height);
     }
 
@@ -443,7 +448,6 @@ class _SCREENmainState extends State<SCREENmain> {
                                   },
                                 ),
 
-
                                 Container(
                                   height: 1,
                                   decoration: BoxDecoration(
@@ -719,7 +723,7 @@ class _SCREENmainState extends State<SCREENmain> {
                                                 width: screenWidth/9 - 20,
                                                 height: screenHeight/16 - 44,
                                                 child: AutoSizeText(
-                                                  'Rút tiền',
+                                                  'Yêu cầu rút tiền',
                                                   style: TextStyle(
                                                       fontFamily: 'arial',
                                                       fontSize: 100,
@@ -735,6 +739,39 @@ class _SCREENmainState extends State<SCREENmain> {
                                       onTap: () {
                                         setState(() {
                                           selectButton = 13;
+                                        });
+                                      },
+                                    ),
+
+                                    GestureDetector(
+                                      child: Container(
+                                        height: screenHeight/16,
+                                        color: (selectButton == 12) ? Colors.red : null,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top: 22,
+                                              left: 10,
+                                              child: Container(
+                                                width: screenWidth/9 - 20,
+                                                height: screenHeight/16 - 44,
+                                                child: AutoSizeText(
+                                                  'Lịch sử nạp / rút',
+                                                  style: TextStyle(
+                                                      fontFamily: 'arial',
+                                                      fontSize: 100,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.normal
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          selectButton = 12;
                                         });
                                       },
                                     ),

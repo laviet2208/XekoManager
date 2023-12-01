@@ -331,6 +331,35 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
                       ),
                     ),
                   ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giảm tối đa : ',
+                            style: TextStyle(
+                              fontSize: widget.voucher.type == 0 ? 0 : 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.voucher.maxSale) + 'VNĐ', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: widget.voucher.type == 0 ? 0 : 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -406,6 +435,37 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
                       ),
                     ),
                   ),
+
+                  Container(height: 15,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Tối đa mỗi khách : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.voucher.perCustom.toString() + ' Lượt', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.purple,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(height: 15,),
                 ],
               ),
             ),
@@ -428,10 +488,10 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
 
                   GestureDetector(
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
                           border: Border.all(
                               width: 1,
                               color: Colors.redAccent
@@ -442,7 +502,7 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
                         'Cập nhật',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
                             color: Colors.white
                         ),
@@ -456,12 +516,12 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
                   GestureDetector(
                     child: Container(
                       width: widget.width/10,
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(0),
                           border: Border.all(
-                              color: Colors.purple,
+                              color: Colors.redAccent,
                               width: 1
                           )
                       ),
@@ -470,14 +530,38 @@ class _ITEMdanhsachState extends State<ITEMdanhsach> {
                         'Xóa voucher',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
-                            color: Colors.white
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
                     onTap: () async {
-                      await deleteProduct(widget.voucher.id);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Xác nhận xóa voucher',),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () async {
+                                  await deleteProduct(widget.voucher.id);
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Xác nhận', style: TextStyle(color: Colors.redAccent)),
+                              ),
+
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Hủy', style: TextStyle(color: Colors.black)),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
                     },
                   ),
                 ],

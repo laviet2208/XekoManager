@@ -8,9 +8,7 @@ import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 import '../../dataClass/Time.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
-import '../Quản lý khu vực và tài khoản admin/Tài khoản admin khu vực/Page tìm kiếm.dart';
-import 'DropList thể loại.dart';
-import 'ITEMinPage.dart';
+import '../Quản lý nhà hàng/ITEMinPage.dart';
 import 'Thêm cửa hàng.dart';
 
 class PageQuanlystore extends StatefulWidget {
@@ -23,13 +21,6 @@ class PageQuanlystore extends StatefulWidget {
 }
 
 class _PageQuanlyshopState extends State<PageQuanlystore> {
-  final tennhahangcontrol = TextEditingController();
-  final sdtcontrol = TextEditingController();
-  final avatarcontrol = TextEditingController();
-  final locationcontrol = TextEditingController();
-  final passcontrol = TextEditingController();
-  final startcontrol = TextEditingController();
-  final endcontrol = TextEditingController();
   final List<accountShop> shopList = [];
   List<String> items = ['Bia/Rượu','Đồ hộp','Đồ khô','Gia dụng', 'Gia vị', 'Mẹ/Bé', 'Rau củ', 'Thực phẩm', 'Trứng/sữa',];
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
@@ -38,6 +29,7 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
   List<accountShop> chosenList = [];
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
 
   TextEditingController searchController = TextEditingController();
 
@@ -51,17 +43,53 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
     });
   }
 
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < shopList.length ; i++) {
+          chosenList.add(shopList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < shopList.length ; i++) {
+          if (shopList.elementAt(i).Area == chosenArea.id) {
+            chosenList.add(shopList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
+
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area").onValue.listen((event) {
       areaList.clear();
+      areaList.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         Area area= Area.fromJson(value);
         areaList.add(area);
       });
       setState(() {
-
+        if (areaList.length != 0) {
+          chosenArea = areaList.first;
+        }
       });
     });
   }
@@ -90,10 +118,28 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
         accountShop food= accountShop.fromJson(value);
         shopList.add(food);
         chosenList.add(food);
+        sortChosenListByCreateTime(chosenList);
       });
       setState(() {
 
       });
+    });
+  }
+
+  void sortChosenListByCreateTime(List<accountShop> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
     });
   }
 
@@ -114,7 +160,7 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 10,
+            top: 20,
             left: 10,
             child: GestureDetector(
               child: Container(
@@ -189,16 +235,49 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
                   Container(
                     width: (widget.width - 20)/5 - 1,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Thời gian tạo',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                      child: Container(
+                        width: (widget.width - 20)/5 - 1 - 20,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                height: 20,
+                                width: (widget.width - 20)/5 - 1 - 20,
+                                child: AutoSizeText(
+                                  'Thời gian tạo',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'roboto',
+                                      color: Colors.black,
+                                      fontSize: 100
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_downward_outlined,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  sortChosenListByCreateTime(chosenList);
+                                  setState(() {
+
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -314,30 +393,50 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
           ),
 
           Positioned(
-            top: 175,
+            top: 130,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: widget.height - 190,
+              height: widget.height - 140,
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
                 itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return ITEMstore(width: widget.width - 20, height: 140, shop: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),
+                  return ITEMshop(width: widget.width - 20, height: 140, shop: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),
                       updateEvent: () {
                         showDialog (
                           context: context,
                           builder: (BuildContext context) {
-                            return Chinhsuashop(width: widget.width, height: widget.height, shop: chosenList[index],);
+                            return Chinhsuashop(width: widget.width, height: widget.height, shop: chosenList[index], data: 'Store',);
                           },
                         );
-                  });
+                  }, data: 'Store',);
                 },
               ),
             ),
-          )
+          ),
+
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Container(
+              width: 400,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
+              ),
+            ),
+          ),
         ],
       ),
     );

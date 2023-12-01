@@ -34,15 +34,11 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
     });
   }
 
-  Future<String?> downloadImage(String imagePath) async {
-    final ref = FirebaseStorage.instance.ref().child(imagePath);
-    try {
-      final url = await ref.getDownloadURL();
-      return url;
-    } catch (e) {
-      print('Lỗi khi tải ảnh: $e');
-      return null;
-    }
+  Future<String> _getImageURL(String imagePath) async {
+    final ref = FirebaseStorage.instance.ref().child('CCCD').child(imagePath);
+    final url = await ref.getDownloadURL();
+    print(url);
+    return url;
   }
 
   void deleteImage(String imagePath) async {
@@ -402,17 +398,17 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
 
                   GestureDetector(
                     child: Container(
-                      height: 40,
+                      height: 30,
                       decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(0),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'Chấp nhận yêu cầu',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
                             color: Colors.white
                         ),
@@ -462,19 +458,23 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
 
                   GestureDetector(
                     child: Container(
-                      height: 40,
+                      height: 30,
                       decoration: BoxDecoration(
-                          color: Colors.deepOrange,
-                          borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 1,
+                            color: Colors.redAccent
+                        ),
+                        borderRadius: BorderRadius.circular(0),
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'Từ chối yêu cầu',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
-                            color: Colors.white
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
@@ -519,10 +519,10 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
 
                   GestureDetector(
                     child: Container(
-                      height: 40,
+                      height: 30,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(0),
                           border: Border.all(
                               width: 1,
                               color: Colors.redAccent
@@ -533,9 +533,9 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                         'Xem tài khoản',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
-                            color: Colors.redAccent
+                            color: Colors.white
                         ),
                       ),
                     ),
@@ -546,8 +546,8 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                           return AlertDialog(
                             title: Text('Xem thông tin tài khoản gửi đơn'),
                             content: Container(
-                              width: widget.width * (1/3), // Đặt kích thước chiều rộng theo ý muốn
-                              height: widget.height * 3, // Đặt kích thước chiều cao theo ý muốn
+                              width: 500, // Đặt kích thước chiều rộng theo ý muốn
+                              height: widget.height * 5.5, // Đặt kích thước chiều cao theo ý muốn
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
@@ -791,101 +791,296 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                       )
                                   ),
 
+                                  Container(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                    child: Container(
+                                      height: 180,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Positioned(
+                                            top: 0,
+                                            left: 30,
+                                            child: Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey
+                                                ),
+                                              ),
+                                              child: FutureBuilder(
+                                                future: _getImageURL(widget.request.owner.id + '_T.png'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  }
+
+                                                  if (snapshot.hasError) {
+                                                    print(widget.request.id + '_T.png');
+                                                    return Text('Error: ${snapshot.error}');
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Image not found');
+                                                  }
+
+                                                  return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 30,
+                                            child: Container(
+                                              width: 150,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Mặt sau CCCD',
+                                                style: TextStyle(
+                                                    fontFamily: 'roboto',
+                                                    fontSize: 14,
+                                                    color: Colors.redAccent
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 30,
+                                            child: Container(
+                                              width: 150,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Mặt trước CCCD',
+                                                style: TextStyle(
+                                                    fontFamily: 'roboto',
+                                                    fontSize: 14,
+                                                    color: Colors.redAccent
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            top: 0,
+                                            right: 30,
+                                            child: Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey
+                                                ),
+                                              ),
+                                              child: FutureBuilder(
+                                                future: _getImageURL(widget.request.owner.id + '_S.png'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  }
+
+                                                  if (snapshot.hasError) {
+                                                    print(widget.request.id + '_T.png');
+                                                    return Text('Error: ${snapshot.error}');
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Image not found');
+                                                  }
+
+                                                  return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
 
                                   Container(
                                     height: 20,
                                   ),
 
                                   Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Căn cước công dân *',
-                                      style: TextStyle(
-                                          fontFamily: 'roboto',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
                                     padding: EdgeInsets.only(left: 10, right: 10),
                                     child: Container(
-                                      height: 45,
+                                      height: 180,
                                       child: Stack(
                                         children: <Widget>[
                                           Positioned(
                                             top: 0,
-                                            left: 0,
-                                            child: GestureDetector(
-                                              child: Container(
-                                                width: (widget.width * (1/3) - 40)/2,
-                                                height: 45,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.redAccent,
-                                                    borderRadius: BorderRadius.circular(10)
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Mặt trước CCCD',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.white,
-                                                      fontFamily: 'roboto'
-                                                  ),
+                                            left: 30,
+                                            child: Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey
                                                 ),
                                               ),
-                                                onTap: () async {
-                                                  final imageUrl = await downloadImage('CCCD/' + widget.request.owner.id + '_T.png');
-                                                  if (imageUrl != null) {
-                                                    // Mở ảnh trong một tab web khác
-                                                    if (await canLaunch(imageUrl)) {
-                                                      await launch(imageUrl);
-                                                    } else {
-                                                      toastMessage('Không thể mở ảnh: $imageUrl');
-                                                    }
+                                              child: FutureBuilder(
+                                                future: _getImageURL(widget.request.owner.id + '_LT.png'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
                                                   }
+
+                                                  if (snapshot.hasError) {
+                                                    print(widget.request.id + '_T.png');
+                                                    return Text('Error: ${snapshot.error}');
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Image not found');
+                                                  }
+
+                                                  return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
                                                 },
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 30,
+                                            child: Container(
+                                              width: 150,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Mặt sau Giấy phép',
+                                                style: TextStyle(
+                                                    fontFamily: 'roboto',
+                                                    fontSize: 14,
+                                                    color: Colors.redAccent
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 30,
+                                            child: Container(
+                                              width: 150,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Mặt trước Giấy phép',
+                                                style: TextStyle(
+                                                    fontFamily: 'roboto',
+                                                    fontSize: 14,
+                                                    color: Colors.redAccent
+                                                ),
+                                              ),
                                             ),
                                           ),
 
                                           Positioned(
                                             top: 0,
-                                            right: 0,
-                                            child: GestureDetector(
-                                              child: Container(
-                                                width: (widget.width * (1/3) - 40)/2,
-                                                height: 45,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.redAccent,
-                                                    borderRadius: BorderRadius.circular(10)
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Mặt sau CCCD',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.white,
-                                                      fontFamily: 'roboto'
-                                                  ),
+                                            right: 30,
+                                            child: Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey
                                                 ),
                                               ),
-                                              onTap: () async {
-                                                final imageUrl = await downloadImage('CCCD/' + widget.request.owner.id + '_S.png');
-                                                if (imageUrl != null) {
-                                                  // Mở ảnh trong một tab web khác
-                                                  if (await canLaunch(imageUrl)) {
-                                                    await launch(imageUrl);
-                                                  } else {
-                                                    toastMessage('Không thể mở ảnh: $imageUrl');
+                                              child: FutureBuilder(
+                                                future: _getImageURL(widget.request.owner.id + '_LS.png'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
                                                   }
-                                                }
-                                              },
+
+                                                  if (snapshot.hasError) {
+                                                    print(widget.request.id + '_T.png');
+                                                    return Text('Error: ${snapshot.error}');
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Image not found');
+                                                  }
+
+                                                  return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                    child: Container(
+                                      height: 180,
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Positioned(
+                                            top: 0,
+                                            left: 175,
+                                            child: Container(
+                                              width: 150,
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.grey
+                                                ),
+                                              ),
+                                              child: FutureBuilder(
+                                                future: _getImageURL(widget.request.owner.id + '_Ava.png'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  }
+
+                                                  if (snapshot.hasError) {
+                                                    print(widget.request.id + '_T.png');
+                                                    return Text('Error: ${snapshot.error}');
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Image not found');
+                                                  }
+
+                                                  return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
+                                                },
+                                              ),
+                                            ),
+                                          ),
+
+                                          Positioned(
+                                            bottom: 0,
+                                            left: 175,
+                                            child: Container(
+                                              width: 150,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Ảnh chân dung',
+                                                style: TextStyle(
+                                                    fontFamily: 'roboto',
+                                                    fontSize: 14,
+                                                    color: Colors.redAccent
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],

@@ -144,6 +144,47 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
+                                  text: 'Cập nhật ngày : ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'roboto',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: widget.directory.createTime.day.toString() + '/' + widget.directory.createTime.month.toString() + '/' + widget.directory.createTime.year.toString() + ' , ' + widget.directory.createTime.hour.toString() + ':' + widget.directory.createTime.minute.toString(),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'roboto',
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Container(height: 10,),
+
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
                                   text: 'Tên khu vực : ',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -173,6 +214,8 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
                         ],
                       ),
                     ),
+
+                    Container(height: 10,),
                   ],
                 )
             ),
@@ -268,10 +311,10 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
 
                   GestureDetector(
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
                           border: Border.all(
                               width: 1,
                               color: Colors.redAccent
@@ -295,10 +338,10 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
 
                   GestureDetector(
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
                           border: Border.all(
                               color: Colors.redAccent,
                               width: 1

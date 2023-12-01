@@ -33,6 +33,8 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
       final dynamic orders = event.snapshot.value;
       Area a = Area.fromJson(orders);
       area.name = a.name;
+      area.money = a.money;
+      area.id = a.id;
       setState(() {
 
       });
@@ -47,6 +49,20 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
         loading = false;
       });
       toastMessage('Nạp tiền thành công');
+    } catch (error) {
+      print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
+  }
+
+  Future<void> pushDataAdmin(String id, double money) async {
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('Area/' + id).child('money').set(money);
+      setState(() {
+        loading = false;
+      });
+      toastMessage('Đã trừ tiền admin thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
       throw error;
@@ -77,6 +93,31 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
       throw error;
     }
+  }
+
+  GestureDetector getButton(String text, Color backgroundColor, Color borderColor, Color TextColor, double borderRadius, VoidCallback event) {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: backgroundColor,
+            border: Border.all(
+                width: 1,
+                color: borderColor
+            )
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: TextStyle(
+              fontFamily: 'roboto',
+              color: TextColor,
+              fontSize: 13
+          ),
+        ),
+      ),
+      onTap: event,
+    );
   }
 
   @override
@@ -118,36 +159,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                 padding: EdgeInsets.only(left: 10, right: 10,),
                 child: ListView(
                 children: [
-                  Container(height: 15,),
-
-                  Container(
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'ID tài khoản : ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'roboto',
-                              fontWeight: FontWeight.bold, // Để in đậm
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.account.id, // Phần còn lại viết bình thường
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal, // Để viết bình thường
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(height: 15,),
+                  Container(height: 8,),
 
                   Container(
                     child: RichText(
@@ -175,7 +187,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                     ),
                   ),
 
-                  Container(height: 15,),
+                  Container(height: 8,),
 
                   Container(
                     child: RichText(
@@ -204,6 +216,35 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
                     ),
                   ),
 
+                  Container(height: 8,),
+
+                  Container(
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Số dư : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
+                          ),
+                          TextSpan(
+                            text: dataCheckManager.getStringNumber(widget.account.totalMoney)+'đ', // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   Container(height: 20,),
                 ],
               ),
@@ -223,7 +264,7 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
               padding: EdgeInsets.only(left: 10, right: 10,),
               child: ListView(
                 children: [
-                  Container(height: 15,),
+                  Container(height: 8,),
 
                   Container(
                     child: RichText(
@@ -327,85 +368,61 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: ListView(
                 children: [
-                  Container(height: 15,),
+                  Container(height: 8,),
 
                   Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Giờ khởi tạo : ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'roboto',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Giờ khởi tạo : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
                           ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: widget.account.createTime.hour.toString() + " : " + widget.account.createTime.minute.toString(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'roboto',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
+                          TextSpan(
+                            text: widget.account.createTime.hour.toString() + ":" + widget.account.createTime.minute.toString() + ":" + widget.account.createTime.second.toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
-                  Container(height: 15,),
+                  Container(height: 8,),
 
                   Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Ngày khởi tạo : ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'roboto',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Ngày : ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold, // Để in đậm
+                            ),
                           ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'roboto',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
+                          TextSpan(
+                            text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(), // Phần còn lại viết bình thường
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal, // Để viết bình thường
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
@@ -423,315 +440,502 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           ),
 
           Container(
-              width: (widget.width - 20)/6 - 1,
+            width: (widget.width - 20)/6 - 1,
             child: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: ListView(
-                children: [
-                  Container(height: 8,),
-
-                  GestureDetector(
-                    child: Container(
-                      width: ((widget.width - 20)/6 - 30)/2,
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Khóa/Mở tài khoản',
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                    onTap: () async {
+              padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0, // Khoảng cách giữa các item theo chiều ngang
+                    mainAxisSpacing: 8.0, // Khoảng cách giữa các hàng theo chiều dọc
+                    childAspectRatio: 4.2
+                ),
+                itemCount: 5, // Số lượng item trong danh sách của bạn
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 1) {
+                    return getButton('Khóa/mở', Colors.white, Colors.red, Colors.red, 0 ,() async {
                       if (widget.account.status == 1) {
                         await pushData(2);
                       } else {
                         await pushData(1);
                       }
-                    },
-                  ),
+                    },);
+                  }
+                  if (index == 3) {
+                    return getButton('Trừ tiền', Colors.red, Colors.red, Colors.white,0,
+                          () async {
+                        showDialog (
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Trừ tiền tài xế'),
+                              content: Container(
+                                width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
+                                height: 170, // Đặt kích thước chiều cao theo ý muốn
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2), // màu của shadow
+                                      spreadRadius: 5, // bán kính của shadow
+                                      blurRadius: 7, // độ mờ của shadow
+                                      offset: Offset(0, 3), // vị trí của shadow
+                                    ),
+                                  ],
+                                ),
 
-                  Container(height: 8,),
+                                child: ListView(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                    ),
 
-                  GestureDetector(
-                    child: Container(
-                      width: ((widget.width - 20)/6 - 30)/2,
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.redAccent,
-                              width: 1
-                          ),
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Nạp tiền',
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            color: Colors.redAccent
-                        ),
-                      ),
-                    ),
-                    onTap: () async {
-                      showDialog (
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Nạp tiền khu vực'),
-                            content: Container(
-                              width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
-                              height: 170, // Đặt kích thước chiều cao theo ý muốn
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2), // màu của shadow
-                                    spreadRadius: 5, // bán kính của shadow
-                                    blurRadius: 7, // độ mờ của shadow
-                                    offset: Offset(0, 3), // vị trí của shadow
-                                  ),
-                                ],
-                              ),
-
-                              child: ListView(
-                                children: [
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Số tiền cần nạp *',
-                                      style: TextStyle(
-                                          fontFamily: 'roboto',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        'Số tiền cần trừ *',
+                                        style: TextStyle(
+                                            fontFamily: 'roboto',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.redAccent
+                                        ),
                                       ),
                                     ),
-                                  ),
 
-                                  Container(
-                                    height: 10,
-                                  ),
+                                    Container(
+                                      height: 10,
+                                    ),
 
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                      child: Container(
-                                        height: 50,
-                                        alignment: Alignment.centerLeft,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.3),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0, 3),
-                                              ),
-                                            ],
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.black,
-                                            )
-                                        ),
-
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Form(
-                                            child: TextFormField(
-                                              controller: moneyControl,
-                                              style: TextStyle(
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 7,
+                                                  offset: Offset(0, 3),
+                                                ),
+                                              ],
+                                              border: Border.all(
+                                                width: 1,
                                                 color: Colors.black,
-                                                fontSize: 16,
-                                                fontFamily: 'roboto',
-                                              ),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'Số tiền cần nạp',
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey,
+                                              )
+                                          ),
+
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Form(
+                                              child: TextFormField(
+                                                controller: moneyControl,
+                                                style: TextStyle(
+                                                  color: Colors.black,
                                                   fontSize: 16,
                                                   fontFamily: 'roboto',
+                                                ),
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: 'Nhập số tiền cần trừ',
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 16,
+                                                    fontFamily: 'roboto',
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
+                                        )
+                                    ),
+
+                                    Container(
+                                      height: 10,
+                                    ),
+
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        'Nội dung trừ tiền *',
+                                        style: TextStyle(
+                                            fontFamily: 'roboto',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.redAccent
                                         ),
-                                      )
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Nội dung nạp tiền *',
-                                      style: TextStyle(
-                                          fontFamily: 'roboto',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent
                                       ),
                                     ),
-                                  ),
 
-                                  Container(
-                                    height: 10,
-                                  ),
+                                    Container(
+                                      height: 10,
+                                    ),
 
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                      child: Container(
-                                        height: 50,
-                                        alignment: Alignment.centerLeft,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.3),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0, 3),
-                                              ),
-                                            ],
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.black,
-                                            )
-                                        ),
-
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Form(
-                                            child: TextFormField(
-                                              controller: noidungcontrol,
-                                              style: TextStyle(
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                  spreadRadius: 5,
+                                                  blurRadius: 7,
+                                                  offset: Offset(0, 3),
+                                                ),
+                                              ],
+                                              border: Border.all(
+                                                width: 1,
                                                 color: Colors.black,
-                                                fontSize: 16,
-                                                fontFamily: 'roboto',
-                                              ),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'Nội dung nạp tiền',
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey,
+                                              )
+                                          ),
+
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Form(
+                                              child: TextFormField(
+                                                controller: noidungcontrol,
+                                                style: TextStyle(
+                                                  color: Colors.black,
                                                   fontSize: 16,
                                                   fontFamily: 'roboto',
+                                                ),
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: 'Nội dung trừ tiền',
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 16,
+                                                    fontFamily: 'roboto',
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                  ),
+                                        )
+                                    ),
 
-                                  Container(
-                                    height: 20,
-                                  ),
-                                ],
+                                    Container(
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Hủy'),
-                                onPressed: () {
-                                  moneyControl.clear();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: loading ? CircularProgressIndicator() : Text('Lưu'),
-                                onPressed: loading ? null : () async {
-                                  setState(() {
-                                    loading = true;
-                                  });
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Hủy'),
+                                  onPressed: () {
+                                    moneyControl.clear();
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: loading ? CircularProgressIndicator() : Text('Lưu'),
+                                  onPressed: loading ? null : () async {
+                                    setState(() {
+                                      loading = true;
+                                    });
 
-                                  if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
-                                    if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
-                                      if (int.parse(moneyControl.text.toString()) > 0) {
-                                        double newmoney = widget.account.totalMoney + double.parse(moneyControl.text.toString());
-                                        historyTransaction history = historyTransaction(
-                                            id: dataCheckManager.generateRandomString(25),
-                                            senderId: currentAccount.username,
-                                            receiverId: widget.account.id,
-                                            transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                            type: 1,
-                                            content: noidungcontrol.text.toString(),
-                                            money: double.parse(moneyControl.text.toString())
-                                        );
-                                        await pushData2(widget.account, newmoney);
-                                        await pushhistoryData(history);
-                                        moneyControl.clear();
-                                        Navigator.of(context).pop();
+                                    if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
+                                      if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
+                                        if (int.parse(moneyControl.text.toString()) > 0) {
+                                          double newmoney = widget.account.totalMoney - double.parse(moneyControl.text.toString());
+                                          double newAreaMoney = area.money + double.parse(moneyControl.text.toString());
+                                          historyTransaction history = historyTransaction(
+                                              id: dataCheckManager.generateRandomString(25),
+                                              senderId: currentAccount.username,
+                                              receiverId: widget.account.id,
+                                              transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                              type: 2,
+                                              content: noidungcontrol.text.toString(),
+                                              money: double.parse(moneyControl.text.toString()),
+                                              area: widget.account.Area,
+                                          );
+                                            await pushData2(widget.account, newmoney);
+                                            await pushhistoryData(history);
+                                            await pushDataAdmin(area.id, newAreaMoney);
+                                            moneyControl.clear();
+                                            Navigator.of(context).pop();
+                                        } else {
+                                          toastMessage('Phải nhập số lớn hơn 0');
+                                          setState(() {
+                                            loading = false;
+                                          });
+                                        }
                                       } else {
-                                        toastMessage('Phải nhập số lớn hơn 0');
+                                        toastMessage('Phải nhập đúng định dạng');
                                         setState(() {
                                           loading = false;
                                         });
                                       }
+
                                     } else {
-                                      toastMessage('Phải nhập đúng định dạng');
+                                      toastMessage('Phải nhập đủ thông tin');
                                       setState(() {
                                         loading = false;
                                       });
                                     }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+                  if (index == 2) {
+                    return getButton('Nạp tiền', Colors.white, Colors.red, Colors.red,0,
+                          () async {
+                            showDialog (
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Nạp tiền tài xế'),
+                                  content: Container(
+                                    width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
+                                    height: 170, // Đặt kích thước chiều cao theo ý muốn
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.2), // màu của shadow
+                                          spreadRadius: 5, // bán kính của shadow
+                                          blurRadius: 7, // độ mờ của shadow
+                                          offset: Offset(0, 3), // vị trí của shadow
+                                        ),
+                                      ],
+                                    ),
 
-                                  } else {
-                                    toastMessage('Phải nhập đủ thông tin');
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                  }
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
+                                    child: ListView(
+                                      children: [
+                                        Container(
+                                          height: 10,
+                                        ),
 
-                  Container(height: 8,),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            'Số tiền cần nạp *',
+                                            style: TextStyle(
+                                                fontFamily: 'roboto',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.redAccent
+                                            ),
+                                          ),
+                                        ),
 
-                  GestureDetector(
-                    child: Container(
-                      width: ((widget.width - 20)/6 - 30)/2,
-                      height: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.deepOrange,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Cập nhật thông tin',
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                    onTap: widget.onTapUpdate,
-                  ),
+                                        Container(
+                                          height: 10,
+                                        ),
 
-                  Container(height: 8,),
-                ],
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                            child: Container(
+                                              height: 50,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.3),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 7,
+                                                      offset: Offset(0, 3),
+                                                    ),
+                                                  ],
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.black,
+                                                  )
+                                              ),
+
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 10),
+                                                child: Form(
+                                                  child: TextFormField(
+                                                    controller: moneyControl,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontFamily: 'roboto',
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: 'Số tiền cần nạp',
+                                                      hintStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 16,
+                                                        fontFamily: 'roboto',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                        ),
+
+                                        Container(
+                                          height: 10,
+                                        ),
+
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            'Nội dung nạp tiền *',
+                                            style: TextStyle(
+                                                fontFamily: 'roboto',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.redAccent
+                                            ),
+                                          ),
+                                        ),
+
+                                        Container(
+                                          height: 10,
+                                        ),
+
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 10, right: 10),
+                                            child: Container(
+                                              height: 50,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey.withOpacity(0.3),
+                                                      spreadRadius: 5,
+                                                      blurRadius: 7,
+                                                      offset: Offset(0, 3),
+                                                    ),
+                                                  ],
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: Colors.black,
+                                                  )
+                                              ),
+
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 10),
+                                                child: Form(
+                                                  child: TextFormField(
+                                                    controller: noidungcontrol,
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontFamily: 'roboto',
+                                                    ),
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: 'Nội dung nạp tiền',
+                                                      hintStyle: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 16,
+                                                        fontFamily: 'roboto',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                        ),
+
+                                        Container(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Hủy'),
+                                      onPressed: () {
+                                        moneyControl.clear();
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: loading ? CircularProgressIndicator() : Text('Lưu'),
+                                      onPressed: loading ? null : () async {
+                                        setState(() {
+                                          loading = true;
+                                        });
+
+                                        if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
+                                          if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
+                                            if (int.parse(moneyControl.text.toString()) > 0) {
+                                              double newmoney = widget.account.totalMoney + double.parse(moneyControl.text.toString());
+                                              double newAreaMoney = area.money - double.parse(moneyControl.text.toString());
+                                              historyTransaction history = historyTransaction(
+                                                  id: dataCheckManager.generateRandomString(25),
+                                                  senderId: currentAccount.username,
+                                                  receiverId: widget.account.id,
+                                                  transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                                  type: 1,
+                                                  content: noidungcontrol.text.toString(),
+                                                  money: double.parse(moneyControl.text.toString()),
+                                                  area: widget.account.Area,
+                                              );
+                                              if (area.money >= double.parse(moneyControl.text.toString())) {
+                                                await pushData2(widget.account, newmoney);
+                                                await pushhistoryData(history);
+                                                await pushDataAdmin(area.id, newAreaMoney);
+                                                moneyControl.clear();
+                                                Navigator.of(context).pop();
+                                              } else {
+                                                toastMessage('Số tiền khu vực bé hơn số muốn nạp');
+                                              }
+                                            } else {
+                                              toastMessage('Phải nhập số lớn hơn 0');
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }
+                                          } else {
+                                            toastMessage('Phải nhập đúng định dạng');
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                          }
+
+                                        } else {
+                                          toastMessage('Phải nhập đủ thông tin');
+                                          setState(() {
+                                            loading = false;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                      },
+                    );
+                  }
+                  if (index == 4) {
+                    return getButton('Lịch sử GD', Colors.red, Colors.red, Colors.white,0,
+                          () async {
+
+                          },
+                    );
+                  }
+                  return getButton('Cập nhật', Colors.red, Colors.red, Colors.white,0, widget.onTapUpdate);
+                },
               ),
             ),
           ),

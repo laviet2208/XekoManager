@@ -4,14 +4,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20store/DropList%20th%E1%BB%83%20lo%E1%BA%A1i.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
+import '../../dataClass/FinalClass.dart';
 import '../../dataClass/Time.dart';
 import '../../dataClass/accountShop.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import '../Quản lý khu vực và tài khoản admin/Tài khoản admin khu vực/Page tìm kiếm.dart';
+import '../Quản lý khách hàng/accountLocation.dart';
+import '../Quản lý nhà hàng/Chọn vị trí trên map/Chọn vị trí trên map.dart';
 class Themcuahang extends StatefulWidget {
   final double width;
   final double height;
@@ -30,21 +34,37 @@ class _ThemcuahangState extends State<Themcuahang> {
   final endcontrol = TextEditingController();
   Uint8List? registrationImage;
   int selectIndex = 0;
+  TimeOfDay selectedTime = TimeOfDay.now();
   String Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
   bool loading = false;
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
+  accountLocation location = accountLocation(phoneNum: '', LocationID: '', Latitude: 0, Longitude: 0, firstText: '', secondaryText: '');
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   Future<Uint8List?> galleryImagePicker() async {
-    ImagePicker picker = ImagePicker();
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    return bytesFromPicker;
+  }
 
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
+  Future<void> _selectTime(BuildContext context, int type) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
     );
 
-    if (file != null) return await file.readAsBytes();
-    return null;
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        if (type == 1) {
+          startcontrol.text =
+          '${selectedTime.hour}:${selectedTime.minute}:00';
+        } else {
+          endcontrol.text =
+          '${selectedTime.hour}:${selectedTime.minute}:00';
+        }
+
+      });
+    }
   }
 
   void getData1() {
@@ -270,10 +290,6 @@ class _ThemcuahangState extends State<Themcuahang> {
               height: 20,
             ),
 
-            Container(
-              height: 20,
-            ),
-
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
@@ -293,49 +309,7 @@ class _ThemcuahangState extends State<Themcuahang> {
 
             Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  height: 50,
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.black,
-                      )
-                  ),
-
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Form(
-                      child: TextFormField(
-                        controller: locationcontrol,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'arial',
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Định dạng vị trí : "Vĩ độ,Kinh độ"',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                child: PickLocationInMap(location: location, width: widget.width-20)
             ),
 
             Container(
@@ -461,13 +435,19 @@ class _ThemcuahangState extends State<Themcuahang> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ mở cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'Nhập giờ mở cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,1);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -529,13 +509,19 @@ class _ThemcuahangState extends State<Themcuahang> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ đóng cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'Nhập giờ đóng cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,2);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -578,7 +564,7 @@ class _ThemcuahangState extends State<Themcuahang> {
                 'Chọn khu vực quản lý *',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontSize: 14,
+                    fontSize: currentAccount.provinceCode == '0' ? 14 : 0,
                     fontWeight: FontWeight.bold,
                     color: Colors.redAccent
                 ),
@@ -586,20 +572,20 @@ class _ThemcuahangState extends State<Themcuahang> {
             ),
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
 
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: Container(
-                height: 150,
+                height: currentAccount.provinceCode == '0' ? 150 : 0,
                 child: searchPageArea(list: areaList, area: area,),
               ),
             ),
 
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
 
             Padding(
@@ -679,7 +665,7 @@ class _ThemcuahangState extends State<Themcuahang> {
             });
 
             if (tennhahangcontrol.text.isNotEmpty && passcontrol.text.isNotEmpty && startcontrol.text.isNotEmpty && area.id != ''
-                && endcontrol.text.isNotEmpty && locationcontrol.text.isNotEmpty && sdtcontrol.text.isNotEmpty) {
+                && endcontrol.text.isNotEmpty && location.Latitude != 0 && location.Longitude != 0 && sdtcontrol.text.isNotEmpty) {
               accountShop shop = accountShop(
                   openTime: Time(second: dataCheckManager.extractYear(startcontrol.text.toString()), minute: dataCheckManager.extractMonth(startcontrol.text.toString()), hour: dataCheckManager.extractDay(startcontrol.text.toString()), day: 0, month: 0, year: 0),
                   closeTime: Time(second: dataCheckManager.extractYear(endcontrol.text.toString()), minute: dataCheckManager.extractMonth(endcontrol.text.toString()), hour: dataCheckManager.extractDay(endcontrol.text.toString()), day: 0, month: 0, year: 0),
@@ -693,7 +679,7 @@ class _ThemcuahangState extends State<Themcuahang> {
                   password: passcontrol.text.toString(),
                   isTop: 1,
                   Type: selectIndex, ListDirectory: [],
-                  Area: area.id);
+                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode);
 
               if (registrationImage != null) {
                 await uploadImageToFirebaseStorage(registrationImage!, shop.id);

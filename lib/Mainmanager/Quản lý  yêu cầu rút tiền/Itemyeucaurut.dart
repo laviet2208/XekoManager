@@ -1,6 +1,10 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20kh%C3%A1ch%20h%C3%A0ng/accountNormal.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
+import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
+import '../../dataClass/Lịch sử giao dịch.dart';
+import '../../dataClass/Time.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'yeucauruttien.dart';
@@ -43,6 +47,20 @@ class _ITEMdontaixeState extends State<ITEMdonrut> {
 
       });
     });
+  }
+
+  Future<void> pushhistoryData(historyTransaction history) async {
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('historyTransaction').child(history.id).set(history.toJson());
+      setState(() {
+
+      });
+      toastMessage('Thêm lịch sử thành công');
+    } catch (error) {
+      print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
   }
 
   @override
@@ -409,6 +427,16 @@ class _ITEMdontaixeState extends State<ITEMdonrut> {
                                   if (money >= widget.request.sotien) {
                                     await pushData(money - widget.request.sotien);
                                     await deleteRequest(widget.request.id);
+                                    historyTransaction history = historyTransaction(
+                                      id: dataCheckManager.generateRandomString(25),
+                                      senderId: currentAccount.username,
+                                      receiverId: widget.request.owner.phoneNum,
+                                      transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                      type: 2,
+                                      content: 'Rút tiền theo yêu cầu tài xế',
+                                      money: widget.request.sotien,
+                                      area: area.id,
+                                    );
                                     Navigator.of(context).pop();
                                   } else {
                                     toastMessage('Số dư hiện tại không đủ để rút');

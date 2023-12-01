@@ -4,6 +4,7 @@ import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A1n%20giao%20h%C3%A0ng/Data/T%C3%ADnh%20kho%E1%BA%A3ng%20c%C3%A1ch.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
+import '../../dataClass/Time.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'Xem log đơn hàng.dart';
@@ -21,10 +22,28 @@ class Itemdanhsach extends StatefulWidget {
 
 class _ItemdanhsachState extends State<Itemdanhsach> {
   final Area area = Area(id: '', name: '', money: 0, status: 0);
-  Future<void> changeStatus(String status) async {
-    final reference = FirebaseDatabase.instance.reference();
-    await reference.child("Order/foodOrder/" + widget.order.id + "/status").set(status);
+
+  Time getCurrentTime() {
+    DateTime now = DateTime.now();
+
+    Time currentTime = Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0);
+    currentTime.second = now.second;
+    currentTime.minute = now.minute;
+    currentTime.hour = now.hour;
+    currentTime.day = now.day;
+    currentTime.month = now.month;
+    currentTime.year = now.year;
+
+    return currentTime;
   }
+
+  Future<void> changeStatus(String status) async {
+    DatabaseReference reference = FirebaseDatabase.instance.reference();
+    await reference.child("Order/foodOrder/" + widget.order.id + "/status").set(status);
+    reference = FirebaseDatabase.instance.reference();
+    await reference.child('Order/foodOrder/' + widget.order.id + "/S5time").set(getCurrentTime().toJson());
+  }
+
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area/" + widget.order.owner.Area).onValue.listen((event) {
@@ -144,7 +163,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Khoảng cách chim bay: ',
+                            text: 'Khoảng cách : ',
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'roboto',
@@ -651,7 +670,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text: widget.order.startTime.hour.toString() + ':' + widget.order.startTime.minute.toString(),
+                                text: widget.order.S1time.hour.toString() + ':' + widget.order.S1time.minute.toString(),
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'roboto',
@@ -691,7 +710,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Ngày ' + widget.order.startTime.day.toString() + '/' + widget.order.startTime.month.toString() + '/' + widget.order.startTime.year.toString(),
+                                text: 'Ngày ' + widget.order.S1time.day.toString() + '/' + widget.order.S1time.month.toString() + '/' + widget.order.S1time.year.toString(),
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'roboto',

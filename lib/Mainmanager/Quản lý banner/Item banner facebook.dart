@@ -27,6 +27,31 @@ class ITEMbannerFacebook extends StatelessWidget {
     }
   }
 
+  GestureDetector getButton(String text, Color backgroundColor, Color borderColor, Color TextColor, double borderRadius, VoidCallback event) {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: backgroundColor,
+            border: Border.all(
+                width: 1,
+                color: borderColor
+            )
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: TextStyle(
+              fontFamily: 'roboto',
+              color: TextColor,
+              fontSize: 13
+          ),
+        ),
+      ),
+      onTap: event,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,148 +144,72 @@ class ITEMbannerFacebook extends StatelessWidget {
             width: (width - 20)/4 - 100,
             alignment: Alignment.center,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10,top: 15),
-                child: ListView(
-                  children: [
-                    GestureDetector(
-                      child: Container(
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Cập nhật',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white,
-                            fontFamily: 'roboto',
-                          ),
-                        ),
-                      ),
-                      onTap: updateEvent,
+                padding: EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8.0, // Khoảng cách giữa các item theo chiều ngang
+                        mainAxisSpacing: 8.0, // Khoảng cách giữa các hàng theo chiều dọc
+                        childAspectRatio: 4
                     ),
-
-                    Container(height: 8,),
-
-                    GestureDetector(
-                      child: Container(
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.redAccent
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Xóa banner',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.redAccent,
-                            fontFamily: 'roboto',
-                          ),
-                        ),
-                      ),
-                      onTap: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Xác nhận xóa'),
-                              content: Text('Bạn có chắc chắn xóa banner không.'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'Hủy',
-                                    style: TextStyle(color: Colors.black),
+                    itemCount: 4,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 1) {
+                        return getButton('Xóa', Colors.white, Colors.redAccent, Colors.redAccent, 0, () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Xác nhận xóa'),
+                                content: Text('Bạn có chắc chắn xóa banner không.'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Hủy',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    await deleteProduct(adStype2.id);
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'Đồng ý',
-                                    style: TextStyle(color: Colors.red),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await deleteProduct(adStype2.id);
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Đồng ý',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                                ],
+                              );
+                            },
+                          );
 
-                      },
-                    ),
-
-                    Container(height: 8,),
-
-                    GestureDetector(
-                      child: Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: Colors.deepOrange,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Xem ảnh sự kiện',
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'roboto',
-                                fontSize: 13,
-                                color: Colors.white
-                            ),
-                          )
-                      ),
-                      onTap: () async {
-                        if (await canLaunch(adStype2.mainImage)) {
-                          await launch(adStype2.mainImage);
-                        } else {
-                          toastMessage('Không thể mở ảnh');
-                        }
-                      },
-                    ),
-
-                    Container(height: 8,),
-
-                    GestureDetector(
-                      child: Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Xem facebook',
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'roboto',
-                                fontSize: 13,
-                                color: Colors.white
-                            ),
-                          )
-                      ),
-                      onTap: () async {
-                        if (await canLaunch(adStype2.facebookLink)) {
-                          await launch(adStype2.facebookLink);
-                        } else {
-                          toastMessage('Không thể mở ảnh');
-                        }
-                      },
-                    ),
-
-                    Container(height: 8,),
-                  ],
-                ),
+                        });
+                      }
+                      if (index == 2) {
+                        return getButton('Xem ảnh', Colors.white, Colors.redAccent, Colors.redAccent, 0, () async {
+                          if (await canLaunch(adStype2.mainImage)) {
+                            await launch(adStype2.mainImage);
+                          } else {
+                            toastMessage('Không thể mở ảnh');
+                          }
+                        },);
+                      }
+                      if (index == 3) {
+                        return getButton('Xem FB', Colors.blue, Colors.blue, Colors.white, 0, () async {
+                          if (await canLaunch(adStype2.facebookLink)) {
+                            await launch(adStype2.facebookLink);
+                          } else {
+                            toastMessage('Không thể mở ảnh');
+                          }
+                        },);
+                      }
+                      return getButton('Cập nhật', Colors.redAccent, Colors.redAccent, Colors.white, 0, updateEvent);
+                    }
+                )
             ),
           ),
 

@@ -10,7 +10,8 @@ class Itemdanhmucmonan extends StatefulWidget {
   final double width;
   final FoodDirectory foodDirectory;
   final Color color;
-  const Itemdanhmucmonan({Key? key, required this.width, required this.foodDirectory, required this.color}) : super(key: key);
+  final String data;
+  const Itemdanhmucmonan({Key? key, required this.width, required this.foodDirectory, required this.color, required this.data}) : super(key: key);
 
   @override
   State<Itemdanhmucmonan> createState() => _ItemdanhmucmonanState();
@@ -20,7 +21,7 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
   Future<void> deleteProduct(String idshop) async {
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('FoodDirectory/' + idshop).remove();
+      await databaseRef.child(widget.data == 'Restaurant' ? 'FoodDirectory/' : 'ProductDirectory/' + idshop).remove();
       toastMessage('xóa thành công');
     } catch (error) {
       toastMessage('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -229,7 +230,7 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 3, right: 3),
                         child: AutoSizeText(
-                          'Thêm món ăn',
+                          widget.data == 'Restaurant' ? 'Thêm món ăn' : 'Thêm sản phẩm',
                           style: TextStyle(
                               fontSize: 13,
                               fontFamily: 'roboto',
@@ -244,11 +245,11 @@ class _ItemdanhmucmonanState extends State<Itemdanhmucmonan> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Add món ăn'),
+                              title: Text(widget.data == 'Restaurant' ?'Add món ăn' : 'Add sản phẩm'),
                               content: Container(
                                 height: 200,
                                 width: widget.width/2,
-                                child: searchPagefood(id: widget.foodDirectory.id, idshop: widget.foodDirectory.ownerID, idproduct: widget.foodDirectory.foodList,),
+                                child: searchPagefood(id: widget.foodDirectory.id, idshop: widget.foodDirectory.ownerID, idproduct: widget.foodDirectory.foodList, data: widget.data,),
                               ),
                             );
                           });

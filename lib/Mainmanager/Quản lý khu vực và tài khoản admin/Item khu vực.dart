@@ -79,6 +79,31 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
     });
   }
 
+  GestureDetector getButton(String text, Color backgroundColor, Color borderColor, Color TextColor, double borderRadius, VoidCallback event) {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: backgroundColor,
+            border: Border.all(
+                width: 1,
+                color: borderColor
+            )
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: TextStyle(
+              fontFamily: 'roboto',
+              color: TextColor,
+              fontSize: 13
+          ),
+        ),
+      ),
+      onTap: event,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -202,305 +227,18 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
           Container(
             width: (widget.width-20)/5 - 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 10),
-              child: ListView(
-                children: [
-                  GestureDetector(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Nạp tiền khu vực',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                          fontFamily: 'roboto'
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      showDialog (
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Nạp tiền khu vực'),
-                            content: Container(
-                              width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
-                              height: 170, // Đặt kích thước chiều cao theo ý muốn
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.2), // màu của shadow
-                                    spreadRadius: 5, // bán kính của shadow
-                                    blurRadius: 7, // độ mờ của shadow
-                                    offset: Offset(0, 3), // vị trí của shadow
-                                  ),
-                                ],
-                              ),
-
-                              child: ListView(
-                                children: [
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Số tiền cần nạp *',
-                                      style: TextStyle(
-                                          fontFamily: 'arial',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                      child: Container(
-                                        height: 50,
-                                        alignment: Alignment.centerLeft,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.3),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0, 3),
-                                              ),
-                                            ],
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.black,
-                                            )
-                                        ),
-
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Form(
-                                            child: TextFormField(
-                                              controller: moneyControl,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontFamily: 'arial',
-                                              ),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'Số tiền cần nạp',
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 16,
-                                                  fontFamily: 'arial',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      'Nội dung nạp tiền *',
-                                      style: TextStyle(
-                                          fontFamily: 'arial',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.redAccent
-                                      ),
-                                    ),
-                                  ),
-
-                                  Container(
-                                    height: 10,
-                                  ),
-
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10, right: 10),
-                                      child: Container(
-                                        height: 50,
-                                        alignment: Alignment.centerLeft,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.withOpacity(0.3),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0, 3),
-                                              ),
-                                            ],
-                                            border: Border.all(
-                                              width: 1,
-                                              color: Colors.black,
-                                            )
-                                        ),
-
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Form(
-                                            child: TextFormField(
-                                              controller: noidungcontrol,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontFamily: 'arial',
-                                              ),
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: 'Nội dung nạp tiền',
-                                                hintStyle: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 16,
-                                                  fontFamily: 'arial',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                  ),
-
-                                  Container(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Hủy'),
-                                onPressed: () {
-                                  moneyControl.clear();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: loading ? CircularProgressIndicator() : Text('Lưu'),
-                                onPressed: loading ? null : () async {
-                                  setState(() {
-                                    loading = true;
-                                  });
-
-                                  if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
-                                    if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
-                                      if (int.parse(moneyControl.text.toString()) > 0) {
-                                        double newmoney = widget.area.money + double.parse(moneyControl.text.toString());
-                                        historyTransaction history = historyTransaction(
-                                            id: dataCheckManager.generateRandomString(25),
-                                            senderId: currentAccount.username,
-                                            receiverId: widget.area.id,
-                                            transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                            type: 3,
-                                            content: noidungcontrol.text.toString(),
-                                            money: double.parse(moneyControl.text.toString())
-                                        );
-                                        await pushhistoryData(history);
-                                        await pushData(widget.area, newmoney);
-                                        moneyControl.clear();
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        toastMessage('Phải nhập số lớn hơn 0');
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                      }
-                                    } else {
-                                      toastMessage('Phải nhập đúng định dạng');
-                                      setState(() {
-                                        loading = false;
-                                      });
-                                    }
-
-                                  } else {
-                                    toastMessage('Phải nhập đủ thông tin');
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                  }
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-
-                  Container(height: 8,),
-
-                  GestureDetector(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.redAccent
-                        )
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Cấu hình khu vực',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.redAccent,
-                            fontFamily: 'roboto'
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Xem cấu hình khu vực'),
-                              content: Danhsachcauhinh(width: widget.width, height: 450, id: widget.area.id),
-                            );
-                          }
-                      );
-                    },
-                  ),
-
-                  Container(height: 8,),
-
-                  GestureDetector(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Trừ tiền khu vực',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white,
-                            fontFamily: 'roboto'
-                        ),
-                      ),
-                    ),
-                    onTap: () {
+              padding: EdgeInsets.only(top: 8, left: 15, right: 15, bottom: 10),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                    childAspectRatio: 5.5
+                ),
+                itemCount: 3, // Số lượng item trong danh sách của bạn
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 1) {
+                    return getButton('Trừ tiền', Colors.white, Colors.redAccent, Colors.redAccent, 0 ,() async {
                       showDialog (
                         context: context,
                         builder: (BuildContext context) {
@@ -687,13 +425,14 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
                                         if (double.parse(moneyControl.text.toString()) <= widget.area.money) {
                                           double newmoney = widget.area.money - double.parse(moneyControl.text.toString());
                                           historyTransaction history = historyTransaction(
-                                              id: dataCheckManager.generateRandomString(25),
-                                              senderId: currentAccount.username,
-                                              receiverId: widget.area.id,
-                                              transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
-                                              type: 4,
-                                              content: noidungcontrol.text.toString(),
-                                              money: double.parse(moneyControl.text.toString())
+                                            id: dataCheckManager.generateRandomString(25),
+                                            senderId: currentAccount.username,
+                                            receiverId: widget.area.id,
+                                            transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                            type: 4,
+                                            content: noidungcontrol.text.toString(),
+                                            money: double.parse(moneyControl.text.toString()),
+                                            area: '',
                                           );
                                           await pushhistoryData(history);
                                           await pushData(widget.area, newmoney);
@@ -728,11 +467,250 @@ class _ItemkhuvucState extends State<Itemkhuvuc> {
                           );
                         },
                       );
-                    },
-                  ),
+                    },);
+                  }
+                  if (index == 2) {
+                    return getButton('Cấu hình', Colors.white, Colors.redAccent, Colors.redAccent,0,
+                          () async {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Xem cấu hình khu vực'),
+                                    content: Danhsachcauhinh(width: widget.width, height: 450, id: widget.area.id),
+                                  );
+                                }
+                            );
+                          },
+                    );
+                  }
 
-                  Container(height: 15,),
-                ],
+                  return getButton('Nạp tiền', Colors.redAccent, Colors.redAccent, Colors.white,0, () async {
+                    showDialog (
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Nạp tiền khu vực'),
+                          content: Container(
+                            width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
+                            height: 170, // Đặt kích thước chiều cao theo ý muốn
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2), // màu của shadow
+                                  spreadRadius: 5, // bán kính của shadow
+                                  blurRadius: 7, // độ mờ của shadow
+                                  offset: Offset(0, 3), // vị trí của shadow
+                                ),
+                              ],
+                            ),
+
+                            child: ListView(
+                              children: [
+                                Container(
+                                  height: 10,
+                                ),
+
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Số tiền cần nạp *',
+                                    style: TextStyle(
+                                        fontFamily: 'arial',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.redAccent
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  height: 10,
+                                ),
+
+                                Padding(
+                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                    child: Container(
+                                      height: 50,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.3),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(0, 3),
+                                            ),
+                                          ],
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.black,
+                                          )
+                                      ),
+
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Form(
+                                          child: TextFormField(
+                                            controller: moneyControl,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily: 'arial',
+                                            ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: 'Số tiền cần nạp',
+                                              hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16,
+                                                fontFamily: 'arial',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                ),
+
+                                Container(
+                                  height: 10,
+                                ),
+
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Nội dung nạp tiền *',
+                                    style: TextStyle(
+                                        fontFamily: 'arial',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.redAccent
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  height: 10,
+                                ),
+
+                                Padding(
+                                    padding: EdgeInsets.only(left: 10, right: 10),
+                                    child: Container(
+                                      height: 50,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.3),
+                                              spreadRadius: 5,
+                                              blurRadius: 7,
+                                              offset: Offset(0, 3),
+                                            ),
+                                          ],
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.black,
+                                          )
+                                      ),
+
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Form(
+                                          child: TextFormField(
+                                            controller: noidungcontrol,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily: 'arial',
+                                            ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: 'Nội dung nạp tiền',
+                                              hintStyle: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 16,
+                                                fontFamily: 'arial',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                ),
+
+                                Container(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Hủy'),
+                              onPressed: () {
+                                moneyControl.clear();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: loading ? CircularProgressIndicator() : Text('Lưu'),
+                              onPressed: loading ? null : () async {
+                                setState(() {
+                                  loading = true;
+                                });
+
+                                if (moneyControl.text.isNotEmpty && noidungcontrol.text.isNotEmpty) {
+                                  if (dataCheckManager.containsOnlyDigits(moneyControl.text.toString())) {
+                                    if (int.parse(moneyControl.text.toString()) > 0) {
+                                      double newmoney = widget.area.money + double.parse(moneyControl.text.toString());
+                                      historyTransaction history = historyTransaction(
+                                        id: dataCheckManager.generateRandomString(25),
+                                        senderId: currentAccount.username,
+                                        receiverId: widget.area.id,
+                                        transactionTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
+                                        type: 3,
+                                        content: noidungcontrol.text.toString(),
+                                        money: double.parse(moneyControl.text.toString()),
+                                        area: '',
+                                      );
+                                      await pushhistoryData(history);
+                                      await pushData(widget.area, newmoney);
+                                      moneyControl.clear();
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      toastMessage('Phải nhập số lớn hơn 0');
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                    }
+                                  } else {
+                                    toastMessage('Phải nhập đúng định dạng');
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                  }
+
+                                } else {
+                                  toastMessage('Phải nhập đủ thông tin');
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  });
+                },
               ),
             ),
           ),

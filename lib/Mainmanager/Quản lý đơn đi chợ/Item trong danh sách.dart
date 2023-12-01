@@ -130,7 +130,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
                           TextSpan(
-                            text: 'Khoảng cách chim bay: ',
+                            text: 'Khoảng cách : ',
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',
@@ -637,7 +637,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                           style: DefaultTextStyle.of(context).style,
                           children: <TextSpan>[
                             TextSpan(
-                              text: widget.order.startTime.hour.toString() + ':' + widget.order.startTime.minute.toString(),
+                              text: widget.order.S1time.hour.toString() + ':' + widget.order.S1time.minute.toString(),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'arial',
@@ -677,7 +677,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                           style: DefaultTextStyle.of(context).style,
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'Ngày ' + widget.order.startTime.day.toString() + '/' + widget.order.startTime.month.toString() + '/' + widget.order.startTime.year.toString(),
+                              text: 'Ngày ' + widget.order.S1time.day.toString() + '/' + widget.order.S1time.month.toString() + '/' + widget.order.S1time.year.toString(),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'arial',

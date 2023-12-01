@@ -22,6 +22,8 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
   List<accountNormal> chosenList = [];
   final TextEditingController name = TextEditingController();
   List<Area> areaList = [];
+  List<Area> areaList1 = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
   Area area = Area(id: '', name: '', money: 0, status: 0);
 
   void getData() {
@@ -35,6 +37,7 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
         if (food.type == 1) {
           accountList.add(food);
           chosenList.add(food);
+          sortChosenListByCreateTime(chosenList);
         }
 
       });
@@ -59,17 +62,21 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area").onValue.listen((event) {
       areaList.clear();
+      areaList1.clear();
+      areaList1.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         Area area= Area.fromJson(value);
         areaList.add(area);
+        areaList1.add(area);
       });
       setState(() {
-
+        if (areaList1.length != 0) {
+          chosenArea = areaList1.first;
+        }
       });
     });
   }
-
   TextEditingController searchController = TextEditingController();
 
   void onSearchTextChanged(String value) {
@@ -78,6 +85,56 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
           .where((account) =>
       account.phoneNum.toLowerCase().contains(value.toLowerCase()) || account.name.toLowerCase().contains(value.toLowerCase()))
           .toList();
+    });
+  }
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < accountList.length ; i++) {
+          chosenList.add(accountList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < accountList.length ; i++) {
+          if (accountList.elementAt(i).Area == chosenArea.id) {
+            chosenList.add(accountList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
+
+  void sortChosenListByCreateTime(List<accountNormal> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
     });
   }
 
@@ -123,6 +180,26 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                       fontFamily: 'roboto',
                     ),
                   ),
+                ),
+              ),
+            ),
+
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                width: 400,
+                height: 40,
+                child: DropdownButton<Area>(
+                  items: areaList1.map((e) => DropdownMenuItem<Area>(
+                    value: e,
+                    child: Text('Khu vực : ' + e.name),
+                  )).toList(),
+                  onChanged: (value) { dropdownCallback(value); },
+                  value: chosenArea,
+                  iconEnabledColor: Colors.redAccent,
+                  isExpanded: true,
+                  iconDisabledColor: Colors.grey,
                 ),
               ),
             ),
@@ -240,15 +317,48 @@ class _DanhsachkhachhangState extends State<Danhsachkhachhang> {
                       width: (widget.width - 20)/6 - 1,
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                          child: AutoSizeText(
-                            'Ngày khởi tạo',
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'roboto',
-                                color: Colors.black,
-                                fontSize: 100
-                            ),
-                          )
+                        child: Container(
+                          width: (widget.width - 20)/6 - 1 - 20,
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                child: Container(
+                                  height: 20,
+                                  width: (widget.width - 20)/6 - 1 - 20,
+                                  child: AutoSizeText(
+                                    'Thời gian tạo',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'roboto',
+                                        color: Colors.black,
+                                        fontSize: 100
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: GestureDetector(
+                                  child: Icon(
+                                    Icons.arrow_downward_outlined,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  onTap: () {
+                                    sortChosenListByCreateTime(chosenList);
+                                    setState(() {
+
+                                    });
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
 

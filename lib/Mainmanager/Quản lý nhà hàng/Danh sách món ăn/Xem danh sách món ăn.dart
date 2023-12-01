@@ -10,8 +10,9 @@ import 'Itemfood.dart';
 class Xemdanhsachmonan extends StatefulWidget {
   final double width;
   final double height;
+  final String data;
   final accountShop shop;
-  const Xemdanhsachmonan({Key? key, required this.width, required this.height, required this.shop}) : super(key: key);
+  const Xemdanhsachmonan({Key? key, required this.width, required this.height, required this.shop, required this.data}) : super(key: key);
 
   @override
   State<Xemdanhsachmonan> createState() => _XemdanhsachmonanState();
@@ -23,7 +24,7 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("Food").onValue.listen((event) {
+    reference.child(widget.data == 'Restaurant' ? 'Food' : 'Product').onValue.listen((event) {
       productList.clear();
       chosenList.clear();
       final dynamic orders = event.snapshot.value;
@@ -35,7 +36,7 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
         }
       });
       setState(() {
-
+        sortChosenListByCreateTime(chosenList);
       });
     });
   }
@@ -52,6 +53,29 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
     });
   }
 
+  void sortChosenListByCreateTime(List<Product> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
+    });
+  }
+
+  void sortChosenListByCost(List<Product> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo rẻ tới đắt
+      return a.cost.compareTo(b.cost);
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -89,7 +113,7 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                 ),
               ),
               onTap: () {
-                ThemMonAn.showDialogthemmonan(widget.width/2, 500, context,widget.shop,TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController());
+                ThemMonAn.showDialogthemmonan(widget.width/2, 500, context,widget.shop,TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController(),widget.data == 'Restaurant' ? 'Food' : 'Product');
               },
             ),
           ),
@@ -112,7 +136,7 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                   fontFamily: 'roboto',
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Tìm kiếm món ăn',
+                  hintText: widget.data == 'Restaurant' ? 'Tìm kiếm món ăn' : 'Tìm kiếm sản phẩm',
                   prefixIcon: Icon(Icons.search, color: Colors.grey,),
                   hintStyle: TextStyle(
                     color: Colors.grey,
@@ -167,16 +191,48 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                   Container(
                     width: (widget.width - 20)/5,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Tên món ăn',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                      child: Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                width: (widget.width - 20)/5 - 20,
+                                height: 20,
+                                child: AutoSizeText(
+                                    widget.data == 'Restaurant' ? 'Tên món ăn' : 'Tên sản phẩm',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'roboto',
+                                        color: Colors.black,
+                                        fontSize: 100
+                                    ),
+                                  ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_downward_outlined,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  sortChosenListByCreateTime(chosenList);
+                                  setState(() {
+
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -190,16 +246,48 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
                   Container(
                     width: (widget.width - 20)/8,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Giá tiền(VNĐ)',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                      child: Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                height: 20,
+                                width: (widget.width - 20)/8 - 20,
+                                child: AutoSizeText(
+                                    'Giá tiền(VNĐ)',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'roboto',
+                                        color: Colors.black,
+                                        fontSize: 100
+                                    ),
+                                  ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_downward_outlined,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  sortChosenListByCost(chosenList);
+                                  setState(() {
+
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -239,10 +327,10 @@ class _XemdanhsachmonanState extends State<Xemdanhsachmonan> {
               width: widget.width-20,
               height: widget.height - 160,
               alignment: Alignment.center,
-              child: (chosenList.length == 0) ? Text('không có món ăn nào') : ListView.builder(
+              child: (chosenList.length == 0) ? (widget.data == 'Restaurant' ? Text('không có món ăn nào') : Text('Không có sản phẩm')) : ListView.builder(
                 itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return ItemFood(width: widget.width - 20, product: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                  return ItemFood(width: widget.width - 20, product: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255), data: widget.data == 'Restaurant' ? 'Food' : 'Product',);
                 },
               ),
             ),

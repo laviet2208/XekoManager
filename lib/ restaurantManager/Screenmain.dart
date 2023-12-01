@@ -5,6 +5,7 @@ import 'package:xekomanagermain/%20restaurantManager/Qu%E1%BA%A3n%20l%C3%BD%20da
 import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
 import '../Mainmanager/Quản lý nhà hàng/Danh mục đồ ăn/Hiển thị danh mục.dart';
+import 'Danh sách món ăn/Danh sách món ăn.dart';
 import 'Danh sách thông báo/Danh sách.dart';
 
 class SCREENmainRestaurant extends StatefulWidget {
@@ -19,13 +20,16 @@ class _SCREENmainrestaurantState extends State<SCREENmainRestaurant> {
 
   Widget getWidget(int init, double width, double height) {
     if (init == 2) {
-      return Danhsachdanhmuc(width: width, height: height, shop: currentShop,);
+      return Danhsachdanhmuc(width: width, height: height, shop: currentShop, data: 'Restaurant',);
     }
     if (init == 3) {
       return Danhsachdoan(width: width, height: height,);
     }
     if (init == 4) {
       return danhsachthongbao(width: width, height: height,);
+    }
+    if (init == 5) {
+      return Danhsachmonannhahang(width: width, height: height,);
     }
     return Container();
   }
@@ -248,6 +252,46 @@ class _SCREENmainrestaurantState extends State<SCREENmainRestaurant> {
                                   onTap: () {
                                     setState(() {
                                       selectButton = 2;
+                                    });
+                                  },
+                                ),
+
+                                Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                  child: Container(
+                                    height: screenHeight/16,
+                                    color: (selectButton == 5) ? Colors.red : null,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          top: 22,
+                                          left: 10,
+                                          child: Container(
+                                            width: screenWidth/9 - 20,
+                                            height: screenHeight/16 - 44,
+                                            child: AutoSizeText(
+                                              'Danh sách món ăn',
+                                              style: TextStyle(
+                                                  fontFamily: 'arial',
+                                                  fontSize: 100,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      selectButton = 5;
                                     });
                                   },
                                 ),

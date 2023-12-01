@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'Data/catchOrder.dart';
 import 'Item trong danh sách.dart';
 
@@ -17,6 +18,8 @@ class Danhsachdatxe extends StatefulWidget {
 class _DanhsachdatxeState extends State<Danhsachdatxe> {
   List<catchOrder> orderList = [];
   List<catchOrder> chosenList = [];
+  List<Area> areaList = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
@@ -34,6 +37,58 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
       });
     });
   }
+
+  void getData1() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Area").onValue.listen((event) {
+      areaList.clear();
+      areaList.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Area area= Area.fromJson(value);
+        areaList.add(area);
+      });
+      setState(() {
+        if (areaList.length != 0) {
+          chosenArea = areaList.first;
+        }
+      });
+    });
+  }
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          chosenList.add(orderList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          if (orderList.elementAt(i).owner.Area == chosenArea.id) {
+            chosenList.add(orderList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
+
   TextEditingController searchController = TextEditingController();
 
   void onSearchTextChanged(String value) {
@@ -59,6 +114,7 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
   void initState() {
     super.initState();
     getData();
+    getData1();
   }
 
   @override
@@ -94,6 +150,26 @@ class _DanhsachdatxeState extends State<Danhsachdatxe> {
                     fontFamily: 'roboto',
                   ),
                 ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 300,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
               ),
             ),
           ),

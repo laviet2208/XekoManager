@@ -8,7 +8,8 @@ class Hienthidanhmucdoan extends StatefulWidget {
   final double width;
   final double height;
   final String idShop;
-  const Hienthidanhmucdoan({Key? key, required this.width, required this.height, required this.idShop}) : super(key: key);
+  final String data;
+  const Hienthidanhmucdoan({Key? key, required this.width, required this.height, required this.idShop, required this.data}) : super(key: key);
 
   @override
   State<Hienthidanhmucdoan> createState() => _HienthidanhmucdoanState();
@@ -19,7 +20,7 @@ class _HienthidanhmucdoanState extends State<Hienthidanhmucdoan> {
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("FoodDirectory").onValue.listen((event) {
+    reference.child(widget.data == 'Restaurant' ? "FoodDirectory" : 'ProductDirectory').onValue.listen((event) {
       list.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
@@ -50,7 +51,7 @@ class _HienthidanhmucdoanState extends State<Hienthidanhmucdoan> {
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
-          return Itemdanhmucmonan(width: widget.width, foodDirectory: list[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+          return Itemdanhmucmonan(width: widget.width, foodDirectory: list[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255), data: widget.data,);
         },
       ),
     );

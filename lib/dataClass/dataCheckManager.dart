@@ -55,7 +55,7 @@ class dataCheckManager {
 
   //3 hàm convert từ dạng ngày/tháng/năm sang ỉnt
   static int extractDay(String dateString) {
-    List<String> dateParts = dateString.split('/');
+    List<String> dateParts = dateString.split(':');
     if (dateParts.length == 3) {
       return int.tryParse(dateParts[0]) ?? 0;
     }
@@ -63,7 +63,7 @@ class dataCheckManager {
   }
 
   static int extractMonth(String dateString) {
-    List<String> dateParts = dateString.split('/');
+    List<String> dateParts = dateString.split(':');
     if (dateParts.length == 3) {
       return int.tryParse(dateParts[1]) ?? 0;
     }
@@ -71,12 +71,13 @@ class dataCheckManager {
   }
 
   static int extractYear(String dateString) {
-    List<String> dateParts = dateString.split('/');
+    List<String> dateParts = dateString.split(':');
     if (dateParts.length == 3) {
       return int.tryParse(dateParts[2]) ?? 0;
     }
     return 0;
   }
+
 
    static String getStringNumber(double number) {
     String result = number.toStringAsFixed(0); // làm tròn số

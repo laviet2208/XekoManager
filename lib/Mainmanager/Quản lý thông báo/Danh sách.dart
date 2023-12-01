@@ -26,8 +26,9 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
   final tieudecontrol = TextEditingController();
   final tieudephucontrol = TextEditingController();
   final noidungcontrol = TextEditingController();
-
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
   List<Area> areaList = [];
+  List<Area> areaList1 = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<notification> list = [];
   List<notification> chosenList = [];
@@ -36,13 +37,18 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area").onValue.listen((event) {
       areaList.clear();
+      areaList1.clear();
+      areaList1.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         Area area= Area.fromJson(value);
         areaList.add(area);
+        areaList1.add(area);
       });
       setState(() {
-
+        if (areaList1.length != 0) {
+          chosenArea = areaList1.first;
+        }
       });
     });
   }
@@ -90,6 +96,39 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
       throw error;
     }
+  }
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < list.length ; i++) {
+          chosenList.add(list.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < list.length ; i++) {
+          if (list.elementAt(i).Area == chosenArea.id) {
+            chosenList.add(list.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
   }
 
   @override
@@ -496,6 +535,26 @@ class _PagequanlythongbaoState extends State<Pagequanlythongbao> {
                     fontFamily: 'roboto',
                   ),
                 ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 400,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList1.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
               ),
             ),
           ),

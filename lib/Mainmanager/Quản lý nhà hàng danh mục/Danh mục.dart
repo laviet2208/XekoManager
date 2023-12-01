@@ -1,3 +1,5 @@
+import 'package:xekomanagermain/dataClass/Time.dart';
+
 class RestaurantDirectory {
   String mainContent;
   String mainIcon;
@@ -5,9 +7,10 @@ class RestaurantDirectory {
   String subIcon;
   String id;
   String Area;
+  Time createTime;
   List<String> shopList;
 
-  RestaurantDirectory({required this.id, required this.mainContent, required this.mainIcon, required this.subContent, required this.subIcon, required this.shopList, required this.Area});
+  RestaurantDirectory({required this.id, required this.mainContent, required this.mainIcon, required this.subContent, required this.subIcon, required this.shopList, required this.Area, required this.createTime});
 
   Map<dynamic, dynamic> toJson() => {
     'id' : id,
@@ -16,7 +19,8 @@ class RestaurantDirectory {
     'subContent' : subContent,
     'subIcon' : subIcon,
     'shopList': shopList.map((e) => e).toList(),
-    'Area' : Area
+    'Area' : Area,
+    'createTime' : createTime.toJson()
   };
 
   factory RestaurantDirectory.fromJson(Map<dynamic, dynamic> json) {
@@ -35,7 +39,8 @@ class RestaurantDirectory {
       subContent: json['subContent'].toString(),
       subIcon: json['subIcon'].toString(),
       shopList: idList,
-        Area: json['Area'].toString()
+      Area: json['Area'].toString(),
+      createTime: Time.fromJson(json['createTime'])
     );
   }
 }

@@ -17,6 +17,17 @@ class Danhsachgiaohang extends StatefulWidget {
 }
 
 class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
+  List<itemsendOrder> chosenList = [];
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = orderList
+          .where((account) =>
+      account.id.contains(value) || account.locationset.firstText.contains(value) || account.locationset.secondaryText.contains(value) || account.receiver.location.firstText.contains(value) || account.receiver.location.secondaryText.contains(value) || account.receiver.phoneNum.contains(value) || account.receiver.name.contains(value) || account.owner.name.contains(value) || account.owner.phoneNum.contains(value))
+          .toList();
+    });
+  }
   List<itemsendOrder> orderList = [];
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
@@ -27,6 +38,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
         itemsendOrder order = itemsendOrder.fromJson(value);
         if (currentAccount.provinceCode == order.owner.Area) {
           orderList.add(order);
+          chosenList.add(order);
         }
       });
       setState(() {
@@ -51,28 +63,30 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
           Positioned(
             top: 10,
             left: 10,
-            child: GestureDetector(
-              child: Container(
-                width: 240,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10)
+            child: Container(
+              width: 500,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
                 ),
-                child: Text(
-                  '+ Xuất file data excel',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontFamily: 'arial',
-                      fontSize: 14
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm theo điểm lấy , nhận , người nhận ,...',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
                   ),
                 ),
               ),
-              onTap: () {
-
-              },
             ),
           ),
 
@@ -246,12 +260,13 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
-              child: ListView.builder(
-                itemCount: orderList.length,
+              alignment: Alignment.center,
+              child: chosenList.length != 0 ? ListView.builder(
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: orderList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
-              ),
+              ) : Text('Danh sách trống'),
             ),
           )
         ],

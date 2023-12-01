@@ -9,7 +9,8 @@ class searchPagefood extends StatefulWidget {
   final String id;
   final String idshop;
   final List<String> idproduct;
-  const searchPagefood({Key? key, required this.id, required this.idshop, required this.idproduct,}) : super(key: key);
+  final String data;
+  const searchPagefood({Key? key, required this.id, required this.idshop, required this.idproduct, required this.data,}) : super(key: key);
 
   @override
   State<searchPagefood> createState() => _searchPageState();
@@ -22,7 +23,7 @@ class _searchPageState extends State<searchPagefood> {
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("Food").onValue.listen((event) {
+    reference.child(widget.data == 'Restaurant' ? "Food" : "Product").onValue.listen((event) {
       list.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
@@ -37,11 +38,11 @@ class _searchPageState extends State<searchPagefood> {
     });
   }
 
-  static Future<void> pushData(String id, String id1, List<String> newlist) async{
+  Future<void> pushData(String id, String id1, List<String> newlist) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
       newlist.add(id1);
-      await databaseRef.child('FoodDirectory/' + id + "/foodList").set(newlist);
+      await databaseRef.child(widget.data == 'Restaurant' ? 'FoodDirectory/' + id + "/foodList" : 'ProductDirectory/' + id + "/foodList").set(newlist);
       toastMessage('Thêm vào danh mục thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');

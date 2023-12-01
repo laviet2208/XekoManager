@@ -4,20 +4,27 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20store/DropList%20th%E1%BB%83%20lo%E1%BA%A1i.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
+import '../../dataClass/FinalClass.dart';
 import '../../dataClass/Time.dart';
 import '../../dataClass/accountShop.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import '../Quản lý khu vực và tài khoản admin/Tài khoản admin khu vực/Page tìm kiếm.dart';
+import '../Quản lý khách hàng/accountLocation.dart';
+import 'Chọn vị trí trên map/Chọn vị trí trên map 1.dart';
+import 'Chọn vị trí trên map/Chọn vị trí trên map.dart';
 import 'DropList thể loại.dart';
 
 class Chinhsuashop extends StatefulWidget {
   final double width;
   final double height;
   final accountShop shop;
-  const Chinhsuashop({Key? key, required this.width, required this.height, required this.shop}) : super(key: key);
+  final String data;
+  const Chinhsuashop({Key? key, required this.width, required this.height, required this.shop, required this.data}) : super(key: key);
 
   @override
   State<Chinhsuashop> createState() => _ChinhsuashopState();
@@ -26,27 +33,21 @@ class Chinhsuashop extends StatefulWidget {
 class _ChinhsuashopState extends State<Chinhsuashop> {
   final tennhahangcontrol = TextEditingController();
   final sdtcontrol = TextEditingController();
-  final locationcontrol = TextEditingController();
   final passcontrol = TextEditingController();
   final startcontrol = TextEditingController();
   final endcontrol = TextEditingController();
+  accountLocation location = accountLocation(phoneNum: '', LocationID: '', Latitude: 0, Longitude: 0, firstText: '', secondaryText: '');
   Uint8List? registrationImage;
   int selectIndex = 0;
   String Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
   bool loading = false;
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
+  TimeOfDay selectedTime = TimeOfDay.now();
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   Future<Uint8List?> galleryImagePicker() async {
-    ImagePicker picker = ImagePicker();
-
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
-    );
-
-    if (file != null) return await file.readAsBytes();
-    return null;
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    return bytesFromPicker;
   }
 
   void getData1() {
@@ -67,7 +68,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
   Future<void> pushData(accountShop accountShop) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('Restaurant').child(accountShop.id).set(accountShop.toJson());
+      await databaseRef.child(widget.data).child(accountShop.id).set(accountShop.toJson());
       setState(() {
         loading = false;
       });
@@ -103,6 +104,27 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
     }
   }
 
+  Future<void> _selectTime(BuildContext context, int type) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        if (type == 1) {
+          startcontrol.text =
+          '${selectedTime.hour}:${selectedTime.minute}:0';
+        } else {
+          endcontrol.text =
+          '${selectedTime.hour}:${selectedTime.minute}:0';
+        }
+
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -111,16 +133,15 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
     Downloadurl = widget.shop.avatarID;
     tennhahangcontrol.text = widget.shop.name;
     sdtcontrol.text = widget.shop.phoneNum;
-    locationcontrol.text = widget.shop.location;
     passcontrol.text = widget.shop.password;
-    startcontrol.text = widget.shop.openTime.hour.toString() + "/" + widget.shop.openTime.minute.toString() + "/" + widget.shop.openTime.second.toString();
-    endcontrol.text = widget.shop.closeTime.hour.toString() + "/" + widget.shop.closeTime.minute.toString() + "/" + widget.shop.closeTime.second.toString();
+    startcontrol.text = widget.shop.openTime.hour.toString() + ":" + widget.shop.openTime.minute.toString() + ":" + widget.shop.openTime.second.toString();
+    endcontrol.text = widget.shop.closeTime.hour.toString() + ":" + widget.shop.closeTime.minute.toString() + ":" + widget.shop.closeTime.second.toString();
 
   }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Chỉnh sửa nhà hàng'),
+      title: (widget.data == 'Restaurant') ? Text('Chỉnh sửa nhà hàng') : Text('Chỉnh sửa cửa hàng'),
       content: Container(
         width: widget.width * (1.5/3), // Đặt kích thước chiều rộng theo ý muốn
         height: widget.height * (2/3), // Đặt kích thước chiều cao theo ý muốn
@@ -146,7 +167,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Tên nhà hàng *',
+                (widget.data == 'Restaurant') ? 'Tên nhà hàng *' : 'Tên cửa hàng *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -194,7 +215,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Tên nhà hàng',
+                          hintText:  (widget.data == 'Restaurant') ? 'Tên nhà hàng' : 'Tên cửa hàng',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -279,14 +300,10 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
               height: 20,
             ),
 
-            Container(
-              height: 20,
-            ),
-
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Vị trí của nhà hàng *',
+                (widget.data == 'Restaurant') ? 'Vị trí của nhà hàng *' : 'Vị trí của cửa hàng *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -302,49 +319,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
 
             Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  height: 50,
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.black,
-                      )
-                  ),
-
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Form(
-                      child: TextFormField(
-                        controller: locationcontrol,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'arial',
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Định dạng vị trí : "Vĩ độ,Kinh độ"',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontFamily: 'arial',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                child: PickLocationInMap1(location: location, width: widget.width-20, locationText: widget.shop.location,)
             ),
 
             Container(
@@ -354,7 +329,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Mật khẩu nhà hàng *',
+                'Mật khẩu nhà/cửa hàng *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -402,7 +377,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập mật khẩu của nhà hàng',
+                          hintText: 'Nhập mật khẩu của nhà/cửa hàng',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
@@ -422,7 +397,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Giờ mở cửa nhà hàng *',
+                'Giờ mở cửa *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -470,13 +445,19 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ mở cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'Click chọn giờ mở cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,1);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -490,7 +471,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Giờ đóng cửa nhà hàng *',
+                'Giờ đóng cửa *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -538,13 +519,19 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ đóng cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'Click chọn giờ đóng cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,2);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -558,7 +545,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
-                'Chọn phân loại nhà hàng *',
+                'Chọn phân loại *',
                 style: TextStyle(
                     fontFamily: 'arial',
                     fontSize: 14,
@@ -574,7 +561,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
 
             Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
-                child: Droplistnhahang(width: widget.width * (1.5/3), shop: shop)
+                child: (widget.data == 'Restaurant') ? Droplistnhahang(width: widget.width * (1.5/3), shop: shop) : Droplistcuahang(width: widget.width * (1.5/3), shop: shop)
             ),
 
             Container(
@@ -587,7 +574,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                 'Chọn khu vực quản lý *',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontSize: 14,
+                    fontSize: currentAccount.provinceCode == '0' ? 14 : 0,
                     fontWeight: FontWeight.bold,
                     color: Colors.redAccent
                 ),
@@ -595,20 +582,20 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             ),
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
 
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: Container(
-                height: 150,
+                height: currentAccount.provinceCode == '0' ? 150 : 0,
                 child: searchPageArea(list: areaList, area: area,),
               ),
             ),
 
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
 
             Padding(
@@ -670,13 +657,6 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
         TextButton(
           child: Text('Hủy'),
           onPressed: () {
-            tennhahangcontrol.clear();
-            passcontrol.clear();
-            startcontrol.clear();
-            endcontrol.clear();
-            sdtcontrol.clear();
-            locationcontrol.clear();
-            Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
             Navigator.of(context).pop();
           },
         ),
@@ -688,12 +668,12 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
             });
 
             if (tennhahangcontrol.text.isNotEmpty && passcontrol.text.isNotEmpty && startcontrol.text.isNotEmpty && area.id != ''
-                && endcontrol.text.isNotEmpty && locationcontrol.text.isNotEmpty && sdtcontrol.text.isNotEmpty) {
+                && endcontrol.text.isNotEmpty && location.Latitude != 0 && location.Longitude != 0 && sdtcontrol.text.isNotEmpty) {
               accountShop shop = accountShop(
                   openTime: Time(second: dataCheckManager.extractYear(startcontrol.text.toString()), minute: dataCheckManager.extractMonth(startcontrol.text.toString()), hour: dataCheckManager.extractDay(startcontrol.text.toString()), day: 0, month: 0, year: 0),
                   closeTime: Time(second: dataCheckManager.extractYear(endcontrol.text.toString()), minute: dataCheckManager.extractMonth(endcontrol.text.toString()), hour: dataCheckManager.extractDay(endcontrol.text.toString()), day: 0, month: 0, year: 0),
                   phoneNum: sdtcontrol.text.toString(),
-                  location: locationcontrol.text.toString(),
+                  location: location.Latitude.toString() + ',' + location.Longitude.toString(),
                   name: tennhahangcontrol.text.toString(),
                   id: widget.shop.id,
                   status: 1,
@@ -702,7 +682,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                   password: passcontrol.text.toString(),
                   isTop: 1,
                   Type: selectIndex, ListDirectory: [],
-                  Area: area.id);
+                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode);
 
               if (registrationImage != null) {
                 await uploadImageToFirebaseStorage(registrationImage!, shop.id);
@@ -712,14 +692,6 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
               setState(() {
                 loading = false; // Đặt biến loading lại thành false sau khi hoàn thành
               });
-
-              tennhahangcontrol.clear();
-              passcontrol.clear();
-              startcontrol.clear();
-              endcontrol.clear();
-              sdtcontrol.clear();
-              locationcontrol.clear();
-              Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
               Navigator.of(context).pop();
             } else {
               toastMessage('Phải nhập đủ thông tin');

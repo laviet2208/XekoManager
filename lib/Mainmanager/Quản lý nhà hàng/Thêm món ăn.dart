@@ -4,13 +4,14 @@ import 'package:xekomanagermain/dataClass/accountShop.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
 import '../../dataClass/Product.dart';
+import '../../dataClass/Time.dart';
 import '../../utils/utils.dart';
 
 class ThemMonAn {
-  static Future<void> pushData(Product food) async{
+  static Future<void> pushData(Product food, String data) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('Food').child(food.id).set(food.toJson());
+      await databaseRef.child(data).child(food.id).set(food.toJson());
       toastMessage('Thêm danh mục thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -18,7 +19,7 @@ class ThemMonAn {
     }
   }
 
-  static void showDialogthemmonan (double width, double height, BuildContext context, accountShop shop, TextEditingController t1, TextEditingController t2, TextEditingController t3, TextEditingController t4) {
+  static void showDialogthemmonan (double width, double height, BuildContext context, accountShop shop, TextEditingController t1, TextEditingController t2, TextEditingController t3, TextEditingController t4, String data) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -53,7 +54,7 @@ class ThemMonAn {
                   Padding(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      'Tên món ăn *',
+                      data == 'Food' ? 'Tên món ăn *' : 'Tên sản phẩm *',
                       style: TextStyle(
                           fontFamily: 'arial',
                           fontSize: 14,
@@ -101,7 +102,7 @@ class ThemMonAn {
                               ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Nhập tên món ăn',
+                                hintText: data == 'Food' ? 'Nhập tên món ăn' : 'Nhập tên sản phẩm',
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
@@ -121,7 +122,7 @@ class ThemMonAn {
                   Padding(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      'Mô tả món ăn *',
+                      data == 'Food' ? 'Mô tả món ăn *' : 'Nhập mô tả sản phẩm',
                       style: TextStyle(
                           fontFamily: 'arial',
                           fontSize: 14,
@@ -169,7 +170,7 @@ class ThemMonAn {
                               ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Nhập tên món ăn',
+                                hintText: data == 'Food' ? 'Nhập mô tả món ăn' : 'Nhập mô tả sản phẩm',
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
@@ -189,7 +190,7 @@ class ThemMonAn {
                   Padding(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      'Giá tiền món ăn *',
+                      data == 'Food' ? 'Giá tiền món ăn *' : 'Giá tiền sản phẩm *',
                       style: TextStyle(
                           fontFamily: 'arial',
                           fontSize: 14,
@@ -238,7 +239,7 @@ class ThemMonAn {
                               ),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: 'Nhập giá món ăn',
+                                hintText: data == 'Food' ? 'Nhập giá món ăn' : 'Nhập giá sản phẩm',
                                 hintStyle: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16,
@@ -260,12 +261,12 @@ class ThemMonAn {
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
-                  Product fo = Product(id: dataCheckManager.generateRandomString(18), name: t1.text.toString(), content: t2.text.toString(), owner: shop, cost: double.parse(t3.text.toString()), imageList: 'favicon.png',);
-                  await pushData(fo);
+                  Product fo = Product(id: dataCheckManager.generateRandomString(18), name: t1.text.toString(), content: t2.text.toString(), owner: shop, cost: double.parse(t3.text.toString()), imageList: 'favicon.png',createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
+                  await pushData(fo, data);
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'Thêm món ăn',
+                  data == 'Food' ? 'Thêm món ăn' : 'Thêm sản phẩm',
                   style: TextStyle(color: Colors.black),
                 ),
               ),

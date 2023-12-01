@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../dataClass/bikerRequest.dart';
+import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'ITEMdontaixe.dart';
 
 class Danhsachyeucau extends StatefulWidget {
@@ -17,6 +18,9 @@ class Danhsachyeucau extends StatefulWidget {
 class _DanhsachyeucauState extends State<Danhsachyeucau> {
   List<bikeRequest> requestList = [];
   List<bikeRequest> chosenList = [];
+  List<Area> areaList1 = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
+
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("bikeRequest").onValue.listen((event) {
@@ -34,7 +38,58 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
     });
   }
 
+  void getData1() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Area").onValue.listen((event) {
+      areaList1.clear();
+      areaList1.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Area area= Area.fromJson(value);
+        areaList1.add(area);
+      });
+      setState(() {
+        if (areaList1.length != 0) {
+          chosenArea = areaList1.first;
+        }
+      });
+    });
+  }
+
   TextEditingController searchController = TextEditingController();
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < requestList.length ; i++) {
+          chosenList.add(requestList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < requestList.length ; i++) {
+          if (requestList.elementAt(i).owner.Area == chosenArea.id) {
+            chosenList.add(requestList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
 
   void onSearchTextChanged(String value) {
     setState(() {
@@ -51,6 +106,7 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
     // TODO: implement initState
     super.initState();
     getData();
+    getData1();
   }
 
   @override
@@ -86,6 +142,26 @@ class _DanhsachyeucauState extends State<Danhsachyeucau> {
                     fontFamily: 'roboto',
                   ),
                 ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Container(
+              width: 400,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList1.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
               ),
             ),
           ),

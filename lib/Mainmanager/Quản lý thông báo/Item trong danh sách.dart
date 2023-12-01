@@ -436,10 +436,10 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
 
                   GestureDetector(
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
 
                       ),
                       alignment: Alignment.center,
@@ -447,7 +447,7 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                         status,
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
                             color: Colors.white
                         ),
@@ -467,13 +467,13 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
 
                   GestureDetector(
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(0),
                         border: Border.all(
                           width: 1,
-                          color: Colors.black
+                          color: Colors.redAccent
                         )
                       ),
                       alignment: Alignment.center,
@@ -481,14 +481,37 @@ class _ItemdanhsachState extends State<Itemdanhsachtb> {
                         'Xóa thông báo',
                         style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.normal,
-                            color: Colors.black
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
                     onTap: () async {
-                      await deleteNoti();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Xác nhận xóa thông báo',),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () async {
+                                  await deleteNoti();
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Xác nhận', style: TextStyle(color: Colors.redAccent)),
+                              ),
+
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Hủy', style: TextStyle(color: Colors.black)),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
 

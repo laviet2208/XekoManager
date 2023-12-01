@@ -136,6 +136,35 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
                     Container(height: 10,),
 
                     Container(
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Cập nhật ngày : ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                fontWeight: FontWeight.bold, // Để in đậm
+                              ),
+                            ),
+                            TextSpan(
+                              text: widget.directory.createTime.day.toString() + '/' + widget.directory.createTime.month.toString() + '/' + widget.directory.createTime.year.toString() + ' , ' + widget.directory.createTime.hour.toString() + ':' + widget.directory.createTime.minute.toString(), // Phần còn lại viết bình thường
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal, // Để viết bình thường
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Container(height: 10,),
+
+                    Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -239,7 +268,7 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
             child: Padding(
               padding: EdgeInsets.only(left: 15, right: 15,),
               child: Text(
-                widget.directory.shopList.length.toString() + ' Nhà Hàng',
+                widget.directory.shopList.length.toString() + ' Cửa Hàng',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black,
@@ -268,10 +297,10 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
 
                     GestureDetector(
                       child: Container(
-                        height: 35,
+                        height: 30,
                         decoration: BoxDecoration(
                             color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(0),
                             border: Border.all(
                                 width: 1,
                                 color: Colors.redAccent
@@ -295,10 +324,10 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
 
                     GestureDetector(
                       child: Container(
-                        height: 35,
+                        height: 30,
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(0),
                             border: Border.all(
                                 color: Colors.redAccent,
                                 width: 1
@@ -306,7 +335,7 @@ class _ITEMdanhmucshopState extends State<ITEMdanhmucshop> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Danh sách nhà hàng',
+                          'Danh sách cửa hàng',
                           style: TextStyle(
                               fontFamily: 'Roboto',
                               fontSize: 13,

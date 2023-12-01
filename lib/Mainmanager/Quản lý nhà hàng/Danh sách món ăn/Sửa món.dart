@@ -4,8 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:xekomanagermain/OTHER/Button/Buttontype1.dart';
 import '../../../dataClass/Product.dart';
+import '../../../dataClass/Time.dart';
 import '../../../dataClass/accountShop.dart';
 import '../../../utils/utils.dart';
 
@@ -14,7 +16,8 @@ import '../../../utils/utils.dart';
 class Suamonan extends StatefulWidget {
   final accountShop shop;
   final Product product;
-  const Suamonan({Key? key, required this.shop, required this.product}) : super(key: key);
+  final String data;
+  const Suamonan({Key? key, required this.shop, required this.product, required this.data}) : super(key: key);
 
   @override
   State<Suamonan> createState() => _SuamonanState();
@@ -30,21 +33,14 @@ class _SuamonanState extends State<Suamonan> {
   final picker = ImagePicker();
 
   Future<Uint8List?> galleryImagePicker() async {
-    ImagePicker picker = ImagePicker();
-
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
-    );
-
-    if (file != null) return await file.readAsBytes();
-    return null;
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    return bytesFromPicker;
   }
 
-  static Future<void> pushData(Product food) async{
+  Future<void> pushData(Product food) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('Food').child(food.id).set(food.toJson());
+      await databaseRef.child(widget.data).child(food.id).set(food.toJson());
       toastMessage('sửa thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -57,7 +53,7 @@ class _SuamonanState extends State<Suamonan> {
     try {
       // Tạo tham chiếu đến Firebase Storage
       Reference storageReference =
-      FirebaseStorage.instance.ref().child('Food/$imageName.png');
+      FirebaseStorage.instance.ref().child(widget.data + '/$imageName.png');
 
       // Đặt loại (MIME type) là 'image/png'
       SettableMetadata metadata = SettableMetadata(contentType: 'image/png');
@@ -387,10 +383,10 @@ class _SuamonanState extends State<Suamonan> {
                       await uploadImageToFirebaseStorage(registrationImage!, widget.product.id);
                     }
                     if (registrationImage != null) {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                       await pushData(pro);
                     } else {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList,                   createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                       await pushData(pro);
                     }
 

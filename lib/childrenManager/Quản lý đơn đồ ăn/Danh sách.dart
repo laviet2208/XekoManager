@@ -17,6 +17,8 @@ class Danhsachdoan extends StatefulWidget {
 
 class _DanhsachdatxeState extends State<Danhsachdoan> {
   List<foodOrder> orderList = [];
+  List<foodOrder> chosenList = [];
+
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Order/foodOrder").onValue.listen((event) {
@@ -26,11 +28,33 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
         foodOrder order = foodOrder.fromJson(value);
         if (currentAccount.provinceCode == order.owner.Area) {
           orderList.add(order);
+          chosenList.add(order);
         }
       });
       setState(() {
 
       });
+    });
+  }
+
+  TextEditingController searchController = TextEditingController();
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = orderList
+          .where((account) =>
+      account.id.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationSet.firstText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationSet.secondaryText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationGet.firstText.toLowerCase().contains(value.toLowerCase()) ||
+          account.locationGet.secondaryText.toLowerCase().contains(value.toLowerCase()) ||
+          account.owner.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.owner.phoneNum.toLowerCase().contains(value.toLowerCase()) ||
+          account.shipper.name.toLowerCase().contains(value.toLowerCase()) ||
+          account.shipper.phoneNum.toLowerCase().contains(value.toLowerCase()) ||
+          account.costFee.discount.toString().toLowerCase().contains(value.toLowerCase()) ||
+          account.costBiker.discount.toString().toLowerCase().contains(value.toLowerCase()))
+          .toList();
     });
   }
 
@@ -48,31 +72,33 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 10,
-            left: 10,
-            child: GestureDetector(
+              top: 10,
+              left: 10,
               child: Container(
-                width: 240,
+                width: 500,
                 height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10)
                 ),
-                child: Text(
-                  '+ Xuất file data excel',
+                child: TextFormField(
+                  controller: searchController,
+                  onChanged: onSearchTextChanged,
                   style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontFamily: 'arial',
-                      fontSize: 14
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Tìm kiếm đơn hàng đồ ăn',
+                    prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                      fontFamily: 'roboto',
+                    ),
                   ),
                 ),
-              ),
-              onTap: () {
-
-              },
-            ),
+              )
           ),
 
           Positioned(
@@ -243,12 +269,13 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
               decoration: BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
-              child: ListView.builder(
-                itemCount: orderList.length,
+              alignment: Alignment.center,
+              child: chosenList.length != 0 ? ListView.builder(
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: orderList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
                 },
-              ),
+              ) : Text('Danh sách trống'),
             ),
           )
         ],

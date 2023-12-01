@@ -56,9 +56,11 @@ class _DroplistnhahangState extends State<Droplisttype> {
                    widget.shop.Type = selectIndex;
                    if (selectIndex == 0) {
                      widget.shop.status = 0;
+                     widget.shop.name = 'Nhập số VNĐ muốn giảm(Không có phần thập phân)';
                    }
                    if (selectIndex == 1) {
                      widget.shop.status = 1;
+                     widget.shop.name = 'Nhập số % muốn giảm(Không có phần thập phân)';
                    }
                    toastMessage('Bạn đã chọn : ' + items[selectIndex]);
                 });

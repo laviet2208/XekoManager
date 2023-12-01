@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20khu%20v%E1%BB%B1c%20v%C3%A0%20t%C3%A0i%20kho%E1%BA%A3n%20admin/Area.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20nh%C3%A0%20h%C3%A0ng/Th%C3%AAm%20c%E1%BB%ADa%20h%C3%A0ng.dart';
 import 'package:xekomanagermain/dataClass/accountShop.dart';
 import '../../dataClass/Time.dart';
@@ -27,6 +28,11 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
   int selectIndex = 0;
   bool loading = false;
   String Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
+  List<Area> areaList = [];
+  List<String> areaText = [];
+  List<Area> areaList1 = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
+
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
@@ -38,9 +44,30 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
         accountShop food= accountShop.fromJson(value);
         shopList.add(food);
         chosenList.add(food);
+        sortChosenListByCreateTime(chosenList);
       });
       setState(() {
 
+      });
+    });
+  }
+
+  void getData1() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Area").onValue.listen((event) {
+      areaList.clear();
+      areaList1.clear();
+      areaList1.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Area area= Area.fromJson(value);
+        areaList.add(area);
+        areaList1.add(area);
+      });
+      setState(() {
+        if (areaList1.length != 0) {
+          chosenArea = areaList1.first;
+        }
       });
     });
   }
@@ -57,16 +84,66 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
     });
   }
 
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < shopList.length ; i++) {
+            chosenList.add(shopList.elementAt(i));
+            setState(() {
+
+            });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < shopList.length ; i++) {
+          if (shopList.elementAt(i).Area == chosenArea.id) {
+            chosenList.add(shopList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+      setState(() {
+
+      });
+  }
+
+  void sortChosenListByCreateTime(List<accountShop> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    getData1();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: widget.width,
       height: widget.height,
@@ -148,16 +225,49 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
                   Container(
                     width: (widget.width - 20)/5 - 1,
                     child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Thời gian tạo',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                      child: Container(
+                        width: (widget.width - 20)/5 - 1 - 20,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                height: 20,
+                                width: (widget.width - 20)/5 - 1 - 20,
+                                child: AutoSizeText(
+                                    'Thời gian tạo',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: 'roboto',
+                                        color: Colors.black,
+                                        fontSize: 100
+                                    ),
+                                  ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_downward_outlined,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  sortChosenListByCreateTime(chosenList);
+                                  setState(() {
+
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -243,6 +353,26 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
           ),
 
           Positioned(
+            top: 20,
+            right: 10,
+            child: Container(
+              width: 400,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList1.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
+              ),
+            ),
+          ),
+
+          Positioned(
             top: 130,
             left: 10,
             child: Container(
@@ -260,10 +390,10 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
                         showDialog (
                           context: context,
                           builder: (BuildContext context) {
-                            return Chinhsuashop(width: widget.width, height: widget.height, shop: chosenList[index],);
+                            return Chinhsuashop(width: widget.width, height: widget.height, shop: chosenList[index], data: 'Restaurant',);
                           },
                         );
-                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255), data: 'Restaurant',);
                 },
               ),
             ),

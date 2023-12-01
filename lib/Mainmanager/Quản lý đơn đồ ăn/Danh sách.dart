@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A1n%20%C4%91%E1%BB%93%20%C4%83n/foodOrder.dart';
 
+import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'Item trong danh sách.dart';
 
 class Danhsachdoan extends StatefulWidget {
@@ -17,7 +18,8 @@ class Danhsachdoan extends StatefulWidget {
 class _DanhsachdatxeState extends State<Danhsachdoan> {
   List<foodOrder> orderList = [];
   List<foodOrder> chosenList = [];
-
+  List<Area> areaList = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Order/foodOrder").onValue.listen((event) {
@@ -56,10 +58,62 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
     });
   }
 
+  void getData1() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Area").onValue.listen((event) {
+      areaList.clear();
+      areaList.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Area area= Area.fromJson(value);
+        areaList.add(area);
+      });
+      setState(() {
+        if (areaList.length != 0) {
+          chosenArea = areaList.first;
+        }
+      });
+    });
+  }
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          chosenList.add(orderList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          if (orderList.elementAt(i).owner.Area == chosenArea.id) {
+            chosenList.add(orderList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getData();
+    getData1();
   }
 
   @override
@@ -97,6 +151,26 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
                   ),
                 ),
               )
+          ),
+
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 300,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
+              ),
+            ),
           ),
 
           Positioned(

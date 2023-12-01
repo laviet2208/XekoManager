@@ -4,9 +4,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20store/DropList%20th%E1%BB%83%20lo%E1%BA%A1i.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
+import '../../dataClass/FinalClass.dart';
 import '../../dataClass/Time.dart';
 import '../../dataClass/accountShop.dart';
 import '../../utils/utils.dart';
@@ -34,19 +36,34 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
   int selectIndex = 0;
   String Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
   bool loading = false;
+  TimeOfDay selectedTime = TimeOfDay.now();
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
   Future<Uint8List?> galleryImagePicker() async {
-    ImagePicker picker = ImagePicker();
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    return bytesFromPicker;
+  }
 
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
+  Future<void> _selectTime(BuildContext context, int type) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
     );
 
-    if (file != null) return await file.readAsBytes();
-    return null;
+    if (picked != null && picked != selectedTime) {
+      setState(() {
+        selectedTime = picked;
+        if (type == 1) {
+          startcontrol.text =
+          '${selectedTime.hour}/${selectedTime.minute}/0';
+        } else {
+          endcontrol.text =
+          '${selectedTime.hour}/${selectedTime.minute}/0';
+        }
+
+      });
+    }
   }
 
   void getData1() {
@@ -470,13 +487,19 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ mở cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'chọn giờ mở cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,1);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -538,13 +561,19 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
                         ),
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nhập giờ đóng cửa , định dạng : "giờ/phút/giây"',
+                          hintText: 'Chọn giờ đóng cửa',
                           hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 16,
                             fontFamily: 'arial',
                           ),
                         ),
+                        onTap: () {
+                          _selectTime(context,2);
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -587,7 +616,7 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
                 'Chọn khu vực quản lý *',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontSize: 14,
+                    fontSize: currentAccount.provinceCode == '0' ? 14 : 0,
                     fontWeight: FontWeight.bold,
                     color: Colors.redAccent
                 ),
@@ -595,22 +624,21 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
             ),
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
 
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: Container(
-                height: 150,
+                height: currentAccount.provinceCode == '0' ? 150 : 0,
                 child: searchPageArea(list: areaList, area: area,),
               ),
             ),
 
 
             Container(
-              height: 10,
+              height: currentAccount.provinceCode == '0' ? 10 : 0,
             ),
-
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text(
@@ -670,13 +698,6 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
         TextButton(
           child: Text('Hủy'),
           onPressed: () {
-            tennhahangcontrol.clear();
-            passcontrol.clear();
-            startcontrol.clear();
-            endcontrol.clear();
-            sdtcontrol.clear();
-            locationcontrol.clear();
-            Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
             Navigator.of(context).pop();
           },
         ),
@@ -702,7 +723,7 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
                   password: passcontrol.text.toString(),
                   isTop: 1,
                   Type: selectIndex, ListDirectory: [],
-                  Area: area.id);
+                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode);
 
               if (registrationImage != null) {
                 await uploadImageToFirebaseStorage(registrationImage!, shop.id);
@@ -712,14 +733,6 @@ class _ChinhsuashopState extends State<Chinhsuastore> {
               setState(() {
                 loading = false; // Đặt biến loading lại thành false sau khi hoàn thành
               });
-
-              tennhahangcontrol.clear();
-              passcontrol.clear();
-              startcontrol.clear();
-              endcontrol.clear();
-              sdtcontrol.clear();
-              locationcontrol.clear();
-              Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
               Navigator.of(context).pop();
             } else {
               toastMessage('Phải nhập đủ thông tin');

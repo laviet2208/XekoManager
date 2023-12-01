@@ -77,7 +77,7 @@ class _DanhsachnhahangState extends State<Danhsachcuahang> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 10, right: 10),
                                   child: Container(
-                                    height: 150,
+                                    height: 400,
                                     child: searchPagedanhmuc(list: widget.directory.shopList, list1: widget.shopList,
                                       event: () async {
                                         await pushData();

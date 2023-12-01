@@ -91,16 +91,47 @@ class _ViewLogItemSendState extends State<ViewLogCatch> {
                 Padding(
                   padding: EdgeInsets.only(top: 7, bottom: 7),
                   child: Container(
-                    height: 30,
                     width: widget.screenWidth - 40 - 30 - 30,
-                    child: AutoSizeText(
-                      'Đang đợi tài xế , có thể hủy đơn',
-                      style: TextStyle(
-                          fontFamily: 'arial',
-                          color: Colors.black,
-                          fontSize: 200,
-                          fontWeight: (widget.thiscatch.status == 'A') ?  FontWeight.bold : FontWeight.normal
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            child: AutoSizeText(
+                              'Đang đợi tài xế nhận đơn',
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'A') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            alignment: Alignment.centerRight,
+                            child: AutoSizeText(
+                              ((widget.thiscatch. S1time.hour < 10) ? '0' + widget.thiscatch. S1time.hour.toString() : widget.thiscatch. S1time.hour.toString()) + ':' + ((widget.thiscatch. S1time.minute < 10) ? '0' + widget.thiscatch. S1time.minute.toString() : widget.thiscatch. S1time.minute.toString()) + ' , ngày ' + ((widget.thiscatch.S1time.day < 10) ? '0' + widget.thiscatch. S1time.day.toString() : widget.thiscatch. S1time.day.toString()) + '/' + ((widget.thiscatch.S1time.month < 10) ? '0' + widget.thiscatch. S1time.month.toString() : widget.thiscatch. S1time.month.toString()),
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'A') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -157,14 +188,46 @@ class _ViewLogItemSendState extends State<ViewLogCatch> {
                   child: Container(
                     height: 30,
                     width: widget.screenWidth - 40 - 30 - 30,
-                    child: AutoSizeText(
-                      'Tài xế ' + widget.thiscatch.shipper.name + ' đang đến',
-                      style: TextStyle(
-                          fontFamily: 'arial',
-                          color: Colors.black,
-                          fontSize: 200,
-                          fontWeight: (widget.thiscatch.status == 'B') ?  FontWeight.bold : FontWeight.normal
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            child: AutoSizeText(
+                              'Tài xế ' + widget.thiscatch.shipper.name + ' đang đến',
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'B') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            alignment: Alignment.centerRight,
+                            child: AutoSizeText(
+                              ((widget.thiscatch. S2time.hour < 10) ? '0' + widget.thiscatch. S2time.hour.toString() : widget.thiscatch. S2time.hour.toString()) + ':' + ((widget.thiscatch. S2time.minute < 10) ? '0' + widget.thiscatch. S2time.minute.toString() : widget.thiscatch. S2time.minute.toString()) + ' , ngày ' + ((widget.thiscatch.S2time.day < 10) ? '0' + widget.thiscatch. S2time.day.toString() : widget.thiscatch. S2time.day.toString()) + '/' + ((widget.thiscatch.S2time.month < 10) ? '0' + widget.thiscatch. S2time.month.toString() : widget.thiscatch. S2time.month.toString()),
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'B') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -219,16 +282,47 @@ class _ViewLogItemSendState extends State<ViewLogCatch> {
                 Padding(
                   padding: EdgeInsets.only(top: 7, bottom: 7),
                   child: Container(
-                    height: 30,
                     width: widget.screenWidth - 40 - 30 - 30,
-                    child: AutoSizeText(
-                      'Hành trình bắt đầu ',
-                      style: TextStyle(
-                          fontFamily: 'arial',
-                          color: Colors.black,
-                          fontSize: 200,
-                          fontWeight: (widget.thiscatch.status == 'C') ?  FontWeight.bold : FontWeight.normal
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            child: AutoSizeText(
+                              'Hành trình bắt đầu',
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'C') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            alignment: Alignment.centerRight,
+                            child: AutoSizeText(
+                              ((widget.thiscatch. S3time.hour < 10) ? '0' + widget.thiscatch. S3time.hour.toString() : widget.thiscatch. S3time.hour.toString()) + ':' + ((widget.thiscatch. S3time.minute < 10) ? '0' + widget.thiscatch. S3time.minute.toString() : widget.thiscatch. S3time.minute.toString()) + ' , ngày ' + ((widget.thiscatch.S3time.day < 10) ? '0' + widget.thiscatch. S3time.day.toString() : widget.thiscatch. S3time.day.toString()) + '/' + ((widget.thiscatch.S3time.month < 10) ? '0' + widget.thiscatch. S3time.month.toString() : widget.thiscatch. S3time.month.toString()),
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'C') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -283,16 +377,47 @@ class _ViewLogItemSendState extends State<ViewLogCatch> {
                 Padding(
                   padding: EdgeInsets.only(top: 7, bottom: 7),
                   child: Container(
-                    height: 30,
                     width: widget.screenWidth - 40 - 30 - 30,
-                    child: AutoSizeText(
-                      finalStatus,
-                      style: TextStyle(
-                          fontFamily: 'arial',
-                          color: Colors.black,
-                          fontSize: 200,
-                          fontWeight: (widget.thiscatch.status == 'E' || widget.thiscatch.status == 'F' || widget.thiscatch.status == 'G' || widget.thiscatch.status == 'D' || widget.thiscatch.status == 'H1' || widget.thiscatch.status == 'H2') ?  FontWeight.bold : FontWeight.normal
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            child: AutoSizeText(
+                              finalStatus,
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'E' || widget.thiscatch.status == 'F' || widget.thiscatch.status == 'G' || widget.thiscatch.status == 'D' || widget.thiscatch.status == 'H1' || widget.thiscatch.status == 'H2') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Container(
+                            height: 16,
+                            width: widget.screenWidth - 40 - 30 - 30,
+                            alignment: Alignment.centerRight,
+                            child: AutoSizeText(
+                              ((widget.thiscatch.S4time.hour < 10) ? '0' + widget.thiscatch.S4time.hour.toString() : widget.thiscatch.S4time.hour.toString()) + ':' + ((widget.thiscatch.S4time.minute < 10) ? '0' + widget.thiscatch.S4time.minute.toString() : widget.thiscatch.S4time.minute.toString()) + ' , ngày ' + ((widget.thiscatch.S4time.day < 10) ? '0' + widget.thiscatch.S4time.day.toString() : widget.thiscatch.S4time.day.toString()) + '/' + ((widget.thiscatch.S4time.month < 10) ? '0' + widget.thiscatch.S4time.month.toString() : widget.thiscatch.S4time.month.toString()),
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                  fontFamily: 'arial',
+                                  color: Colors.black,
+                                  fontSize: 200,
+                                  fontWeight: (widget.thiscatch.status == 'C') ?  FontWeight.bold : FontWeight.normal
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

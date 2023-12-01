@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import 'Data/itemsendOrder.dart';
 import 'Item trong danh sách.dart';
 
@@ -18,6 +19,59 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
   List<itemsendOrder> orderList = [];
   List<itemsendOrder> chosenList = [];
   TextEditingController searchController = TextEditingController();
+  List<Area> areaList = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
+
+  void getData1() {
+    final reference = FirebaseDatabase.instance.reference();
+    reference.child("Area").onValue.listen((event) {
+      areaList.clear();
+      areaList.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
+      final dynamic orders = event.snapshot.value;
+      orders.forEach((key, value) {
+        Area area= Area.fromJson(value);
+        areaList.add(area);
+      });
+      setState(() {
+        if (areaList.length != 0) {
+          chosenArea = areaList.first;
+        }
+      });
+    });
+  }
+
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          chosenList.add(orderList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < orderList.length ; i++) {
+          if (orderList.elementAt(i).owner.Area == chosenArea.id) {
+            chosenList.add(orderList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
 
   void onSearchTextChanged(String value) {
     setState(() {
@@ -49,6 +103,7 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
   void initState() {
     super.initState();
     getData();
+    getData1();
   }
 
   @override
@@ -84,6 +139,26 @@ class _DanhsachgiaohangState extends State<Danhsachgiaohang> {
                     fontFamily: 'roboto',
                   ),
                 ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 300,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
               ),
             ),
           ),

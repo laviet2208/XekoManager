@@ -719,7 +719,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.order.startTime.hour.toString() + ' giờ, ' + widget.order.startTime.minute.toString() + ' Phút, ' + widget.order.startTime.hour.toString() + ' giây',
+                            text: widget.order.S1time.hour.toString() + ' giờ, ' + widget.order.S1time.minute.toString() + ' Phút, ' + widget.order.S1time.hour.toString() + ' giây',
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',
@@ -747,7 +747,7 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                             ),
                           ),
                           TextSpan(
-                            text: 'Ngày ' + widget.order.startTime.day.toString() + ' ,tháng ' + widget.order.startTime.month.toString() + ' ,năm ' + widget.order.startTime.year.toString(),
+                            text: 'Ngày ' + widget.order.S1time.day.toString() + ' ,tháng ' + widget.order.S1time.month.toString() + ' ,năm ' + widget.order.S1time.year.toString(),
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'arial',

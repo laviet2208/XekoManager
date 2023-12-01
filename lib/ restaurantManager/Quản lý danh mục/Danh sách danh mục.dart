@@ -17,7 +17,8 @@ class Danhsachdanhmuc extends StatefulWidget {
   final double width;
   final double height;
   final accountShop shop;
-  const Danhsachdanhmuc({Key? key, required this.width, required this.height, required this.shop}) : super(key: key);
+  final String data;
+  const Danhsachdanhmuc({Key? key, required this.width, required this.height, required this.shop, required this.data}) : super(key: key);
 
   @override
   State<Danhsachdanhmuc> createState() => _DanhsachdanhmucState();
@@ -33,7 +34,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
-    reference.child("FoodDirectory").onValue.listen((event) {
+    reference.child(widget.data == 'Restaurant' ? "FoodDirectory" : 'ProductDirectory').onValue.listen((event) {
       list.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
@@ -80,11 +81,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: 10,
+            top: 5,
             left: 10,
             child: GestureDetector(
               child: Container(
-                width: 120,
+                width: 190,
                 height: 40,
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
@@ -94,9 +95,9 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                 child: Padding(
                   padding: EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
                   child: AutoSizeText(
-                    '+ Thêm danh mục món ăn',
+                    widget.data == 'Restaurant' ? '+ Thêm danh mục món ăn' : '+ Thêm danh mục sản phẩm',
                     style: TextStyle(
-                        fontFamily: 'arial',
+                        fontFamily: 'roboto',
                         fontSize: 100,
                         color: Colors.white
                     ),
@@ -106,17 +107,17 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
               ),
 
               onTap: () {
-                Themdanhmucdoan.showdialog(widget.width/2, 200, context, TextEditingController(), widget.shop);
+                Themdanhmucdoan.showdialog(widget.width/3*2, 200, context, TextEditingController(), widget.shop, widget.data);
               },
             ),
           ),
 
           Positioned(
-            top: 70,
+            top: 55,
             left: 10,
             child: Container(
               width: widget.width - 20,
-              height: 80,
+              height: widget.height * 5 - 65,
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -124,9 +125,13 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                     left: 0,
                     child: Container(
                       width: widget.width - 20,
-                      height: 80,
+                      height: 50,
                       decoration: BoxDecoration(
-                          color:  Color.fromARGB(255, 240, 242, 245)
+                          color: Color.fromARGB(255, 247, 250, 255),
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 225, 225, 226)
+                          )
                       ),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
@@ -136,11 +141,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                             width: (widget.width - 20)/4 - 1,
                             alignment: Alignment.center,
                             child : Padding(
-                              padding: EdgeInsets.only(top: 32,bottom: 32),
+                              padding: EdgeInsets.only(top: 15,bottom: 15),
                               child: AutoSizeText(
                                 'ID danh mục',
                                 style: TextStyle(
-                                    fontFamily: 'arial',
+                                    fontFamily: 'roboto',
                                     color: Colors.black,
                                     fontSize: 100
                                 ),
@@ -151,7 +156,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                           Container(
                             width: 1,
                             decoration: BoxDecoration(
-                                color: Colors.black
+                                color: Color.fromARGB(255, 225, 225, 226)
                             ),
                           ),
 
@@ -159,11 +164,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                             width: (widget.width - 20)/4 - 1,
                             alignment: Alignment.center,
                             child : Padding(
-                              padding: EdgeInsets.only(top: 32,bottom: 32),
+                              padding: EdgeInsets.only(top: 15,bottom: 15),
                               child: AutoSizeText(
                                 'Tên danh mục',
                                 style: TextStyle(
-                                    fontFamily: 'arial',
+                                    fontFamily: 'roboto',
                                     color: Colors.black,
                                     fontSize: 100
                                 ),
@@ -174,7 +179,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                           Container(
                             width: 1,
                             decoration: BoxDecoration(
-                                color: Colors.black
+                                color: Color.fromARGB(255, 225, 225, 226)
                             ),
                           ),
 
@@ -182,11 +187,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                             width: (widget.width - 20)/4 - 1,
                             alignment: Alignment.center,
                             child : Padding(
-                              padding: EdgeInsets.only(top: 32,bottom: 32),
+                              padding: EdgeInsets.only(top: 15,bottom: 15),
                               child: AutoSizeText(
-                                'Sô lượng món ăn',
+                                widget.data == 'Restaurant' ? 'Số lượng món ăn' : 'Số lượng sản phẩm',
                                 style: TextStyle(
-                                    fontFamily: 'arial',
+                                    fontFamily: 'roboto',
                                     color: Colors.black,
                                     fontSize: 100
                                 ),
@@ -197,7 +202,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                           Container(
                             width: 1,
                             decoration: BoxDecoration(
-                                color: Colors.black
+                                color: Color.fromARGB(255, 225, 225, 226)
                             ),
                           ),
 
@@ -205,11 +210,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                             width: (widget.width - 20)/4 - 1,
                             alignment: Alignment.center,
                             child : Padding(
-                              padding: EdgeInsets.only(top: 32,bottom: 32),
+                              padding: EdgeInsets.only(top: 15,bottom: 15),
                               child: AutoSizeText(
                                 'Thao tác',
                                 style: TextStyle(
-                                    fontFamily: 'arial',
+                                    fontFamily: 'roboto',
                                     color: Colors.black,
                                     fontSize: 100
                                 ),
@@ -220,18 +225,17 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    top: 50,
+                    left: 0,
+                    child: Container(
+                      width: widget.width - 20,
+                      height: widget.height * 5 - 60,
+                      child: Hienthidanhmucdoan(width: widget.width - 20, height: widget.height * 5 - 60, idShop: widget.shop.id, data: widget.data,),
+                    ),
+                  )
                 ],
               ),
-            ),
-          ),
-
-          Positioned(
-            top: 175,
-            left: 10,
-            child: Container(
-              width: widget.width - 20,
-              height: widget.height - 190,
-              child: Hienthidanhmucdoan(width: widget.width - 20, height: 140, idShop: widget.shop.id,),
             ),
           )
         ],

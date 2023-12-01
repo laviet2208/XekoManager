@@ -4,8 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:xekomanagermain/OTHER/Button/Buttontype1.dart';
 import '../../../dataClass/Product.dart';
+import '../../../dataClass/Time.dart';
 import '../../../dataClass/accountShop.dart';
 import '../../../utils/utils.dart';
 
@@ -30,15 +32,8 @@ class _SuamonanState extends State<Suasanpham> {
   final picker = ImagePicker();
 
   Future<Uint8List?> galleryImagePicker() async {
-    ImagePicker picker = ImagePicker();
-
-    XFile? file = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 90,
-    );
-
-    if (file != null) return await file.readAsBytes();
-    return null;
+    Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+    return bytesFromPicker;
   }
 
   static Future<void> pushData(Product food) async{
@@ -387,10 +382,10 @@ class _SuamonanState extends State<Suasanpham> {
                       await uploadImageToFirebaseStorage(registrationImage!, widget.product.id);
                     }
                     if (registrationImage != null) {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                       await pushData(pro);
                     } else {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                       await pushData(pro);
                     }
 

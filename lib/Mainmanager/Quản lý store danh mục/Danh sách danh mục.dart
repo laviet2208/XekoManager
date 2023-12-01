@@ -7,6 +7,7 @@ import '../../dataClass/accountShop.dart';
 import '../../utils/utils.dart';
 import '../Quản lý khu vực và tài khoản admin/Area.dart';
 import '../Quản lý khu vực và tài khoản admin/Tài khoản admin khu vực/Page tìm kiếm.dart';
+import '../Quản lý nhà hàng danh mục/Cập nhật danh mục.dart';
 import '../Quản lý nhà hàng danh mục/Danh mục.dart';
 import 'DropList chọn icon.dart';
 import 'ItemDanhmuc.dart';
@@ -23,6 +24,10 @@ class Danhsachdanhmucstore extends StatefulWidget {
 class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
   final mainContent = TextEditingController();
   final subContent = TextEditingController();
+  List<Area> areaList1 = [];
+  TextEditingController searchController = TextEditingController();
+  List<RestaurantDirectory> chosenList = [];
+  Area chosenArea = Area(id: '', name: '', money: 0, status: 0);
   List<accountShop> shopList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<Area> areaList = [];
@@ -34,10 +39,12 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("StoreDirectory").onValue.listen((event) {
       DirectList.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         RestaurantDirectory food= RestaurantDirectory.fromJson(value);
         DirectList.add(food);
+        chosenList.add(food);
       });
       setState(() {
 
@@ -45,17 +52,50 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
     });
   }
 
+  void sortChosenListByCreateTime(List<accountShop> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
+    });
+  }
+
+  void onSearchTextChanged(String value) {
+    setState(() {
+      chosenList = DirectList
+          .where((account) =>
+      account.mainContent.toLowerCase().contains(value.toLowerCase()) ||
+          account.subContent.toLowerCase().contains(value.toLowerCase()) ||
+          account.id.toLowerCase().contains(value.toLowerCase()) ||
+          account.shopList.length.toString().toLowerCase().contains(value.toLowerCase())).toList();
+    });
+  }
+
   void getData1() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("Area").onValue.listen((event) {
       areaList.clear();
+      areaList1.clear();
+      areaList1.add(Area(id: 'all', name: 'Tất cả', money: 0, status: 0));
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         Area area= Area.fromJson(value);
         areaList.add(area);
+        areaList1.add(area);
       });
       setState(() {
-
+        if (areaList1.length != 0) {
+          chosenArea = areaList1.first;
+        }
       });
     });
   }
@@ -82,6 +122,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
       orders.forEach((key, value) {
         accountShop food= accountShop.fromJson(value);
         shopList.add(food);
+        sortChosenListByCreateTime(shopList);
       });
       setState(() {
 
@@ -89,11 +130,46 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
     });
   }
 
+  void dropdownCallback(Area? selectedValue) {
+    if (selectedValue is Area) {
+      chosenArea = selectedValue;
+      if (chosenArea.id == 'all') {
+        chosenList.clear();
+        for(int i = 0 ; i < DirectList.length ; i++) {
+          chosenList.add(DirectList.elementAt(i));
+          setState(() {
+
+          });
+        }
+        setState(() {
+
+        });
+      } else {
+        chosenList.clear();
+        for(int i = 0 ; i < DirectList.length ; i++) {
+          if (DirectList.elementAt(i).Area == chosenArea.id) {
+            chosenList.add(DirectList.elementAt(i));
+            setState(() {
+
+            });
+          }
+        }
+      }
+
+    }
+
+    setState(() {
+
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
+    getData1();
     getRestaurantData();
   }
 
@@ -399,7 +475,8 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
                                     subContent: subContent.text.toString(),
                                     subIcon: shop.phoneNum,
                                     shopList: [],
-                                    Area: area.id);
+                                    Area: area.id,
+                                    createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                                 await pushData(res);
                                 Navigator.of(context).pop();
                               }
@@ -416,6 +493,56 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
                   },
                 );
               },
+            ),
+          ),
+
+          Positioned(
+            top: 10,
+            left: 150,
+            child: Container(
+              width: 400,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              ),
+              child: TextFormField(
+                controller: searchController,
+                onChanged: onSearchTextChanged,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'roboto',
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Tìm kiếm danh mục',
+                  prefixIcon: Icon(Icons.search, color: Colors.grey,),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontFamily: 'roboto',
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Container(
+              width: 400,
+              height: 40,
+              child: DropdownButton<Area>(
+                items: areaList1.map((e) => DropdownMenuItem<Area>(
+                  value: e,
+                  child: Text('Khu vực : ' + e.name),
+                )).toList(),
+                onChanged: (value) { dropdownCallback(value); },
+                value: chosenArea,
+                iconEnabledColor: Colors.redAccent,
+                isExpanded: true,
+                iconDisabledColor: Colors.grey,
+              ),
             ),
           ),
 
@@ -566,12 +693,17 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
                   color: Color.fromARGB(255, 255, 255, 255)
               ),
               child: ListView.builder(
-                itemCount: DirectList.length,
+                itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return ITEMdanhmucshop(width: widget.width - 20, height: 120, directory: DirectList[index],shopList: shopList,
-                      updateEvent: () {
-
-                      }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                  return ITEMdanhmucshop(width: widget.width - 20, height: 120, directory: chosenList[index],shopList: shopList,
+                    updateEvent: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Capnhatdanhmuc(directory: chosenList[index], data: 'StoreDirectory');
+                          }
+                      );
+                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
                 },
               ),
             ),

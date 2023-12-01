@@ -7,10 +7,10 @@ import 'package:xekomanagermain/utils/utils.dart';
 import 'Danh mục đồ ăn.dart';
 
 class Themdanhmucdoan {
-  static Future<void> pushData(FoodDirectory foodDirectory) async{
+  static Future<void> pushData(FoodDirectory foodDirectory, String data) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-      await databaseRef.child('FoodDirectory').child(foodDirectory.id).set(foodDirectory.toJson());
+      await databaseRef.child(data == 'Restaurant' ? 'FoodDirectory' : 'ProductDirectory').child(foodDirectory.id).set(foodDirectory.toJson());
       toastMessage('Thêm danh mục thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -18,11 +18,11 @@ class Themdanhmucdoan {
     }
   }
 
-  static Future<void> pushData1(accountShop foodDirectory, String id) async{
+  static Future<void> pushData1(accountShop foodDirectory, String id, String data) async{
     try {
       DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
       foodDirectory.ListDirectory.add(id);
-      await databaseRef.child('Restaurant').child(foodDirectory.id).child('ListDirectory').set(foodDirectory.ListDirectory);
+      await databaseRef.child(data).child(foodDirectory.id).child('ListDirectory').set(foodDirectory.ListDirectory);
       toastMessage('Thêm danh mục thành công');
     } catch (error) {
       print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -30,7 +30,7 @@ class Themdanhmucdoan {
     }
   }
 
-  static void showdialog(double width, double height, BuildContext context, TextEditingController textEditingController, accountShop shop) {
+  static void showdialog(double width, double height, BuildContext context, TextEditingController textEditingController, accountShop shop, String data) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -144,8 +144,8 @@ class Themdanhmucdoan {
                           foodList: [],
                           ownerID: shop.id
                       );
-                      await pushData(direct);
-                      await pushData1(shop, direct.id);
+                      await pushData(direct, data);
+                      await pushData1(shop, direct.id, data);
                       Navigator.of(context).pop();
                     } else {
                       toastMessage('Vui lòng điền tên danh mục');

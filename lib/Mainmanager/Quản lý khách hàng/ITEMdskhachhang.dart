@@ -305,85 +305,61 @@ Widget build(BuildContext context) {
             padding: EdgeInsets.only(left: 10, right: 10),
             child: ListView(
               children: [
-                Container(height: 15,),
+                Container(height: 8,),
 
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Giờ khởi tạo : ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  child: RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Giờ khởi tạo : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold, // Để in đậm
+                          ),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: widget.account.createTime.hour.toString() + ":" + widget.account.createTime.minute.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'roboto',
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                        TextSpan(
+                          text: widget.account.createTime.hour.toString() + ":" + (widget.account.createTime.minute < 10 ? '0' + widget.account.createTime.minute.toString() : widget.account.createTime.minute.toString()) + ":" + (widget.account.createTime.second < 10 ? '0' + widget.account.createTime.second.toString() : widget.account.createTime.second.toString()),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal, // Để viết bình thường
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
-                Container(height: 15,),
+                Container(height: 8,),
 
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Ngày khởi tạo : ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  child: RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Ngày : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold, // Để in đậm
+                          ),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'roboto',
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                        TextSpan(
+                          text: "Ngày " + widget.account.createTime.day.toString() + "/" + widget.account.createTime.month.toString() + "/" + widget.account.createTime.year.toString(), // Phần còn lại viết bình thường
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal, // Để viết bình thường
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
@@ -411,22 +387,22 @@ Widget build(BuildContext context) {
                   child: GestureDetector(
                     child: Container(
                       width: ((widget.width - 20)/6 - 30)/2,
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                              color: Colors.black ,
+                              color: Colors.redAccent ,
                               width: 1
                           ),
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(0)
                       ),
                       alignment: Alignment.center,
                       child: Text(
                         'Khóa/Mở tài khoản',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             fontSize: 13,
-                            color: Colors.black
+                            color: Colors.redAccent
                         ),
                       ),
                     ),
@@ -447,14 +423,14 @@ Widget build(BuildContext context) {
                   child: GestureDetector(
                     child: Container(
                       width: ((widget.width - 20)/6 - 30)/2,
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                           color: Colors.redAccent,
                           border: Border.all(
                               color: Colors.redAccent,
                               width: 1
                           ),
-                          borderRadius: BorderRadius.circular(10)
+                          borderRadius: BorderRadius.circular(0)
                       ),
                       alignment: Alignment.center,
                       child: Text(

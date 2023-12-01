@@ -12,7 +12,8 @@ class ItemFood extends StatelessWidget {
   final double width;
   final Product product;
   final Color color;
-  const ItemFood({Key? key, required this.width, required this.product, required this.color}) : super(key: key);
+  final String data;
+  const ItemFood({Key? key, required this.width, required this.product, required this.color, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class ItemFood extends StatelessWidget {
     Future<void> deleteRequest(String id) async {
       try {
         DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
-        await databaseRef.child('Food/' + id).remove();
+        await databaseRef.child(data + '/' + id).remove();
         toastMessage('xóa thành công');
       } catch (error) {
         toastMessage('Đã xảy ra lỗi khi đẩy catchOrder: $error');
@@ -39,7 +40,7 @@ class ItemFood extends StatelessWidget {
     }
 
     return Container(
-      height: width/10 - 30,
+      height: width/10 - 10,
       width: width,
       decoration: BoxDecoration(
         color: color,
@@ -57,7 +58,7 @@ class ItemFood extends StatelessWidget {
           Container(
             width: width/10,
             child: Padding(
-              padding: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -148,6 +149,37 @@ class ItemFood extends StatelessWidget {
                     Container(
                       height: 7,
                     ),
+
+                    Container(
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Cập nhật ngày : ',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                fontWeight: FontWeight.bold, // Để in đậm
+                              ),
+                            ),
+                            TextSpan(
+                              text: product.createTime.day.toString() + '/' + product.createTime.month.toString() + '/' + product.createTime.year.toString() + ' , ' + product.createTime.hour.toString() + ':' + product.createTime.minute.toString(), // Phần còn lại viết bình thường
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'roboto',
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal, // Để viết bình thường
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      height: 7,
+                    ),
                   ],
                 )
             ),
@@ -187,7 +219,7 @@ class ItemFood extends StatelessWidget {
             width: width+20 - (width/8) - (width/5) - (width/10) - 3,
             alignment: Alignment.centerRight,
             child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: (width/10 - 30)/3, bottom: (width/10 - 30)/3),
+                padding: EdgeInsets.only(left: 10, right: 10, top: (width/10 - 30)/2.5, bottom: (width/10 - 30)/2.5),
                 child: ListView(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -219,7 +251,7 @@ class ItemFood extends StatelessWidget {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text('Chỉnh sửa thông tin món ăn'),
-                                content: Suamonan(shop: product.owner, product: product),
+                                content: Suamonan(shop: product.owner, product: product, data: data,),
                               );
                             }
                         );
@@ -282,7 +314,7 @@ class ItemFood extends StatelessWidget {
                         ),
                       ),
                       onTap: () async {
-                        deleteImage('Food/'+product.id+'.png');
+                        deleteImage(data + '/'+product.id+'.png');
                         await deleteRequest(product.id);
                       },
                     ),
