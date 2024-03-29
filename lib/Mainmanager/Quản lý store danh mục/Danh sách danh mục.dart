@@ -31,7 +31,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
   List<accountShop> shopList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<Area> areaList = [];
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   final List<RestaurantDirectory> DirectList = [];
   bool loading = false;
 
@@ -171,6 +171,8 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmucstore> {
     getData();
     getData1();
     getRestaurantData();
+    shop.id = 'assets/image/icontrang1/fire.png';
+    shop.phoneNum = 'assets/image/icontrang1/fire.png';
   }
 
   @override

@@ -80,6 +80,17 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
     }
   }
 
+  Future<void> pushLicense(String index) async{
+    try {
+      DatabaseReference databaseRef = FirebaseDatabase.instance.reference();
+      await databaseRef.child('normalUser/' + widget.request.owner.id + '/license').set(index);
+      toastMessage('Phê duyệt thành công');
+    } catch (error) {
+      print('Đã xảy ra lỗi khi đẩy catchOrder: $error');
+      throw error;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -205,7 +216,7 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                             ),
                           ),
                           TextSpan(
-                            text: widget.request.owner.createTime.hour.toString() + ':' + widget.request.owner.createTime.minute.toString() + "  " + widget.request.owner.createTime.day.toString() + "/" + widget.request.owner.createTime.month.toString() + "/" + widget.request.owner.createTime.year.toString(),
+                            text: ((widget.request.owner.createTime.hour < 10) ? '0' + widget.request. owner.createTime.hour.toString() : widget.request. owner.createTime.hour.toString()) + ':' + ((widget.request. owner.createTime.minute < 10) ? '0' + widget.request. owner.createTime.minute.toString() : widget.request. owner.createTime.minute.toString()) + ' , ngày ' + ((widget.request.owner.createTime.day < 10) ? '0' + widget.request. owner.createTime.day.toString() : widget.request. owner.createTime.day.toString()) + '/' + ((widget.request.owner.createTime.month < 10) ? '0' + widget.request. owner.createTime.month.toString() : widget.request. owner.createTime.month.toString()),
                             style: TextStyle(
                               fontSize: 16,
                               fontFamily: 'roboto',
@@ -433,9 +444,8 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  deleteImage('CCCD/' + widget.request.owner.id + '_T.png');
-                                  deleteImage('CCCD/' + widget.request.owner.id + '_S.png');
-                                  await pushData(2);
+                                  await pushData(widget.request.type+1);
+                                  await pushLicense(widget.request.license);
                                   await deleteRequest(widget.request.id);
                                   Navigator.of(context).pop();
                                 },
@@ -724,6 +734,177 @@ class _ITEMdontaixeState extends State<ITEMdontaixe> {
                                           padding: EdgeInsets.only(left: 10),
                                           child: Text(
                                             widget.request.owner.createTime.hour.toString() + ':' + widget.request.owner.createTime.minute.toString() + ':' + widget.request.owner.createTime.second.toString() + ' ' + widget.request.owner.createTime.day.toString() + '/' + widget.request.owner.createTime.month.toString() + '/' + widget.request.owner.createTime.year.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily: 'roboto',
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ),
+
+                                  Container(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Địa chỉ trong đơn *',
+                                      style: TextStyle(
+                                          fontFamily: 'roboto',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.redAccent
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        height: 50,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.black,
+                                            )
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            widget.request.address,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily: 'roboto',
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ),
+
+                                  Container(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Loại phương tiện *',
+                                      style: TextStyle(
+                                          fontFamily: 'roboto',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.redAccent
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        height: 50,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.black,
+                                            )
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            (widget.request.type == 1) ? 'Xe máy' : 'Ô tô',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontFamily: 'roboto',
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                  ),
+
+                                  Container(
+                                    height: 20,
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      'Biển số xe *',
+                                      style: TextStyle(
+                                          fontFamily: 'roboto',
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.redAccent
+                                      ),
+                                    ),
+                                  ),
+
+                                  Container(
+                                    height: 10,
+                                  ),
+
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10, right: 10),
+                                      child: Container(
+                                        height: 50,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            border: Border.all(
+                                              width: 1,
+                                              color: Colors.black,
+                                            )
+                                        ),
+
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            widget.request.license,
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,

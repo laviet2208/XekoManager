@@ -614,82 +614,58 @@ class _ItemdanhsachState extends State<Itemdanhsach> {
                 Container(height: 15,),
 
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Thời gian tạo : ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'arial',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  child: RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Thời gian tạo : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold, // Để in đậm
+                          ),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: widget.order.S1time.hour.toString() + ':' + widget.order.S1time.minute.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'arial',
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                        TextSpan(
+                          text: widget.order.S1time.hour.toString() + ':' + widget.order.S1time.minute.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.normal, // Để viết bình thường
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
                 Container(height: 15,),
 
                 Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Ngày tạo đơn: ',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'arial',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  child: RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Ngày tạo đơn : ',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold, // Để in đậm
+                          ),
                         ),
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Ngày ' + widget.order.S1time.day.toString() + '/' + widget.order.S1time.month.toString() + '/' + widget.order.S1time.year.toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'arial',
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
+                        TextSpan(
+                          text: 'Ngày ' + widget.order.S1time.day.toString() + '/' + widget.order.S1time.month.toString() + '/' + widget.order.S1time.year.toString(),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.normal, // Để viết bình thường
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),

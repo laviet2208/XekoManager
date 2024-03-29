@@ -26,7 +26,7 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
   final List<accountShop> shopList = [];
   List<accountShop> chosenList = [];
   List<String> items = ['Bia/Rượu','Đồ hộp','Đồ khô','Gia dụng', 'Gia vị', 'Mẹ/Bé', 'Rau củ', 'Thực phẩm', 'Trứng/sữa',];
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   int selectIndex = 0;
   bool loading = false;
 

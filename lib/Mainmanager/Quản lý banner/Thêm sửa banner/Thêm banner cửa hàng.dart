@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
 
 import '../../../dataClass/Ads/ADStype1.dart';
@@ -21,7 +22,7 @@ class _AddShopBannerState extends State<AddShopBanner> {
   final mainImagecontrol = TextEditingController();
   List<accountShop> shopList = [];
   bool loading = false;
-  final accountShop selectShop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop selectShop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
 
   Future<void> pushData(ADStype1 adStype1) async{
     try {
@@ -44,7 +45,13 @@ class _AddShopBannerState extends State<AddShopBanner> {
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         accountShop food= accountShop.fromJson(value);
-        shopList.add(food);
+        if (currentAccount.provinceCode != '0') {
+          if (currentAccount.provinceCode == food.Area) {
+            shopList.add(food);
+          }
+        } else {
+          shopList.add(food);
+        }
       });
       setState(() {
 

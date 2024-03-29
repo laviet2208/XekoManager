@@ -24,7 +24,7 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
   final List<accountShop> shopList = [];
   List<accountShop> chosenList = [];
   List<String> items = ['5 sao','Ăn vặt','Bún phở','Cơm','Khuyến mãi','Món nhậu','Nước uống','Thức ăn nhanh','Trà sữa'];
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   int selectIndex = 0;
   bool loading = false;
   String Downloadurl = 'https://firebasestorage.googleapis.com/v0/b/xekoship-a0057.appspot.com/o/favicon.png?alt=media&token=4c3d22bf-971b-45af-9ebe-9561bd74d469';
@@ -134,6 +134,10 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
     });
   }
 
+  void sortChosenListAZ(List<accountShop> chosenList) {
+    chosenList.sort((a, b) => a.name.compareTo(b.name));
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -203,15 +207,48 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
                     width: (widget.width - 20)/5 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Tên nhà hàng',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
-                          ),
-                        )
+                      child: Container(
+                        width: (widget.width - 20)/5 - 1 - 20,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                height: 18,
+                                width: (widget.width - 20)/5 - 1 - 20,
+                                child: AutoSizeText(
+                                  'Tên nhà hàng',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontFamily: 'roboto',
+                                      color: Colors.black,
+                                      fontSize: 100
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.arrow_downward_outlined,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  sortChosenListAZ(chosenList);
+                                  setState(() {
+
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -234,7 +271,7 @@ class _PageQuanlyshopState extends State<PageQuanlyshop> {
                               top: 0,
                               left: 0,
                               child: Container(
-                                height: 20,
+                                height: 18,
                                 width: (widget.width - 20)/5 - 1 - 20,
                                 child: AutoSizeText(
                                     'Thời gian tạo',

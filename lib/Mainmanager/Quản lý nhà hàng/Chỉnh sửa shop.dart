@@ -44,7 +44,7 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
   List<Area> areaList = [];
   Area area = Area(id: '', name: '', money: 0, status: 0);
   TimeOfDay selectedTime = TimeOfDay.now();
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   Future<Uint8List?> galleryImagePicker() async {
     Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
     return bytesFromPicker;
@@ -115,10 +115,10 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
         selectedTime = picked;
         if (type == 1) {
           startcontrol.text =
-          '${selectedTime.hour}:${selectedTime.minute}:0';
+          '${selectedTime.hour >= 10 ? selectedTime.hour.toString() : '0' + selectedTime.hour.toString()}:${selectedTime.minute >= 10 ? selectedTime.minute.toString() : '0' + selectedTime.minute.toString()}:00';
         } else {
           endcontrol.text =
-          '${selectedTime.hour}:${selectedTime.minute}:0';
+          '${selectedTime.hour >= 10 ? selectedTime.hour.toString() : '0' + selectedTime.hour.toString()}:${selectedTime.minute >= 10 ? selectedTime.minute.toString() : '0' + selectedTime.minute.toString()}:00';
         }
 
       });
@@ -134,8 +134,8 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
     tennhahangcontrol.text = widget.shop.name;
     sdtcontrol.text = widget.shop.phoneNum;
     passcontrol.text = widget.shop.password;
-    startcontrol.text = widget.shop.openTime.hour.toString() + ":" + widget.shop.openTime.minute.toString() + ":" + widget.shop.openTime.second.toString();
-    endcontrol.text = widget.shop.closeTime.hour.toString() + ":" + widget.shop.closeTime.minute.toString() + ":" + widget.shop.closeTime.second.toString();
+    startcontrol.text = (widget.shop.openTime.hour >= 10 ? widget.shop.openTime.hour.toString() : '0' + widget.shop.openTime.hour.toString()) + ":" + (widget.shop.openTime.minute >= 10 ? widget.shop.openTime.minute.toString() : '0' + widget.shop.openTime.minute.toString()) + ":00";
+    endcontrol.text = (widget.shop.closeTime.hour >= 10 ? widget.shop.closeTime.hour.toString() : '0' + widget.shop.closeTime.hour.toString()) + ":" + (widget.shop.closeTime.minute >= 10 ? widget.shop.closeTime.minute.toString() : '0' + widget.shop.closeTime.minute.toString()) + ":00";
 
   }
   @override
@@ -681,8 +681,8 @@ class _ChinhsuashopState extends State<Chinhsuashop> {
                   createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),
                   password: passcontrol.text.toString(),
                   isTop: 1,
-                  Type: selectIndex, ListDirectory: [],
-                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode);
+                  Type: selectIndex, ListDirectory: widget.shop.ListDirectory,
+                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode, OpenStatus: widget.shop.OpenStatus);
 
               if (registrationImage != null) {
                 await uploadImageToFirebaseStorage(registrationImage!, shop.id);

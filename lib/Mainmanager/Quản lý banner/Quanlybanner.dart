@@ -9,7 +9,6 @@ import 'package:xekomanagermain/dataClass/Ads/ADStype1.dart';
 import 'package:xekomanagermain/dataClass/Time.dart';
 import 'package:xekomanagermain/dataClass/accountShop.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
-
 import '../../utils/utils.dart';
 
 class Quanlybanner extends StatefulWidget {

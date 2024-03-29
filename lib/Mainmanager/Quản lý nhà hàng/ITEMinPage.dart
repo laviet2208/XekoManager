@@ -341,7 +341,7 @@ class _ITEMshopState extends State<ITEMshop> {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: widget.shop.createTime.day.toString() + "/" + widget.shop.createTime.month.toString() + "/" + widget.shop.createTime.year.toString(),
+                                  text: (widget.shop.createTime.day >= 10 ? widget.shop.createTime.day.toString() : '0' + widget.shop.createTime.day.toString()) + "/" + (widget.shop.createTime.month >= 10 ? widget.shop.createTime.month.toString() : '0' + widget.shop.createTime.month.toString()) + "/" + widget.shop.createTime.year.toString(),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'roboto',
@@ -384,7 +384,7 @@ class _ITEMshopState extends State<ITEMshop> {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: widget.shop.createTime.hour.toString() + ":" + widget.shop.createTime.minute.toString() + ":" + widget.shop.createTime.second.toString(),
+                                  text: (widget.shop.createTime.hour >= 10 ? widget.shop.createTime.hour.toString() : '0' + widget.shop.createTime.hour.toString()) + ":" + (widget.shop.createTime.minute >= 10 ? widget.shop.createTime.minute.toString() : '0' + widget.shop.createTime.minute.toString()) + ":" + (widget.shop.createTime.second >= 10 ? widget.shop.createTime.second.toString() : '0' + widget.shop.createTime.second.toString()),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'roboto',
@@ -475,7 +475,7 @@ class _ITEMshopState extends State<ITEMshop> {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: widget.shop.openTime.hour.toString() + " giờ, " + widget.shop.openTime.minute.toString() + " phút",
+                                  text: (widget.shop.openTime.hour >= 10 ? widget.shop.openTime.hour.toString() : '0' + widget.shop.openTime.hour.toString()) + " giờ, " + (widget.shop.openTime.minute >= 10 ? widget.shop.openTime.minute.toString() : '0' + widget.shop.openTime.minute.toString()) + " phút",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'roboto',
@@ -518,7 +518,7 @@ class _ITEMshopState extends State<ITEMshop> {
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: widget.shop.closeTime.hour.toString() + " giờ, " + widget.shop.closeTime.minute.toString() + " phút",
+                                  text: (widget.shop.closeTime.hour >= 10 ? widget.shop.closeTime.hour.toString() : '0' + widget.shop.closeTime.hour.toString()) + " giờ, " + (widget.shop.closeTime.minute >= 10 ? widget.shop.closeTime.minute.toString() : '0' + widget.shop.closeTime.minute.toString()) + " phút",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontFamily: 'roboto',

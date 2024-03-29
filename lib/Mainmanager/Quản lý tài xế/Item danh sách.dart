@@ -308,14 +308,14 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           ),
 
           Container(
-            width: (widget.width - 20)/6 - 1,
+            width: (widget.width - 20)/6 - 1 - 100,
             alignment: Alignment.center,
             child: Padding(
               padding: EdgeInsets.only(left: 25, right: 25),
               child: Container(
                 height: 35,
                 decoration: BoxDecoration(
-                  color: (widget.account.status == 1) ? Colors.green : Colors.redAccent,
+                  color: statuscolor,
                   borderRadius: BorderRadius.circular(10)
                 ),
                 alignment: Alignment.center,
@@ -340,7 +340,39 @@ class _ITEMdanhsachkhachhangState extends State<ITEMdanhsachtaixe> {
           ),
 
           Container(
-            width: (widget.width - 20)/6 - 1,
+            width: 160,
+            alignment: Alignment.center,
+            child: Padding(
+                padding: EdgeInsets.only(left: 25, right: 25),
+                child: Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                      color: (widget.account.WorkStatus == 0) ? Colors.red : Colors.green,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    (widget.account.WorkStatus == 0) ? 'Offline' : 'Online',
+                    style: TextStyle(
+                        fontFamily: 'roboto',
+                        fontSize: 14,
+                        color:  Colors.black,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                )
+            ),
+          ),
+
+          Container(
+            width: 1,
+            decoration: BoxDecoration(
+                color: Color.fromARGB(255, 225, 225, 226)
+            ),
+          ),
+
+          Container(
+            width: (widget.width - 20)/6 - 1 - 60,
             child: Padding(
                 padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 50),
                 child: AutoSizeText(

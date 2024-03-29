@@ -32,8 +32,25 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
         }
       });
       setState(() {
-
+        sortChosenListByCreateTime(chosenList);
       });
+    });
+  }
+
+  void sortChosenListByCreateTime(List<foodOrder> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.S1time.year.compareTo(a.S1time.year) != 0
+          ? b.S1time.year.compareTo(a.S1time.year)
+          : (b.S1time.month.compareTo(a.S1time.month) != 0
+          ? b.S1time.month.compareTo(a.S1time.month)
+          : (b.S1time.day.compareTo(a.S1time.day) != 0
+          ? b.S1time.day.compareTo(a.S1time.day)
+          : (b.S1time.hour.compareTo(a.S1time.hour) != 0
+          ? b.S1time.hour.compareTo(a.S1time.hour)
+          : (b.S1time.minute.compareTo(a.S1time.minute) != 0
+          ? b.S1time.minute.compareTo(a.S1time.minute)
+          : b.S1time.second.compareTo(a.S1time.second)))));
     });
   }
 
@@ -55,6 +72,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
           account.costFee.discount.toString().toLowerCase().contains(value.toLowerCase()) ||
           account.costBiker.discount.toString().toLowerCase().contains(value.toLowerCase()))
           .toList();
+      sortChosenListByCreateTime(chosenList);
     });
   }
 
@@ -273,7 +291,7 @@ class _DanhsachdatxeState extends State<Danhsachdoan> {
               child: chosenList.length != 0 ? ListView.builder(
                 itemCount: chosenList.length,
                 itemBuilder: (context, index) {
-                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255));
+                  return Itemdanhsach(width: widget.width - 20, order: chosenList[index], color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255), data: 'foodOrder',);
                 },
               ) : Text('Danh sách trống'),
             ),

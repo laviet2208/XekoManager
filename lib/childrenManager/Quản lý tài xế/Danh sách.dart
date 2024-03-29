@@ -8,6 +8,7 @@ import '../../Mainmanager/Quản lý khu vực và tài khoản admin/Area.dart'
 import '../../Mainmanager/Quản lý khách hàng/accountNormal.dart';
 import '../../Mainmanager/Quản lý tài xế/Item danh sách.dart';
 import '../../utils/utils.dart';
+import 'Cập nhật tài xế.dart';
 
 
 class danhsachtaixe extends StatefulWidget {
@@ -22,14 +23,12 @@ class danhsachtaixe extends StatefulWidget {
 class _danhsachtaixeState extends State<danhsachtaixe> {
   List<accountNormal> accountList = [];
   List<accountNormal> chosenList = [];
-  Area area = Area(id: '', name: '', money: 0, status: 0);
-  final TextEditingController name = TextEditingController();
-  final TextEditingController money = TextEditingController();
 
   void getData() {
     final reference = FirebaseDatabase.instance.reference();
     reference.child("normalUser").onValue.listen((event) {
       accountList.clear();
+      chosenList.clear();
       final dynamic orders = event.snapshot.value;
       orders.forEach((key, value) {
         accountNormal food= accountNormal.fromJson(value);
@@ -141,7 +140,7 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                             'Tài khoản',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -164,7 +163,7 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                             'Vị trí được chọn',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -180,14 +179,14 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                     ),
 
                     Container(
-                      width: (widget.width - 20)/6 - 1,
+                      width: (widget.width - 20)/6 - 1 - 100,
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                           child: AutoSizeText(
-                            'Trạng thái tài khoản',
+                            'Trạng thái',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -203,14 +202,37 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                     ),
 
                     Container(
-                      width: (widget.width - 20)/6 - 1,
+                      width: 160,
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+                          child: AutoSizeText(
+                            'Online',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'roboto',
+                                color: Colors.black,
+                                fontSize: 100
+                            ),
+                          )
+                      ),
+                    ),
+
+                    Container(
+                      width: 1,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 225, 225, 226)
+                      ),
+                    ),
+
+                    Container(
+                      width: (widget.width - 20)/6 - 1 - 60,
                       child: Padding(
                           padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
                           child: AutoSizeText(
                             'Thuộc khu vực',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -233,7 +255,7 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                             'Ngày khởi tạo',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -256,7 +278,7 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                             'Thao tác',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'arial',
+                                fontFamily: 'roboto',
                                 color: Colors.black,
                                 fontSize: 100
                             ),
@@ -282,401 +304,10 @@ class _danhsachtaixeState extends State<danhsachtaixe> {
                     itemBuilder: (context, index) {
                       return ITEMdanhsachtaixe(width: widget.width, height: 120, account: chosenList[index],
                         onTapUpdate: () async {
-                          name.text = chosenList[index].name.toString();
-                          money.text = chosenList[index].totalMoney.toString();
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Cập nhật thông tin tài xế'),
-                                  content: Container(
-                                    width: 500, // Đặt kích thước chiều rộng theo ý muốn
-                                    height: 600, // Đặt kích thước chiều cao theo ý muốn
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.2), // màu của shadow
-                                          spreadRadius: 5, // bán kính của shadow
-                                          blurRadius: 7, // độ mờ của shadow
-                                          offset: Offset(0, 3), // vị trí của shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: ListView(
-                                      children: [
-                                        Container(
-                                          height: 10,
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Tên trong app',
-                                            style: TextStyle(
-                                                fontFamily: 'roboto',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.redAccent
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 10,
-                                        ),
-
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 10, right: 10),
-                                            child: Container(
-                                              height: 50,
-                                              alignment: Alignment.centerLeft,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey.withOpacity(0.3),
-                                                      spreadRadius: 5,
-                                                      blurRadius: 7,
-                                                      offset: Offset(0, 3),
-                                                    ),
-                                                  ],
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: Colors.black,
-                                                  )
-                                              ),
-
-                                              child: Padding(
-                                                padding: EdgeInsets.only(left: 10),
-                                                child: Form(
-                                                  child: TextFormField(
-                                                    controller: name,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontFamily: 'roboto',
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Tên trong app',
-                                                      hintStyle: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 16,
-                                                        fontFamily: 'roboto',
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                        ),
-
-                                        Container(
-                                          height: 10,
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Số dư(VNĐ)',
-                                            style: TextStyle(
-                                                fontFamily: 'roboto',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.redAccent
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 10,
-                                        ),
-
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 10, right: 10),
-                                            child: Container(
-                                              height: 50,
-                                              alignment: Alignment.centerLeft,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey.withOpacity(0.3),
-                                                      spreadRadius: 5,
-                                                      blurRadius: 7,
-                                                      offset: Offset(0, 3),
-                                                    ),
-                                                  ],
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: Colors.black,
-                                                  )
-                                              ),
-
-                                              child: Padding(
-                                                padding: EdgeInsets.only(left: 10),
-                                                child: Form(
-                                                  child: TextFormField(
-                                                    controller: money,
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontFamily: 'roboto',
-                                                    ),
-                                                    decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: 'Số dư tài khoản',
-                                                      hintStyle: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 16,
-                                                        fontFamily: 'roboto',
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                        ),
-
-                                        Container(
-                                          height: 10,
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            'Chọn khu vực',
-                                            style: TextStyle(
-                                                fontFamily: 'roboto',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.redAccent
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 20,
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10, right: 10),
-                                          child: Container(
-                                            height: 180,
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Positioned(
-                                                  top: 0,
-                                                  left: 30,
-                                                  child: Container(
-                                                    width: 150,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.grey
-                                                      ),
-                                                    ),
-                                                    child: FutureBuilder(
-                                                      future: _getImageURL(chosenList[index].id + '_LT.png'),
-                                                      builder: (context, snapshot) {
-                                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                                          return CircularProgressIndicator();
-                                                        }
-
-                                                        if (snapshot.hasError) {
-                                                          return Container(
-                                                            alignment: Alignment.center,
-                                                            child: Text('Ảnh lỗi hoặc chưa có ảnh',style: TextStyle(color: Colors.black, fontFamily: 'roboto'),textAlign: TextAlign.center,),
-                                                          );                                                        }
-
-                                                        if (!snapshot.hasData) {
-                                                          return Text('Image not found');
-                                                        }
-
-                                                        return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Positioned(
-                                                  bottom: 0,
-                                                  left: 30,
-                                                  child: Container(
-                                                    width: 150,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      'Mặt sau Giấy phép',
-                                                      style: TextStyle(
-                                                          fontFamily: 'roboto',
-                                                          fontSize: 14,
-                                                          color: Colors.redAccent
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Positioned(
-                                                  bottom: 0,
-                                                  right: 30,
-                                                  child: Container(
-                                                    width: 150,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      'Mặt trước Giấy phép',
-                                                      style: TextStyle(
-                                                          fontFamily: 'roboto',
-                                                          fontSize: 14,
-                                                          color: Colors.redAccent
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Positioned(
-                                                  top: 0,
-                                                  right: 30,
-                                                  child: Container(
-                                                    width: 150,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.grey
-                                                      ),
-                                                    ),
-                                                    child: FutureBuilder(
-                                                      future: _getImageURL(chosenList[index].id + '_LS.png'),
-                                                      builder: (context, snapshot) {
-                                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                                          return CircularProgressIndicator();
-                                                        }
-
-                                                        if (snapshot.hasError) {
-                                                          return Container(
-                                                            alignment: Alignment.center,
-                                                            child: Text('Ảnh lỗi hoặc chưa có ảnh',style: TextStyle(color: Colors.black, fontFamily: 'roboto'),textAlign: TextAlign.center,),
-                                                          );                                                        }
-
-                                                        if (!snapshot.hasData) {
-                                                          return Text('Image not found');
-                                                        }
-
-                                                        return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 20,
-                                        ),
-
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10, right: 10),
-                                          child: Container(
-                                            height: 180,
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Positioned(
-                                                  top: 0,
-                                                  left: 175,
-                                                  child: Container(
-                                                    width: 150,
-                                                    height: 150,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.grey
-                                                      ),
-                                                    ),
-                                                    child: FutureBuilder(
-                                                      future: _getImageURL(chosenList[index].id + '_Ava.png'),
-                                                      builder: (context, snapshot) {
-                                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                                          return CircularProgressIndicator();
-                                                        }
-
-                                                        if (snapshot.hasError) {
-                                                          return Container(
-                                                            alignment: Alignment.center,
-                                                            child: Text('Ảnh lỗi hoặc chưa có ảnh',style: TextStyle(color: Colors.black, fontFamily: 'roboto'),textAlign: TextAlign.center,),
-                                                          );
-                                                        }
-
-                                                        if (!snapshot.hasData) {
-                                                          return Text('Image not found');
-                                                        }
-
-                                                        return Image.network(snapshot.data.toString(),fit: BoxFit.fitHeight,);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-
-                                                Positioned(
-                                                  bottom: 0,
-                                                  left: 175,
-                                                  child: Container(
-                                                    width: 150,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      'Ảnh chân dung',
-                                                      style: TextStyle(
-                                                          fontFamily: 'roboto',
-                                                          fontSize: 14,
-                                                          color: Colors.redAccent
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-
-                                        Container(
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text('Hủy'),
-                                      onPressed: () {
-                                        area.id = '';
-                                        name.clear();
-                                        money.clear();
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child:Text('Lưu'),
-                                      onPressed: () async {
-                                        if (name.text.isNotEmpty && money.text.isNotEmpty) {
-                                          chosenList[index].name = name.text.toString();
-                                          await pushData(chosenList[index]);
-                                          area.id = '';
-                                          name.clear();
-                                          money.clear();
-                                          Navigator.of(context).pop();
-                                        } else {
-                                          toastMessage('Điền đủ các mục rồi tiếp tục');
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                );
+                                return UpdateDriver(driver: chosenList[index]);
                               }
                           );
                         },

@@ -382,10 +382,10 @@ class _SuamonanState extends State<Suasanpham> {
                       await uploadImageToFirebaseStorage(registrationImage!, widget.product.id);
                     }
                     if (registrationImage != null) {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: Downloadurl,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year), OpenStatus: 0,);
                       await pushData(pro);
                     } else {
-                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
+                      Product pro = Product(id: widget.product.id, name: t2.text.toString(), content: t1.text.toString(), owner: widget.shop, cost: double.parse(t3.text.toString()), imageList: widget.product.imageList,createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year), OpenStatus: 0,);
                       await pushData(pro);
                     }
 

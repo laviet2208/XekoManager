@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:xekomanagermain/dataClass/FinalClass.dart';
 import 'package:xekomanagermain/dataClass/dataCheckManager.dart';
+import '../../Mainmanager/Quản lý nhà hàng danh mục/Cập nhật danh mục.dart';
 import '../../Mainmanager/Quản lý nhà hàng danh mục/Danh mục.dart';
 import '../../Mainmanager/Quản lý nhà hàng danh mục/DropList chọn icon.dart';
 import '../../dataClass/Time.dart';
@@ -24,7 +25,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
   final subContent = TextEditingController();
   List<accountShop> shopList = [];
 
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   final List<RestaurantDirectory> DirectList = [];
   bool loading = false;
 
@@ -82,6 +83,8 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
     super.initState();
     getData();
     getRestaurantData();
+    shop.id = 'assets/image/icontrang1/fire.png';
+    shop.phoneNum = 'assets/image/icontrang1/fire.png';
   }
 
   @override
@@ -360,6 +363,11 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                                   createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
                                 await pushData(res);
                                 Navigator.of(context).pop();
+                              }  else {
+                                toastMessage('Phải nhập đủ thông tin');
+                                setState(() {
+                                  loading = false; // Đặt biến loading lại thành false sau khi hoàn thành
+                                });
                               }
                             } else {
                               toastMessage('Phải nhập đủ thông tin');
@@ -527,9 +535,14 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                 itemCount: DirectList.length,
                 itemBuilder: (context, index) {
                   return ITEMdanhmucshop(width: widget.width - 20, height: 120, directory: DirectList[index],shopList: shopList,
-                      updateEvent: () {
-
-                      }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
+                    updateEvent: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Capnhatdanhmuc(directory: DirectList[index], data: 'RestaurantDirectory');
+                          }
+                      );
+                    }, color: (index % 2 == 0) ? Colors.white : Color.fromARGB(255, 247, 250, 255),);
                 },
               ),
             ),

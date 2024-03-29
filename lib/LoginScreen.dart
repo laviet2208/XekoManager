@@ -358,11 +358,11 @@ class _SCREENLoginState extends State<SCREENLogin> {
                             }, loading: loading,),
                         ),
 
-                        Container(height: 20,),
+                        Container(height: 0,),
 
                         Padding(
                           padding: EdgeInsets.only(left: 10,right: 10),
-                          child: ButtonType1(Height: 50, Width: 600, color: Colors.blueAccent, radiusBorder: 10, title: 'Đăng nhập nhà hàng', fontText: 'arial', colorText: Colors.white,
+                          child: ButtonType1(Height: 0, Width: 600, color: Colors.blueAccent, radiusBorder: 10, title: 'Đăng nhập nhà hàng', fontText: 'arial', colorText: Colors.white,
                             onTap: () async {
                               setState(() {
                                 loading1 = true;

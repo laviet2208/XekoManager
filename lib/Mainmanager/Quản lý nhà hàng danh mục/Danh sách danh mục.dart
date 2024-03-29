@@ -29,7 +29,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
   List<Area> areaList = [];
   List<Area> areaList1 = [];
   TextEditingController searchController = TextEditingController();
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   final List<RestaurantDirectory> DirectList = [];
   List<RestaurantDirectory> chosenList = [];
   bool loading = false;
@@ -172,6 +172,8 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
     getData();
     getData1();
     getRestaurantData();
+    shop.id = 'assets/image/icontrang1/fire.png';
+    shop.phoneNum = 'assets/image/icontrang1/fire.png';
   }
 
   @override
@@ -440,7 +442,7 @@ class _DanhsachdanhmucState extends State<Danhsachdanhmuc> {
                               padding: EdgeInsets.only(left: 10, right: 10),
                               child: Container(
                                 height: 150,
-                                child: searchPageArea(list: areaList1, area: area,),
+                                child: searchPageArea(list: areaList, area: area,),
                               ),
 
                             ),

@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C3%A1nh%20gi%C3%A1/%C4%90%C3%A1nh%20gi%C3%A1%20nh%C3%A0%20h%C3%A0ng.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C3%A1nh%20gi%C3%A1/%C4%90%C3%A1nh%20gi%C3%A1%20t%C3%A0i%20x%E1%BA%BF.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91%C6%A1n%20%C4%91%E1%BA%B7t%20xe/Danh%20s%C3%A1ch.dart';
+import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91i%E1%BB%81u%20kho%E1%BA%A3n/Qu%E1%BA%A3n%20l%C3%BD%20%C4%91i%E1%BB%81u%20kho%E1%BA%A3n.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20banner/Qu%E1%BA%A3n%20l%C3%BD%20banner%20facebook.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20banner/Quanlybanner.dart';
 import 'package:xekomanagermain/Mainmanager/Qu%E1%BA%A3n%20l%C3%BD%20t%C3%A0i%20x%E1%BA%BF/Danh%20s%C3%A1ch.dart';
@@ -10,6 +13,7 @@ import 'package:xekomanagermain/dataClass/FinalClass.dart';
 import 'package:xekomanagermain/dataClass/provinceManager.dart';
 
 import 'Quản lý  yêu cầu rút tiền/Danh sách yêu cầu.dart';
+import 'Quản lý banner/Quản lý banner chính/Quản lý banner chính.dart';
 import 'Quản lý khu vực và tài khoản admin/Danh sách khu vực.dart';
 import 'Quản lý khu vực và tài khoản admin/Lịch sử nạp rút tiền/Danh sách nạp rút.dart';
 import 'Quản lý khu vực và tài khoản admin/Tài khoản admin khu vực/Danh sách tài khoản.dart';
@@ -83,6 +87,10 @@ class _SCREENmainState extends State<SCREENmain> {
       return Danhsachyeucaurut(width: width, height: height);
     }
 
+    if (init == 14) {
+      return Quanlybannerchinhtrencung(width: width, height: height);
+    }
+
     if (init == 15) {
       return quanlybannerfacebook(width: width, height: height);
     }
@@ -114,6 +122,18 @@ class _SCREENmainState extends State<SCREENmain> {
 
     if (init == 22) {
       return Pagequanlythongbao(width: width, height: height);
+    }
+
+    if (init == 23) {
+      return Quanlydieukhoan(width: width, height: height);
+    }
+
+    if (init == 24) {
+      return Danhgianhang(width: width, height: height);
+    }
+
+    if (init == 25) {
+      return Danhgiataixe(width: width, height: height);
     }
     return Container();
   }
@@ -444,6 +464,56 @@ class _SCREENmainState extends State<SCREENmain> {
                                   onTap: () {
                                     setState(() {
                                       selectButton = 11;
+                                    });
+                                  },
+                                ),
+
+                                Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                  child: Container(
+                                    height: screenHeight/16,
+                                    color: (selectButton == 23) ? Colors.red : null,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                            top: ((screenHeight/16)-(screenHeight/35))/2,
+                                            left: 15,
+                                            child: Icon(
+                                              Icons.policy_outlined,
+                                              size: screenHeight/35,
+                                              color: Colors.white,
+                                            )
+                                        ),
+
+                                        Positioned(
+                                          top: 22,
+                                          left: 70,
+                                          child: Container(
+                                            width: screenWidth/9 - 20,
+                                            height: screenHeight/16 - 44,
+                                            child: AutoSizeText(
+                                              'Quản lý điều khoản',
+                                              style: TextStyle(
+                                                  fontFamily: 'arial',
+                                                  fontSize: 100,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      selectButton = 23;
                                     });
                                   },
                                 ),
@@ -873,6 +943,38 @@ class _SCREENmainState extends State<SCREENmain> {
                                         });
                                       },
                                     ),
+                                    GestureDetector(
+                                      child: Container(
+                                        height: screenHeight / 16,
+                                        color: (selectButton == 14) ? Colors.red : null,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top: 22,
+                                              left: 10,
+                                              child: Container(
+                                                width: screenWidth / 9 - 20,
+                                                height: screenHeight / 16 - 44,
+                                                child: AutoSizeText(
+                                                  'Banner top',
+                                                  style: TextStyle(
+                                                    fontFamily: 'arial',
+                                                    fontSize: 20, // Điều chỉnh kích thước phù hợp với bạn
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          selectButton = 14;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
 
@@ -1204,6 +1306,105 @@ class _SCREENmainState extends State<SCREENmain> {
                                       },
                                     ),
 
+                                  ],
+                                ),
+
+                                Container(
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white
+                                  ),
+                                ),
+
+                                ExpansionTile(
+                                  leading: Icon(
+                                    Icons.star_border_purple500_sharp,
+                                    color: Colors.white,
+                                  ),
+                                  iconColor: Colors.white,
+                                  collapsedIconColor: Colors.white,
+                                  title: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child : Padding(
+                                        padding: EdgeInsets.only(top: 15,bottom: 15),
+                                        child: Text(
+                                          'Qlý đánh giá',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontFamily: 'roboto',
+                                            fontSize: 13, // Điều chỉnh kích thước phù hợp với bạn
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )
+                                  ),
+                                  children: [
+                                    GestureDetector(
+                                      child: Container(
+                                        height: screenHeight/16,
+                                        color: (selectButton == 24) ? Colors.red : null,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top: 22,
+                                              left: 10,
+                                              child: Container(
+                                                width: screenWidth/9 - 20,
+                                                height: screenHeight/16 - 44,
+                                                child: AutoSizeText(
+                                                  'Đánh giá nhà hàng',
+                                                  style: TextStyle(
+                                                      fontFamily: 'arial',
+                                                      fontSize: 100,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.normal
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          selectButton = 24;
+                                        });
+                                      },
+                                    ),
+
+                                    GestureDetector(
+                                      child: Container(
+                                        height: screenHeight/16,
+                                        color: (selectButton == 25) ? Colors.red : null,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top: 22,
+                                              left: 10,
+                                              child: Container(
+                                                width: screenWidth/9 - 20,
+                                                height: screenHeight/16 - 44,
+                                                child: AutoSizeText(
+                                                  'Đánh giá tài xế',
+                                                  style: TextStyle(
+                                                      fontFamily: 'arial',
+                                                      fontSize: 100,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.normal
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          selectButton = 25;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
 

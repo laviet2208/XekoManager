@@ -43,6 +43,7 @@ class _searchPageState extends State<searchPage> {
                     widget.selectShop.name = filteredList[index].name;
                     widget.selectShop.id = filteredList[index].id;
                     widget.selectShop.phoneNum = filteredList[index].phoneNum;
+                    widget.selectShop.Area = filteredList[index].Area;
                     setState(() {
 
                     });

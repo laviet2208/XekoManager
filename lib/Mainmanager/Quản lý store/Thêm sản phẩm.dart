@@ -330,7 +330,7 @@ class ThemSanPham {
               TextButton(
                 onPressed: () async {
                   Product fo = Product(id: dataCheckManager.generateRandomString(18), name: t1.text.toString(), content: t2.text.toString(), owner: shop, cost: double.parse(t3.text.toString()), imageList: t4.text.toString(),
-                    createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year),);
+                    createTime: Time(second: DateTime.now().second, minute: DateTime.now().minute, hour: DateTime.now().hour, day: DateTime.now().day, month: DateTime.now().month, year: DateTime.now().year), OpenStatus: 0,);
                   await pushData(fo);
                   Navigator.of(context).pop();
                 },

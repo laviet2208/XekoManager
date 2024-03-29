@@ -23,7 +23,7 @@ class PageQuanlystore extends StatefulWidget {
 class _PageQuanlyshopState extends State<PageQuanlystore> {
   final List<accountShop> shopList = [];
   List<String> items = ['Bia/Rượu','Đồ hộp','Đồ khô','Gia dụng', 'Gia vị', 'Mẹ/Bé', 'Rau củ', 'Thực phẩm', 'Trứng/sữa',];
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
   int selectIndex = 0;
   bool loading = false;
   List<accountShop> chosenList = [];
@@ -125,7 +125,6 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
       });
     });
   }
-
   void sortChosenListByCreateTime(List<accountShop> chosenList) {
     chosenList.sort((a, b) {
       // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
@@ -142,6 +141,11 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
           : b.createTime.second.compareTo(a.createTime.second)))));
     });
   }
+
+  void sortChosenListAZ(List<accountShop> chosenList) {
+    chosenList.sort((a, b) => a.name.compareTo(b.name));
+  }
+
 
   @override
   void initState() {
@@ -213,15 +217,45 @@ class _PageQuanlyshopState extends State<PageQuanlystore> {
                     width: (widget.width - 20)/5 - 1,
                     child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-                        child: AutoSizeText(
-                          'Tên nhà hàng',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'roboto',
-                              color: Colors.black,
-                              fontSize: 100
+                      child: Stack(
+                        children: <Widget>[
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            child: Container(
+                              height: 18,
+                              width: (widget.width - 20)/5 - 1 - 20,
+                              child: AutoSizeText(
+                                'Tên cửa hàng',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'roboto',
+                                    color: Colors.black,
+                                    fontSize: 100
+                                ),
+                              ),
+                            ),
                           ),
-                        )
+
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              child: Icon(
+                                Icons.arrow_downward_outlined,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                              onTap: () {
+                                sortChosenListAZ(chosenList);
+                                setState(() {
+
+                                });
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
 

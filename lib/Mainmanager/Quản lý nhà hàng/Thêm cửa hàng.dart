@@ -40,7 +40,7 @@ class _ThemcuahangState extends State<Themcuahang> {
   TimeOfDay selectedTime = TimeOfDay.now();
   accountLocation location = accountLocation(phoneNum: '', LocationID: '', Latitude: 0, Longitude: 0, firstText: '', secondaryText: '');
   Area area = Area(id: '', name: '', money: 0, status: 0);
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 1);
 
   Future<Uint8List?> galleryImagePicker() async {
     Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
@@ -58,10 +58,10 @@ class _ThemcuahangState extends State<Themcuahang> {
         selectedTime = picked;
         if (type == 1) {
           startcontrol.text =
-          '${selectedTime.hour}:${selectedTime.minute}:00';
+          '${selectedTime.hour >= 10 ? selectedTime.hour.toString() : '0' + selectedTime.hour.toString()}:${selectedTime.minute >= 10 ? selectedTime.minute.toString() : '0' + selectedTime.minute.toString()}:00';
         } else {
           endcontrol.text =
-          '${selectedTime.hour}:${selectedTime.minute}:00';
+          '${selectedTime.hour >= 10 ? selectedTime.hour.toString() : '0' + selectedTime.hour.toString()}:${selectedTime.minute >= 10 ? selectedTime.minute.toString() : '0' + selectedTime.minute.toString()}:00';
         }
 
       });
@@ -673,7 +673,7 @@ class _ThemcuahangState extends State<Themcuahang> {
                   password: passcontrol.text.toString(),
                   isTop: 1,
                   Type: selectIndex, ListDirectory: [],
-                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode);
+                  Area: currentAccount.provinceCode == '0' ? area.id : currentAccount.provinceCode, OpenStatus: 1);
 
               if (registrationImage != null) {
                 await uploadImageToFirebaseStorage(registrationImage!, shop.id);

@@ -32,8 +32,25 @@ class _searchPageState extends State<searchPageproduct> {
         }
       });
       setState(() {
-
+        sortChosenListByCreateTime(list);
       });
+    });
+  }
+
+  void sortChosenListByCreateTime(List<Product> chosenList) {
+    chosenList.sort((a, b) {
+      // Sắp xếp theo thời gian tạo giảm dần (mới nhất lên đầu)
+      return b.createTime.year.compareTo(a.createTime.year) != 0
+          ? b.createTime.year.compareTo(a.createTime.year)
+          : (b.createTime.month.compareTo(a.createTime.month) != 0
+          ? b.createTime.month.compareTo(a.createTime.month)
+          : (b.createTime.day.compareTo(a.createTime.day) != 0
+          ? b.createTime.day.compareTo(a.createTime.day)
+          : (b.createTime.hour.compareTo(a.createTime.hour) != 0
+          ? b.createTime.hour.compareTo(a.createTime.hour)
+          : (b.createTime.minute.compareTo(a.createTime.minute) != 0
+          ? b.createTime.minute.compareTo(a.createTime.minute)
+          : b.createTime.second.compareTo(a.createTime.second)))));
     });
   }
 

@@ -14,10 +14,11 @@ class accountShop {
   Time closeTime;
   Time openTime;
   String Area;
+  int OpenStatus; // 0 : đang đóng cửa ; 1 : đang mở cửa
   List<String> ListDirectory;
 
 
-  accountShop({required this.openTime,required this.ListDirectory ,required this.closeTime,required this.phoneNum, required this.location, required this.name, required this.id, required this.status, required this.avatarID, required this.createTime, required this.password, required this.isTop, required this.Type, required this.Area});
+  accountShop({required this.openTime,required this.OpenStatus,required this.ListDirectory ,required this.closeTime,required this.phoneNum, required this.location, required this.name, required this.id, required this.status, required this.avatarID, required this.createTime, required this.password, required this.isTop, required this.Type, required this.Area});
 
   Map<dynamic, dynamic> toJson() => {
     'phoneNum': phoneNum,
@@ -33,7 +34,8 @@ class accountShop {
     'isTop' : isTop,
     'Type' : Type,
     'ListDirectory' : ListDirectory.map((e) => e).toList(),
-    'Area' : Area
+    'Area' : Area,
+    'OpenStatus' : OpenStatus
   };
 
   factory accountShop.fromJson(Map<dynamic, dynamic> json) {
@@ -58,11 +60,10 @@ class accountShop {
       openTime: Time.fromJson(json['openTime']),
       isTop: int.parse(json['isTop'].toString()),
       Type: int.parse(json['Type'].toString()),
-        ListDirectory: idList,
-        Area: json['Area'].toString(),
-
+      ListDirectory: idList,
+      Area: json['Area'].toString(),
+      OpenStatus: int.parse(json['OpenStatus'].toString()),
     );
-
   }
 
   void changeData(Map<dynamic, dynamic> json) {
@@ -88,5 +89,6 @@ class accountShop {
     Type = int.parse(json['Type'].toString());
     Area = json['Area'].toString();
     ListDirectory = idList;
+    OpenStatus = int.parse(json['OpenStatus'].toString());
   }
 }

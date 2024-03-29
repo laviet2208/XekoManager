@@ -39,6 +39,11 @@ class ItemProduct extends StatelessWidget {
       }
     }
 
+    Future<void> changeStatus(int status) async {
+      final reference = FirebaseDatabase.instance.reference();
+      await reference.child("Product/" + product.id + "/OpenStatus").set(status);
+    }
+
     return Container(
       height: width/10 - 30,
       width: width,
@@ -285,6 +290,38 @@ class ItemProduct extends StatelessWidget {
                       onTap: () async {
                         deleteImage('Product/'+product.id+'.png');
                         await deleteRequest(product.id);
+                      },
+                    ),
+
+                    Container(
+                      width: 30,
+                    ),
+
+                    GestureDetector(
+                      child:Container(
+                        width: 120,
+                        decoration: BoxDecoration(
+                          color: product.OpenStatus == 0 ? Colors.redAccent : Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          product.OpenStatus == 0 ? 'Đang tắt' : 'Đang bật',
+                          style: TextStyle(
+                              fontFamily: 'roboto',
+                              fontSize: 14,
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        if (product.OpenStatus == 0) {
+                          await changeStatus(1);
+                          toastMessage('Đã mở món ăn');
+                        } else {
+                          await changeStatus(1);
+                          toastMessage('Đã đóng món ăn');
+                        }
                       },
                     ),
                   ],

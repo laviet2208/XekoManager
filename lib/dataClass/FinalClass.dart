@@ -4,6 +4,6 @@ import 'package:xekomanagermain/dataClass/accountShop.dart';
 import 'package:xekomanagermain/dataClass/adminaccount.dart';
 
 final AdminAccount currentAccount = AdminAccount(username: '', password: '', isBlock: 1, permission: 1, provinceCode: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0),);
-final accountShop currentShop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), ListDirectory: [], closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 0, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, Area: '');
+final accountShop currentShop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), ListDirectory: [], closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 0, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, Area: '', OpenStatus: 0);
 final Area currentArea = Area(id: '', name: '', money: 0, status: 0);
 

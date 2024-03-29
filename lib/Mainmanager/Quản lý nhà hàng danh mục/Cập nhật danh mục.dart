@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:xekomanagermain/dataClass/FinalClass.dart';
 
 import '../../dataClass/Time.dart';
 import '../../dataClass/accountShop.dart';
@@ -24,7 +25,7 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
   bool loading = false;
   Area area = Area(id: '', name: '', money: 0, status: 0);
   List<Area> areaList = [];
-  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '');
+  final accountShop shop = accountShop(openTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), closeTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), phoneNum: '', location: '', name: '', id: '', status: 1, avatarID: '', createTime: Time(second: 0, minute: 0, hour: 0, day: 0, month: 0, year: 0), password: '', isTop: 0, Type: 0, ListDirectory: [], Area: '', OpenStatus: 0);
 
   Future<void> pushDataMainContent(String data) async{
     try {
@@ -114,6 +115,11 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
     getData1();
     mainContent.text = widget.directory.mainContent;
     subContent.text = widget.directory.subContent;
+    shop.id = widget.directory.mainIcon;
+    shop.phoneNum = widget.directory.subIcon;
+    if (currentAccount.provinceCode != '0') {
+      area.id = currentAccount.provinceCode;
+    }
   }
 
   @override
@@ -323,7 +329,7 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
 
             Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
-                child: Droplisticon(width: 500, shop: shop, type: 2,)
+                child: Droplisticon(width:  500 , shop: shop, type: 2,)
             ),
 
             Container(
@@ -336,7 +342,7 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
                 'Chọn khu vực quản lý *',
                 style: TextStyle(
                     fontFamily: 'arial',
-                    fontSize: 14,
+                    fontSize: currentAccount.provinceCode == '0' ? 14 : 0,
                     fontWeight: FontWeight.bold,
                     color: Colors.redAccent
                 ),
@@ -350,7 +356,7 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
             Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: Container(
-                height: 150,
+                height: currentAccount.provinceCode == '0' ? 150 : 0,
                 child: searchPageArea(list: areaList, area: area,),
               ),
 
@@ -376,7 +382,10 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
                 await pushDataSubContent(subContent.text.toString());
                 await pushDataMainIcon(shop.id);
                 await pushDataSubIcon(shop.phoneNum);
-                await pushDataArea(area.id);
+                if (currentAccount.provinceCode == '0') {
+                  await pushDataArea(area.id);
+                }
+
                 toastMessage('thành công');
                 Navigator.of(context).pop();
               }
@@ -416,6 +425,7 @@ class _CapnhatdanhmucState extends State<Capnhatdanhmuc> {
                         child: Text('Đồng ý'),
                         onPressed: () async {
                           await deleteProduct(widget.directory.id);
+                          Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         },
                       ),
